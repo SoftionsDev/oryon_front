@@ -60,10 +60,10 @@ jobs:
           # Use AWS CLI or SDK to create an EC2 instance
           # Set environment variables or outputs for later steps
 
-      - name: Deploy React App
+      - name: Deploy to EC2 to SCP
         env:
-          REMOTE_DIR: "/home/ubuntu"
-        uses: easingthemes/ssh-deploy@v4.1.9      
+          REMOTE_DIR: "/home/ubuntu/build"
+        uses: easingthemes/ssh-deploy@main
         with:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           REMOTE_HOST: ${{ env.public_dns }}
@@ -72,7 +72,8 @@ jobs:
           SOURCE: "build/"
           TARGET: ${{ env.REMOTE_DIR }}
           SCRIPT_AFTER: |
+            chmod o+x /home/ubuntu
             chmod o+x ${{ env.REMOTE_DIR }}
-            chmod o+x ${{ env.REMOTE_DIR }}/build
+            chown -R www-data:www-data ${{ env.REMOTE_DIR }}
             sudo service nginx restart
             
