@@ -37,7 +37,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
-      - name: Check EC2 Machine
+      - name: Check EC2 Instance
+        id: check-ec2-instance
         run: |
           INSTANCES_INFO=$(aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=${{ env.INSTANCE_NAME }}" \
@@ -45,7 +46,7 @@ jobs:
               --output json
           )
           if [ $? -eq 0 ]; then
-            echo "instance_exists=true" >> $GITHUB_ENV 
+            echo "instance-exists=true" >> $GITHUB_ENV 
             PUBLIC_DNS=$(echo "$INSTANCES_INFO" | jq -r '.[0].PublicDnsName')
             echo "$PUBLIC_DNS"
             echo "public_dns=$PUBLIC_DNS" >> $GITHUB_ENV
