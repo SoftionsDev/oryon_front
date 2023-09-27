@@ -8,7 +8,6 @@ import {
   Link,
   styled,
   ThemeProvider,
-  Tooltip,
   useTheme,
 } from '@mui/material';
 import useSettings from 'app/hooks/useSettings';
@@ -18,7 +17,7 @@ import { themeShadows } from '../MatxTheme/themeColors';
 import { H5, Span } from '../Typography';
 import BadgeSelected from './BadgeSelected';
 
-const Label = styled(Span)(({ theme }) => ({
+/*const Label = styled(Span)(({ theme }) => ({
   fontWeight: 700,
   fontSize: '1rem',
   cursor: 'pointer',
@@ -33,7 +32,7 @@ const Label = styled(Span)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.main,
     color: theme.palette.secondary.contrastText,
   },
-}));
+}));*/
 
 const MaxCustomaizer = styled('div')(({ theme }) => ({
   top: 0,

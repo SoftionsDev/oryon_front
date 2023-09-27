@@ -1,4 +1,4 @@
-import { AppBar, Button, ThemeProvider, Toolbar } from '@mui/material';
+import { AppBar, ThemeProvider, Toolbar } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
 import useSettings from 'app/hooks/useSettings';
 import { topBarHeight } from 'app/utils/constant';
@@ -43,7 +43,7 @@ const Footer = () => {
             
             <Span sx={{ m: 'auto' }}></Span>
             <Paragraph sx={{ m: 0 }}>
-              Design and Developed by <a href="http://ui-lib.com">Softions</a>
+              Design and Developed by <a>Softions</a>
             </Paragraph>
           </FooterContent>
         </AppFooter>
