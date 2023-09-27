@@ -1,0 +1,77 @@
+name: deploy front on ec2
+run-name: deploy front on ec2
+
+on:
+  push:
+    branches: ["dev"]
+
+permissions:
+  contents: read
+
+
+jobs:
+  deploy:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: set Node.js 16.x
+      uses: actions/setup-node@v3
+      with:
+        node-version: 16.x
+    
+    - name: Run install
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: install
+    - name: Build production bundle
+      uses: borales/actions-yarn@v4
+      with:
+        cmd: build
+
+    - name: Configure AWS Credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    - name: Check EC2 Machine
+      environment: 
+        INSTANCE_NAME: "front_server"
+      run: |
+        INSTANCES_INFO=$(aws ec2 describe-instances \
+            --filters "Name=tag:Name,Values=${{ env.INSTANCE_NAME }}" \
+            --query 'Reservations[].Instances[].{PublicDnsName:PublicDnsName,PublicIpAddress:PublicIpAddress,Name:Tags[?Key==`Name`].Value | [0]}' \
+            --output json
+        )
+        if [ $? -eq 0 ]; then
+          echo "instance_exists=true" >> $GITHUB_ENV 
+          PUBLIC_DNS=$(echo "$INSTANCE_INFO" | jq -r '.[0].PublicDnsName')
+          echo "public_dns=$PUBLIC_DNS" >> $GITHUB_ENV
+        else
+          echo "instance_exists=false" >> $GITHUB_ENV
+        fi
+
+    - name: Create EC2 Instance (if not exists)
+      if: ${{ steps.check-ec2-instance.outputs.instance-exists }} != 'true'
+      run: |
+        # Use AWS CLI or SDK to create an EC2 instance
+        # Set environment variables or outputs for later steps
+
+    - name: Deploy React App
+      environment:
+        REMOTE_DIR: "/home/ubuntu"
+      uses: easingthemes/ssh-deploy@v4.1.9      
+      with:
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        REMOTE_HOST: ${{ steps.check-ec2-instance.outputs.public_dns }}
+        REMOTE_USER: "ubuntu"
+        EXCLUDE: "/node_modules/"
+        SOURCE: "build/"
+        TARGET: ${{ env.REMOTE_DIR }}
+        SCRIPT_AFTER: |
+          chmod o+x ${{ env.REMOTE_DIR }}
+          chmod o+x ${{ env.REMOTE_DIR }}/build
+          sudo service nginx restart
+          
