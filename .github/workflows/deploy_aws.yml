@@ -35,13 +35,13 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: ${{ vars.AWS_REGION }}
 
       - name: Check EC2 Instance
         id: check-ec2-instance
         run: |
           INSTANCES_INFO=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=front_server" \
+              --filters "Name=tag:Name,Values=${{ vars.INSTANCE_NAME }}" \
               --query 'Reservations[].Instances[].{PublicDnsName:PublicDnsName,PublicIpAddress:PublicIpAddress,Name:Tags[?Key==`Name`].Value | [0]}' \
               --output json
           )
@@ -72,8 +72,8 @@ jobs:
           SOURCE: "build/"
           TARGET: ${{ env.REMOTE_DIR }}
           SCRIPT_AFTER: |
-            chmod o+x /home/ubuntu
-            chmod o+x ${{ env.REMOTE_DIR }}
-            chown -R www-data:www-data ${{ env.REMOTE_DIR }}
+            sudo chmod o+x /home/ubuntu
+            sudo chmod o+x ${{ env.REMOTE_DIR }}
+            sudo chown -R www-data:www-data ${{ env.REMOTE_DIR }}
             sudo service nginx restart
             
