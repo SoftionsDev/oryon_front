@@ -41,7 +41,7 @@ jobs:
         id: check-ec2-instance
         run: |
           INSTANCES_INFO=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=${{ env.INSTANCE_NAME }}" \
+              --filters "Name=tag:Name,Values=front_server" \
               --query 'Reservations[].Instances[].{PublicDnsName:PublicDnsName,PublicIpAddress:PublicIpAddress,Name:Tags[?Key==`Name`].Value | [0]}' \
               --output json
           )
