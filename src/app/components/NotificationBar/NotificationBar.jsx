@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Drawer, Icon, IconButton, ThemeProvider } from '@mui/material';
+import { Button, Card, Drawer, Icon, IconButton, ThemeProvider } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
 import useNotification from 'app/hooks/useNotification';
 import useSettings from 'app/hooks/useSettings';
@@ -78,17 +78,11 @@ const NotificationBar = ({ container }) => {
   const handleDrawerToggle = () => {
     setPanelOpen(!panelOpen);
   };
-
-  const { palette } = useTheme();
-  const textColor = palette.text.primary;
+  
 
   return (
     <Fragment>
-      <IconButton onClick={handleDrawerToggle}>
-        <Badge color="secondary" badgeContent={notifications?.length}>
-          <Icon sx={{ color: textColor }}>notifications</Icon>
-        </Badge>
-      </IconButton>
+      
 
       <ThemeProvider theme={settings.themes[settings.activeTheme]}>
         <Drawer

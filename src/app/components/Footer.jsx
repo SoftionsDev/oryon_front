@@ -43,7 +43,7 @@ const Footer = () => {
             
             <Span sx={{ m: 'auto' }}></Span>
             <Paragraph sx={{ m: 0 }}>
-              Design and Developed by Softions 
+              Design and Developed by Softions 2023
             </Paragraph>
           </FooterContent>
         </AppFooter>
