@@ -59,6 +59,7 @@ jobs:
             INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$INSTANCE_NAME" --query "Reservations[*].Instances[*].InstanceId" --output text)
             aws ec2 start-instances --instance-ids $INSTANCE_ID
             echo "instance_running=true" >> $GITHUB_ENV
+            echo "public_dns=$(echo $INSTANCES_INFO | jq -r '.[0].PublicDnsName')" >> $GITHUB_ENV
           fi
 
       - name: Create EC2 Instance (if not exists)
