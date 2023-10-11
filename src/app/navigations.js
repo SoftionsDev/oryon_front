@@ -1,18 +1,116 @@
+
 export const navigations = [
+  
   { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
-  { label: 'PAGES', type: 'label' },
+
+  { label: 'Administracion', type: 'label' },
+
+
   {
-    name: 'Session/Auth',
-    icon: 'security',
+    name: "Comisiones",
+    icon: "wallet",
+
     children: [
-      { name: 'Sign in', iconText: 'SI', path: '/session/signin' },
-      { name: 'Sign up', iconText: 'SU', path: '/session/signup' },
-      { name: 'Forgot Password', iconText: 'FP', path: '/session/forgot-password' },
-      { name: 'Error', iconText: '404', path: '/session/404' },
-    ],
+      {
+        name: "Submenu",
+        path: "/dashboard/analytics",
+        iconText: "A"
+      },
+      {
+        name: "Submenu2",
+        path: "/dashboard/sales",
+        iconText: "S",
+      }
+    ]
   },
-  { label: 'Components', type: 'label' },
   {
+    name: "Equipo comercial",
+    icon: "person",
+
+    children: [
+      {
+        name: "Submenu",
+        path: "/dashboard/analytics",
+        iconText: "A"
+      },
+      {
+        name: "Submenu2",
+        path: "/dashboard/sales",
+        iconText: "S",
+      }
+    ]
+  },
+  {
+    name: "Puntos de venta",
+    icon: "house",
+
+    children: [
+      {
+        name: "Submenu",
+        path: "/dashboard/analytics",
+        iconText: "A"
+      },
+      {
+        name: "Submenu2",
+        path: "/dashboard/sales",
+        iconText: "S",
+      }
+    ]
+  },
+  {
+    name: "Productos",
+    icon: "article",
+
+    children: [
+      {
+        name: "Submenu",
+        path: "/dashboard/analytics",
+        iconText: "A"
+      },
+      {
+        name: "Submenu2",
+        path: "/dashboard/sales",
+        iconText: "S",
+      }
+    ]
+  },
+  {
+    name: "Maestro de ventas",
+    icon: "shop",
+
+    children: [
+      {
+        name: "Submenu",
+        path: "/dashboard/analytics",
+        iconText: "A"
+      },
+      {
+        name: "Submenu2",
+        path: "/dashboard/sales",
+        iconText: "S",
+      }
+    ]
+  },
+  {
+    name: "Indicadores",
+    icon: "light",
+
+    children: [
+      {
+        name: "Submenu",
+        path: "/dashboard/analytics",
+        iconText: "A"
+      },
+      {
+        name: "Submenu2",
+        path: "/dashboard/sales",
+        iconText: "S",
+      }
+    ]
+  },
+
+  { label: 'Seguridad', type: 'label' },
+  /*{
     name: 'Components',
     icon: 'favorite',
     badge: { value: '30+', color: 'secondary' },
@@ -32,16 +130,18 @@ export const navigations = [
       { name: 'Snackbar', path: '/material/snackbar', iconText: 'S' },
       { name: 'Table', path: '/material/table', iconText: 'T' },
     ],
-  },
+  },*/
   {
-    name: 'Charts',
-    icon: 'trending_up',
-    children: [{ name: 'Echarts', path: '/charts/echarts', iconText: 'E' }],
+    name: 'Sesion/autenticacion',
+    icon: 'security',
+    children: [
+      { name: 'Registrar usuario', iconText: 'SU', path: '/session/signup' },
+      { name: 'Forgot Password', iconText: 'FP', path: '/session/forgot-password' },
+      { name: 'Error', iconText: '404', path: '/session/404' },
+      
+    ],
   },
-  {
-    name: 'Documentation',
-    icon: 'launch',
-    type: 'extLink',
-    path: 'http://demos.ui-lib.com/matx-react-doc/',
-  },
+
 ];
+
+

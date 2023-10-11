@@ -203,7 +203,7 @@ const Chatbox = ({ togglePopup }) => {
         },
         {
           contactId: '7863a6802ez0e277a0f98534',
-          text: 'Don’t feel bad. It happens to a lot of us',
+          text: 'Dont feel bad. It happens to a lot of us',
           time: '2018-02-10T08:45:28.291Z',
           id: '7863a6802ez0e277a0f98534',
           name: 'John Doe',
