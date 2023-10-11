@@ -1,0 +1,35 @@
+name: shutdown front_server on ec2
+run-name: shutdown front_server
+
+on: 
+  schedule:
+    - cron: '0 0 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  shutdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+    
+      - name: Shutdown EC2 Instance
+        run: |
+          INSTANCE_NAME=${{ vars.INSTANCE_NAME }}
+          INSTANCES_INFO=$(aws ec2 describe-instances \
+                      --filters "Name=tag:Name,Values=$INSTANCE_NAME" \
+                      --query 'Reservations[].Instances[].{PublicDnsName:PublicDnsName, PublicIpAddress:PublicIpAddress, Name:Tags[?Key==`Name`].Value | [0], State:State.Name}' \
+                      --output json
+                  )
+          INSTANCE_STATE=$(echo $INSTANCES_INFO | jq -r '.[0].State')
+          if [ "$INSTANCE_STATE" == "running" ]; then
+            echo "Shutting down instance"
+            INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$INSTANCE_NAME" --query "Reservations[*].Instances[*].InstanceId" --output text)
+            aws ec2 stop-instances --instance-ids $INSTANCE_ID
