@@ -3,7 +3,7 @@ export const navigations = [
   
   { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
 
-  { label: 'Administracion', type: 'label' },
+  { label: 'Administración', type: 'label' },
 
 
   {
@@ -43,19 +43,7 @@ export const navigations = [
   {
     name: "Puntos de venta",
     icon: "house",
-
-    children: [
-      {
-        name: "Submenu",
-        path: "/dashboard/analytics",
-        iconText: "A"
-      },
-      {
-        name: "Submenu2",
-        path: "/dashboard/sales",
-        iconText: "S",
-      }
-    ]
+    path: "/dashboard/stores",
   },
   {
     name: "Productos",
