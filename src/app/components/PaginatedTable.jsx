@@ -69,6 +69,7 @@ const PaginatedTable = ({ props }) => {
                         <TableCell align="center">{item.state}</TableCell>
                         <TableCell align="right">{item.manager}</TableCell>
                         <TableCell align="right">
+                            
                         {
                             actions.map((action, index) => (
                                 <IconButton key={index} onClick={() => action.click(item)}>

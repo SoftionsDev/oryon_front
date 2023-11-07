@@ -1,22 +1,6 @@
 {
   "stores": [
     {
-      "code": "001",
-      "description": "Store 1",
-      "code_location": "LOC001",
-      "detail_location": "Detail 1",
-      "state": "State 1",
-      "manager": "Manager 1"
-    },
-    {
-      "code": "002",
-      "description": "Store 2",
-      "code_location": "LOC002",
-      "detail_location": "Detail 2",
-      "state": "State 2",
-      "manager": "Manager 2"
-    },
-    {
       "code": "003",
       "description": "Store 3",
       "code_location": "LOC003",
@@ -33,20 +17,107 @@
       "manager": "Manager 4"
     },
     {
-      "code": "005",
-      "description": "Store 5",
-      "code_location": "LOC005",
-      "detail_location": "Detail 5",
-      "state": "State 5",
-      "manager": "Manager 5"
-    },
-    {
-      "code": "0007",
+      "code": "006",
       "description": "Tienda Toto",
       "code_location": "LOC007",
       "detail_location": "Centro",
       "state": "Cundinamarca",
       "manager": "Manager 7"
+    },
+    {
+      "code": "sadfcsa",
+      "description": "dfsghd",
+      "code_location": "sdfh",
+      "detail_location": "dfshsdfh",
+      "state": "sdfhsd",
+      "manager": "sdfhsdfh"
+    },
+    {
+      "code": "popayan",
+      "description": "Comercial",
+      "code_location": "1014",
+      "detail_location": "centro",
+      "state": "caqueta",
+      "manager": "5050"
+    }
+  ],
+  "users": [
+    {
+      "code": "01",
+      "name": "Juan Carlos",
+      "last_name": "Perez Arbelaez",
+      "description": "Comercial",
+      "date": "10/10/2023",
+      "assigned_point": "Popayan",
+      "immediate_boss": "",
+      "charge_code": "0001",
+      "rol": "Visualizador"
+    },
+    {
+      "code": "02",
+      "name": "David Felipe",
+      "last_name": "Perez Perez",
+      "description": "Comercial",
+      "date": "10/10/2023",
+      "assigned_point": "Cali",
+      "immediate_boss": "",
+      "charge_code": "002",
+      "rol": "Visualizador"
+    },
+    {
+      "code": "03",
+      "name": "Sonia",
+      "last_name": "Gomez Gonzales",
+      "description": "Comercial",
+      "date": "10/10/2023",
+      "assigned_point": "Bogota",
+      "immediate_boss": "",
+      "charge_code": "003",
+      "rol": "Root"
+    },
+    {
+      "code": "04",
+      "name": "Maria Alejandra",
+      "last_name": "Lopez Lara",
+      "description": "Supervisor",
+      "date": "10/10/2023",
+      "assigned_point": "Medellin",
+      "immediate_boss": "",
+      "charge_code": "004",
+      "rol": "Visualizador"
+    },
+    {
+      "code": "05",
+      "name": "Juan",
+      "last_name": "Garcia",
+      "description": "Comercial",
+      "date": "10/10/2023",
+      "assigned_point": "Mosquera",
+      "immediate_boss": "",
+      "charge_code": "005",
+      "rol": "Administrador"
+    },
+    {
+      "code": "006",
+      "name": "0007",
+      "last_name": "Tienda Toto",
+      "description": "LOC007",
+      "date": "Centro",
+      "assigned_point": "Cundinamarca",
+      "immediate_boss": "",
+      "charge_code": "006",
+      "rol": "Visualizador"
+    },
+    {
+      "code": "07",
+      "name": "0007",
+      "last_name": "Tienda Toto",
+      "description": "juanchito",
+      "date": "Centro",
+      "assigned_point": "Cundinamarca",
+      "immediate_boss": "",
+      "charge_code": "007",
+      "rol": "Visualizador"
     }
   ]
 }
