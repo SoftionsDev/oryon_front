@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import Mock from '../mock';
 
+
+
 const JWT_SECRET = 'jwt_secret_key';
 const JWT_VALIDITY = '7 days';
 

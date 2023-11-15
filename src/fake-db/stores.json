@@ -107,16 +107,18 @@
       "immediate_boss": "",
       "charge_code": "006",
       "rol": "Visualizador"
-    },
+    }
+  ],
+  "sales": [
     {
-      "code": "07",
-      "name": "0007",
-      "last_name": "Tienda Toto",
-      "description": "juanchito",
-      "date": "Centro",
-      "assigned_point": "Cundinamarca",
+      "code": "01",
+      "name": "Juan Carlos",
+      "last_name": "Perez Arbelaez",
+      "description": "Comercial",
+      "date": "10/10/2023",
+      "assigned_point": "Popayan",
       "immediate_boss": "",
-      "charge_code": "007",
+      "charge_code": "0001",
       "rol": "Visualizador"
     }
   ]

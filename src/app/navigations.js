@@ -7,6 +7,11 @@ export const navigations = [
 
 
   {
+    name: "Ventas",
+    icon: "local_grocery_store",
+    path: "/dashboard/menu-sale",
+  },
+  {
     name: "Comisiones",
     icon: "wallet",
 

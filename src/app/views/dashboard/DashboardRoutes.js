@@ -7,6 +7,7 @@ const Stores = Loadable(lazy(() => import('../stores/components/Stores')));
 const CreateStore = Loadable(lazy(() => import('../stores/components/CreateStores')));
 const ListUser = Loadable(lazy(() => import('../users/componentsUser/ListUser')));
 const CreateUser = Loadable(lazy(() => import('../users/componentsUser/CreateUsers')));
+const MenuSale  = Loadable(lazy(() => import('../menuSale/componentsSale/menusale')));
 
 
 
@@ -15,7 +16,8 @@ const dashboardRoutes = [
   { path: '/dashboard/stores', element: <Stores />, auth: authRoles.admin },
   { path: '/create-stores', element: <CreateStore />, auth: authRoles.admin },
   { path: '/dashboard/new-user', element: <CreateUser />, auth: authRoles.admin },
-  { path: '/dashboard/list-user', element: <ListUser />, auth: authRoles.admin }
+  { path: '/dashboard/list-user', element: <ListUser />, auth: authRoles.admin },
+  { path: '/dashboard/menu-sale', element: <MenuSale />, auth: authRoles.admin }
 ];
 
 export default dashboardRoutes;
