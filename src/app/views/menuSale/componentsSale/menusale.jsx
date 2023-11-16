@@ -66,9 +66,8 @@ function MenuSale() {
 
   const columnNames = [
     'Codigo',
-    'ID Venta',
-    'ID producto',
-    'ID tienda',
+    'Producto',
+    'Tienda',
     'Nombre comercial',
     'Fecha de venta',
     'Valor de venta',

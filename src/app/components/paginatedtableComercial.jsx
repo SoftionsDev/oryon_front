@@ -1,8 +1,6 @@
-import { useState } from 'react';
+import {  useState } from 'react';
 import {
     Box,
-    Icon,
-    IconButton,
     styled,
     Table,
     TableBody,
@@ -27,7 +25,7 @@ const StyledTable = styled(Table)(() => ({
 
 const PaginatedTableComercial = ({ props }) => {
 
-    const { columnNames, items, actions } = props
+    const { columnNames, items } = props
 
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -63,21 +61,13 @@ const PaginatedTableComercial = ({ props }) => {
                     .map((item, index) => (
                     <TableRow key={index}>
                         <TableCell align="left">{item.code}</TableCell>
-                        <TableCell align="center">{item.description}</TableCell>
-                        <TableCell align="center">{item.code_location}</TableCell>
-                        
-                        <TableCell align="center">{item.detail_location}</TableCell>
-                        <TableCell align="center">{item.state}</TableCell>
-                        <TableCell align="right">{item.manager}</TableCell>
+                        <TableCell align="center">{item.select_user}</TableCell>
+                        <TableCell align="center">{item.select_manager}</TableCell>                     
+                        <TableCell align="center">{item.type_goal}</TableCell>
+                        <TableCell align="right">{item.current_goal}</TableCell>
                         <TableCell align="right">
                             
-                        {
-                            actions.map((action, index) => (
-                                <IconButton key={index} onClick={() => action.click(item)}>
-                                    <Icon color={action.color}>{action.icon}</Icon>
-                                </IconButton>
-                            ))        
-                        }
+                      
                         </TableCell>
                     </TableRow>
                     ))

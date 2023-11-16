@@ -7,7 +7,6 @@ import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
 import { createApiUser } from '../componentsUser/servicesUser';
 import { useNavigate } from 'react-router-dom';
 import Select from '@mui/material/Select';
-import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 
@@ -21,6 +20,10 @@ const CreateUsers = () => {
   const [state, setState] = useState({});  
   const navigate = useNavigate();
   const [ hasError, setHasError] = useState(false);
+  const handleState = (event) => {
+    setState(event.target.value);
+    console.log(state);
+  };
 
   const handleChange = (event) => {
     event.persist();
@@ -91,8 +94,8 @@ const CreateUsers = () => {
                 type="text"
                 name="charge_code"
                 label="Codigo de cargo"
-                onChange={handleChange}
                 value={state.charge_code || ''}
+                onChange={handleChange}
                 errorMessages={['Este Campo es requerido']}
                 validators={['required', 'minStringLength:4', 'maxStringLength: 16']}
               />
@@ -100,8 +103,8 @@ const CreateUsers = () => {
               <TextField
                 type="date"
                 name="date"
-                onChange={handleChange}
                 value={state.date || ''}
+                onChange={handleChange}                
                 errorMessages={['Este Campo es requerido']}
                 validators={['required', 'minStringLength:4', 'maxStringLength: 16']}
               />
@@ -110,17 +113,20 @@ const CreateUsers = () => {
                 <InputLabel id="demo-simple-select-label">Jefe inmediato</InputLabel>
                 <Select
                   type="text"
-                  name="assigned_point"
+                  name="immediate_boss"
                   id="standart basic"
-                  value={state.assigned_point || ''}
-                  label="Punto de venta"
-                  onChange={handleChange}
+                  value={state}
+                  label="Jefe inmediato"
+                  onChange={handleState}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
                 >
-                  <MenuItem value={state.assigned_point}>Admin</MenuItem>
-                  <MenuItem value={state.assigned_point}>Manager</MenuItem>
-                  <MenuItem value={state.assigned_point}>Colaborador</MenuItem>
+                  <MenuItem value={'Calos Pereza'}>Calos Pereza</MenuItem>
+                  <MenuItem value={'Fredy Acosrta'}>Fredy Acosrta</MenuItem>
+                  <MenuItem value={'Leonardo Sanchez'}>Leonardo Sanchez</MenuItem>
+                  <MenuItem value={'Patricia Laña'}>Patricia Laña</MenuItem>
+                  <MenuItem value={'Paola Gutierres'}>Paola Gutierres</MenuItem>
+                  <MenuItem value={'Griselda Lara'}>Griselda Lara</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -130,17 +136,17 @@ const CreateUsers = () => {
                 <InputLabel id="demo-simple-select-label">Punto asignado</InputLabel>
                 <Select
                   type="text"
-                  name="Jefe inmediato"
+                  name="assigned_point"
                   id="standart basic"
-                  value={state.immediate_boss || ''}
+                  value={state}
                   label="Jefe inmediato"
-                  onChange={handleChange}
+                  onChange={handleState}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
                 >
-                  <MenuItem value={state.rol}>Admin</MenuItem>
-                  <MenuItem value={state.rol}>Manager</MenuItem>
-                  <MenuItem value={state.rol}>Colaborador</MenuItem>
+                  <MenuItem value={'Popayan'}>Popayan</MenuItem>
+                  <MenuItem value={'Cali'}>Cali</MenuItem>
+                  <MenuItem value={'Medellin'}>Medellin</MenuItem>
                 </Select>
               </FormControl>
               <p />
@@ -172,23 +178,23 @@ const CreateUsers = () => {
                 validators={['required']}
                 errorMessages={['Este Campo es requerido']}
               />
-              <Box sx={{ minWidth: 120 }}>
+              
                 <FormControl fullWidth>
                   <InputLabel id="demo-simple-select-label">Rol</InputLabel>
                   <Select
                     type="text"
                     name="rol"
                     id="standart basic"
-                    value={state.rol || ''}
+                    value={state}
                     label="Rol"
-                    onChange={handleChange}
+                    onChange={handleState}
                   >
-                    <MenuItem value={state.rol}>Admin</MenuItem>
-                    <MenuItem value={state.rol}>Manager</MenuItem>
-                    <MenuItem value={state.rol}>Colaborador</MenuItem>
+                    <MenuItem value={'Admin'}>Admin</MenuItem>
+                    <MenuItem value={'Manager'}>Manager</MenuItem>
+                    <MenuItem value={'Colaborador'}>Colaborador</MenuItem>
                   </Select>
                 </FormControl>
-              </Box>
+              
             </Grid>
           </Grid>
           <p />

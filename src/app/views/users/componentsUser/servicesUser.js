@@ -1,13 +1,13 @@
 // Function to create a new user
 const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001'
-const REGISTER = 'users'
+const SERVICE = 'users'
 const ERROR_MESSAGE = "An error has occurred"
 
 
 //Create user
 
 export const createApiUser = async (userData) => {
-    const response = await fetch(`${API_URL}/${REGISTER}`, {
+    const response = await fetch(`${API_URL}/${SERVICE}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ export const createApiUser = async (userData) => {
 // Function to update an existing user
 
 export const updateApiUser = async (userId, userData) => {
-    const response = await fetch(`${API_URL}/${REGISTER}/${userId}`, {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ export const updateApiUser = async (userId, userData) => {
 
 // Function to delete an existing user
 export const deleteApiUser = async (userId) => {
-    const response = await fetch(`${API_URL}/${REGISTER}/${userId}`, {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'DELETE'
     });
     
@@ -53,7 +53,7 @@ export const deleteApiUser = async (userId) => {
 
 // Function to retrieve a single user
 export const getApiUser = async (userId) => {
-    const response = await fetch(`${API_URL}/${REGISTER}/${userId}`, {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ export const getApiUser = async (userId) => {
 
 // Function to retrieve all user
 export const getAllApiUser = async () => {
-    const URL = `${API_URL}/${REGISTER}`
+    const URL = `${API_URL}/${SERVICE}`
     const response = await fetch(`${URL}`, {
         method: 'GET',
         headers: {

@@ -116,7 +116,7 @@
       "id_shop": "CALLE 170",
       "id_product": 110900,
       "date": "01\/01\/2023",
-      "sale_value": 76900000,
+      "value": 76900000,
       "code": 1
      },
      {
@@ -125,7 +125,7 @@
       "id_shop": "AUTONORTE 220",
       "id_product": 110625,
       "date": "08\/01\/2023",
-      "sale_value": 59990000,
+      "value": 59990000,
       "code": 2
      },
      {
@@ -134,7 +134,7 @@
       "id_shop": "AUTONORTE 220",
       "id_product": 110625,
       "date": "15\/01\/2023",
-      "sale_value": 59990000,
+      "value": 59990000,
       "code": 3
      },
      {
@@ -143,7 +143,7 @@
       "id_shop": "AV DEL RIO",
       "id_product": 110625,
       "date": "01\/01\/2023",
-      "sale_value": 59990000,
+      "value": 59990000,
       "code": 4
      },
      {
@@ -152,7 +152,7 @@
       "id_shop": "AV DEL RIO",
       "id_product": 110625,
       "date": "01\/01\/2023",
-      "sale_value": 59990000,
+      "value": 59990000,
       "code": 5
      },
      {
@@ -161,7 +161,7 @@
       "id_shop": "AVENIDA CHILE",
       "id_product": 110625,
       "date": "22\/01\/2023",
-      "sale_value": 59990000,
+      "value": 59990000,
       "code": 6
      },
      {
@@ -170,341 +170,19 @@
       "id_shop": "AVENIDA CHILE",
       "id_product": 110625,
       "date": "08\/01\/2023",
-      "sale_value": 59990000,
+      "value": 59990000,
       "code": 7
-     },
-     {
-      "id_sale": 7378920,
-      "comercial": "EDGAR ANTONIO DIAZ ROMERO ",
-      "id_shop": "AVENIDA CHILE",
-      "id_product": 110625,
-      "date": "29\/01\/2023",
-      "sale_value": 59990000,
-      "code": 8
-     },
-     {
-      "id_sale": 8337981,
-      "comercial": "ELIZABETH GAMEZ GORDILLO ",
-      "id_shop": "CAJICA",
-      "id_product": 110625,
-      "date": "15\/01\/2023",
-      "sale_value": 59990000,
-      "code": 9
-     },
-     {
-      "id_sale": 7632111,
-      "comercial": "EDY YAZMIN GAITAN MACABARE ",
-      "id_shop": "CAJICA",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 10
-     },
-     {
-      "id_sale": 8193141,
-      "comercial": "ELKIN DANIEL GARCIA CARDENAS ",
-      "id_shop": "CAJICA",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 11
-     },
-     {
-      "id_sale": 8193141,
-      "comercial": "ELKIN DANIEL GARCIA CARDENAS ",
-      "id_shop": "CAJICA",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 12
-     },
-     {
-      "id_sale": 8192542,
-      "comercial": "ELISENIA GAITAN TREJOS ",
-      "id_shop": "CAJICA",
-      "id_product": 110625,
-      "date": "08\/01\/2023",
-      "sale_value": 59990000,
-      "code": 13
-     },
-     {
-      "id_sale": 8337981,
-      "comercial": "ELIZABETH GAMEZ GORDILLO ",
-      "id_shop": "CAJICA",
-      "id_product": 110625,
-      "date": "15\/01\/2023",
-      "sale_value": 59990000,
-      "code": 14
-     },
-     {
-      "id_sale": 8193141,
-      "comercial": "ELKIN DANIEL GARCIA CARDENAS ",
-      "id_shop": "CAJICA",
-      "id_product": 110625,
-      "date": "22\/01\/2023",
-      "sale_value": 59990000,
-      "code": 15
-     },
-     {
-      "id_sale": 7572972,
-      "comercial": "EDIXON YARLEY FLOREZ GONZALEZ ",
-      "id_shop": "CALLE 170",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 16
-     },
-     {
-      "id_sale": 5969547,
-      "comercial": "EDUAR FONTECHA YUNDA ",
-      "id_shop": "CALLE 170",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 17
-     },
-     {
-      "id_sale": 5968595,
-      "comercial": "EDUAN YOBANI FLOREZ TORRES ",
-      "id_shop": "CALLE 170",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 18
-     },
-     {
-      "id_sale": 6017825,
-      "comercial": "EDWIN ISRAEL GAITAN GAITAN ",
-      "id_shop": "CALLE 170",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 19
-     },
-     {
-      "id_sale": 7218113,
-      "comercial": "ARLEY BABATIVA GARCIA ",
-      "id_shop": "MORATO",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 20
-     },
-     {
-      "id_sale": 7333781,
-      "comercial": "DARWIN EMILIO CEPEDA CUAYAL ",
-      "id_shop": "MORATO",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 21
-     },
-     {
-      "id_sale": 5854918,
-      "comercial": "DIEGO ANDRES CUASIALPUD REVELO ",
-      "id_shop": "PUENTE ARANDA",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 22
-     },
-     {
-      "id_sale": 3174319,
-      "comercial": "DIANA MARCELA CRIOLLO MORALES ",
-      "id_shop": "PUENTE ARANDA",
-      "id_product": 110625,
-      "date": "01\/01\/2023",
-      "sale_value": 59990000,
-      "code": 23
-     },
-     {
-      "id_sale": 9656144,
-      "comercial": "JEAN SMITH MARTINEZ MOLINA ",
-      "id_shop": "SEDE PRINCIPAL",
-      "id_product": 110625,
-      "date": "08\/01\/2023",
-      "sale_value": 59990000,
-      "code": 24
-     },
-     {
-      "id_sale": 1985094,
-      "comercial": "JORGE ARMANDO MORERA DAZA ",
-      "id_shop": "SEDE PRINCIPAL",
-      "id_product": 110625,
-      "date": "15\/01\/2023",
-      "sale_value": 59990000,
-      "code": 25
-     },
-     {
-      "id_sale": 6322731,
-      "comercial": "INGRID MILENA LOPEZ ALVAREZ ",
-      "id_shop": "SEDE PRINCIPAL",
-      "id_product": 110625,
-      "date": "29\/01\/2023",
-      "sale_value": 59990000,
-      "code": 26
-     },
-     {
-      "id_sale": 6393730,
-      "comercial": "ISMAEL LOPEZ GUTIERREZ ",
-      "id_shop": "SEDE PRINCIPAL",
-      "id_product": 110625,
-      "date": "22\/01\/2023",
-      "sale_value": 59990000,
-      "code": 27
-     },
-     {
-      "id_sale": 7636271,
-      "comercial": "JOSE MUÑOZ BADOS ",
-      "id_shop": "SEDE PRINCIPAL",
-      "id_product": 110625,
-      "date": "29\/01\/2023",
-      "sale_value": 59990000,
-      "code": 28
-     },
-     {
-      "id_sale": 9635987,
-      "comercial": "JAVIER MARQUEZ PULIDO ",
-      "id_shop": "SEDE PRINCIPAL",
-      "id_product": 110625,
-      "date": "08\/01\/2023",
-      "sale_value": 59990000,
-      "code": 29
-     },
-     {
-      "id_sale": 9434356,
-      "comercial": "ISLEIDYS PAOLA LOPEZ GAITAN ",
-      "id_shop": "SEDE PRINCIPAL",
-      "id_product": 110625,
-      "date": "08\/01\/2023",
-      "sale_value": 59990000,
-      "code": 30
-     },
-     {
-      "id_sale": 4284743,
-      "comercial": "ALBERSON ALVAREZ MARTINEZ ",
-      "id_shop": "AUTONORTE 220",
-      "id_product": 110625,
-      "date": "01\/02\/2023",
-      "sale_value": 59990000,
-      "code": 31
-     },
-     {
-      "id_sale": 7364882,
-      "comercial": "ALDAIR JOSE ALVAREZ MORERA ",
-      "id_shop": "AUTONORTE 220",
-      "id_product": 110625,
-      "date": "12\/02\/2023",
-      "sale_value": 59990000,
-      "code": 32
-     },
-     {
-      "id_sale": 3276278,
-      "comercial": "ALEXIS ALVAREZ SANCHEZ ",
-      "id_shop": "AUTONORTE 220",
-      "id_product": 110625,
-      "date": "26\/02\/2023",
-      "sale_value": 59990000,
-      "code": 33
-     },
-     {
-      "id_sale": 7366628,
-      "comercial": "DEISON ANDERSON CORAL GOMEZ ",
-      "id_shop": "AUTONORTE 220",
-      "id_product": 110625,
-      "date": "12\/02\/2023",
-      "sale_value": 59990000,
-      "code": 34
-     },
-     {
-      "id_sale": 3166734,
-      "comercial": "DEYPHAN ARLET CORDOBA YELA ",
-      "id_shop": "AUTONORTE 220",
-      "id_product": 110625,
-      "date": "26\/02\/2023",
-      "sale_value": 59990000,
-      "code": 35
-     },
-     {
-      "id_sale": 6911262,
-      "comercial": "JEIDY DAYANA MARTINEZ NARANJO ",
-      "id_shop": "AV LIBERTADORES",
-      "id_product": 110625,
-      "date": "01\/02\/2023",
-      "sale_value": 59990000,
-      "code": 36
-     },
-     {
-      "id_sale": 8191228,
-      "comercial": "DUVAN GUILLERMO DIAZ PAEZ ",
-      "id_shop": "AVENIDA CHILE",
-      "id_product": 110625,
-      "date": "05\/02\/2023",
-      "sale_value": 59990000,
-      "code": 37
-     },
-     {
-      "id_sale": 4258898,
-      "comercial": "EVERGLEN GONZALEZ DEULUFEUTH ",
-      "id_shop": "CALLE 30",
-      "id_product": 110625,
-      "date": "19\/02\/2023",
-      "sale_value": 59990000,
-      "code": 38
-     },
-     {
-      "id_sale": 8780928,
-      "comercial": "FAISSURY GUERRERO PATIÑO ",
-      "id_shop": "CALLE 30",
-      "id_product": 110625,
-      "date": "05\/02\/2023",
-      "sale_value": 59990000,
-      "code": 39
-     },
-     {
-      "id_sale": 8773269,
-      "comercial": "FAIR GUERRERO MARTINEZ ",
-      "id_shop": "CALLE 30",
-      "id_product": 110625,
-      "date": "19\/02\/2023",
-      "sale_value": 59990000,
-      "code": 40
-     },
-     {
-      "id_sale": 7822363,
-      "comercial": "CENID MAGALY BETANCOURT CUENCA ",
-      "id_shop": "CENTRO MAYOR",
-      "id_product": 110625,
-      "date": "18\/02\/2023",
-      "sale_value": 59990000,
-      "code": 41
-     },
-     {
-      "id_sale": 3908675,
-      "comercial": "JUAN CAMILO NIEVES VALLESTEROS ",
-      "id_shop": "CHIPICHAPE",
-      "id_product": 110625,
-      "date": "12\/02\/2023",
-      "sale_value": 59990000,
-      "code": 42
-     },
-     {
-      "id_sale": 3908675,
-      "comercial": "JUAN CAMILO NIEVES VALLESTEROS ",
-      "id_shop": "CHIPICHAPE",
-      "id_product": 110625,
-      "date": "26\/02\/2023",
-      "sale_value": 59990000,
-      "code": 43
-     },
-     {
-      "id_sale": 5629179,
-      "comercial": "JOSE JAVIER NASTACUAS SALAZAR ",
-      "id_shop": "CHIPICHAPE",
-      "id_product": 110625,
-      "date": "26\/02\/2023",
-      "sale_value": 59990000,
-      "code": 44
      }
+     
+  ],
+
+  "comercials": [
+    {
+      "code": 124,
+      "select_user":"Fernanado Castro",
+      "select_manager":"Natalia Perez",
+      "type_goal":"Diaria",
+      "current_goal":"$25.000.000"
+    }
   ]
 }

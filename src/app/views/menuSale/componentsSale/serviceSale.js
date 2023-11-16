@@ -1,13 +1,13 @@
 // Function to create a new user
 const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001'
-const MENU_SALE = 'sales'
+const SERVICE = 'sales'
 const ERROR_MESSAGE = "An error has occurred"
 
 
 //Create user
 
 export const createApiSale = async (userData) => {
-    const response = await fetch(`${API_URL}/${MENU_SALE}`, {
+    const response = await fetch(`${API_URL}/${SERVICE}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -24,7 +24,7 @@ export const createApiSale = async (userData) => {
 // Function to update an existing user
 
 export const updateApiSale = async (userId, userData) => {
-    const response = await fetch(`${API_URL}/${MENU_SALE}/${userId}`, {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
@@ -40,7 +40,7 @@ export const updateApiSale = async (userId, userData) => {
 
 // Function to delete an existing user
 export const deleteApiSale = async (userId) => {
-    const response = await fetch(`${API_URL}/${MENU_SALE}/${userId}`, {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'DELETE'
     });
     
@@ -53,7 +53,7 @@ export const deleteApiSale = async (userId) => {
 
 // Function to retrieve a single user
 export const getApiSale = async (userId) => {
-    const response = await fetch(`${API_URL}/${MENU_SALE}/${userId}`, {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -69,7 +69,7 @@ export const getApiSale = async (userId) => {
 
 // Function to retrieve all user
 export const getAllApiSale = async () => {
-    const URL = `${API_URL}/${MENU_SALE}`
+    const URL = `${API_URL}/${SERVICE}`
     const response = await fetch(`${URL}`, {
         method: 'GET',
         headers: {

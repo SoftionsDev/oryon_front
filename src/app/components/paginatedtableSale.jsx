@@ -64,12 +64,11 @@ const PaginatedTableUsers = ({ props }) => {
                 .map((item, index) => (
                   <TableRow key={index}>
                     <TableCell align="left">{item.code}</TableCell>
-                    <TableCell align="center">{item.id_sale}</TableCell>
                     <TableCell align="center">{item.id_product}</TableCell>
                     <TableCell align="center">{item.id_shop}</TableCell>
                     <TableCell align="center">{item.comercial}</TableCell>
                     <TableCell align="center">{item.date}</TableCell>
-                    <TableCell align="right">{item.sale_value}</TableCell>
+                    <TableCell align="right">{item.value}</TableCell>
                     <TableCell align="right">
                       {actions.map((action, index) => (
                         <IconButton key={index} onClick={() => action.click(item)}>

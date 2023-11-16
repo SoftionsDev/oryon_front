@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Grid, styled, Alert, AlertTitle } from '@mui/material';
-import { getAllApiUser, deleteApiUser } from '../../users/componentsUser/servicesUser';
+import { getAllApiComercial,  } from '../../comercial/comercialComponents/servicesComercial';
 import PaginatedTableComercial from 'app/components/paginatedtableComercial';
 
 const Container = styled('div')(({ theme }) => ({
@@ -13,15 +13,16 @@ const Container = styled('div')(({ theme }) => ({
 }));
 
 function UserComercial() {
-  const [users, setListUser] = useState([]);
+  const [state, setUserComercial] = useState([]);
   const [hasError, setError] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     const getInfo = async () => {
       try {
-        const data = await getAllApiUser();
-        setListUser(data);
+        const data = await getAllApiComercial();
+        setUserComercial(data);
+        setRefresh(true);
         console.log(data);
       } catch (error) {
         setError(true);
@@ -31,26 +32,14 @@ function UserComercial() {
     getInfo();
   }, [refresh]);
 
-  const handleDelete = async (item) => {
-    try {
-      await deleteApiUser(item.code);
-      setRefresh(true);
-    } catch (error) {
-      console.log(error);
-      setError(true);
-    }
-  };
+ 
 
   const columnNames = [
-    'Codigo',
-    'Nombres',
-    'Apellido',
-    'Codigo de cargo',
-    'Fecha',
-    'Punto asignado',
-    'Jefe Inmediato',
-    'Rol',
-    'Correo electronico'
+    'Codigo de usuario',
+    'Usuario',
+    'Manager',
+    'Tipo de meta',
+    'Meta actual',
   ];
   return (
     <Container>
@@ -67,15 +56,7 @@ function UserComercial() {
         <PaginatedTableComercial
           props={{
             columnNames,
-            items: users,
-
-            actions: [
-              {
-                icon: 'delete',
-                color: 'error',
-                click: handleDelete,
-              },
-            ],
+            items: state,
           }}
         />
       </Grid>
