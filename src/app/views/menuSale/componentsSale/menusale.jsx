@@ -1,8 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Grid, styled, Alert, AlertTitle, Icon, Button } from '@mui/material';
-import { Span } from "app/components/Typography";
+import { Grid, styled, Alert, AlertTitle, Icon, Button, Input } from '@mui/material';
+import { Span } from 'app/components/Typography';
 import PaginatedTableSale from 'app/components/paginatedtableSale';
 import { getAllApiSale, deleteApiSale } from '../componentsSale/serviceSale';
+import axios from 'axios';
+
+
+
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -15,8 +19,26 @@ const Container = styled('div')(({ theme }) => ({
 
 function MenuSale() {
   const [sales, setMenuSale] = useState([]);
+  const [archive, setArchive] = useState([]);
   const [hasError, setError] = useState(false);
   const [refresh, setRefresh] = useState(false);
+
+  const uploadFiles=e=>{
+    setArchive(e);
+  }
+
+  const insertArchive=async()=>{
+    const f = new FormData();
+    for (let index = 0; index < archive.length; index++ ) {
+      f.append("files", archive[index]);
+    }
+    await axios.post("",f)
+    .then(response=>{
+      console.log(response.data);
+    }).catch(error=>{
+      console.log(error);
+    })
+  }
 
   useEffect(() => {
     const getInfo = async () => {
@@ -43,11 +65,11 @@ function MenuSale() {
   };
 
   const columnNames = [
+    'Codigo',
     'ID Venta',
     'ID producto',
     'ID tienda',
     'Nombre comercial',
-    'ID comercial',
     'Fecha de venta',
     'Valor de venta',
   ];
@@ -60,8 +82,12 @@ function MenuSale() {
         </Alert>
       )}
       <Grid container spacing={2}>
+      <br/><br/>
+        <Input component="span" type="file" name="files" multiple onChange={(e)=>uploadFiles(e.target.files)}/>
+        <br/><br/>
         <Grid item xs={12} md={12}></Grid>
-        <Button color="primary" variant="contained" type="submit">
+
+        <Button color="primary" variant="contained" type="submit" onClick={()=>insertArchive()}>
           <Icon>send</Icon>
           <Span sx={{ pl: 1, textTransform: 'capitalize' }}>Cargar CSV</Span>
         </Button>

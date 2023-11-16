@@ -65,9 +65,9 @@ const PaginatedTableUsers = ({ props }) => {
                   <TableRow key={index}>
                     <TableCell align="left">{item.code}</TableCell>
                     <TableCell align="center">{item.id_sale}</TableCell>
-                    <TableCell align="center">{item.ld_product}</TableCell>
+                    <TableCell align="center">{item.id_product}</TableCell>
+                    <TableCell align="center">{item.id_shop}</TableCell>
                     <TableCell align="center">{item.comercial}</TableCell>
-                    <TableCell align="center">{item.id_comercial}</TableCell>
                     <TableCell align="center">{item.date}</TableCell>
                     <TableCell align="right">{item.sale_value}</TableCell>
                     <TableCell align="right">
@@ -98,8 +98,8 @@ const PaginatedTableUsers = ({ props }) => {
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
-          nextIconButtonProps={{ 'aria-label': 'Next Page' }}
-          backIconButtonProps={{ 'aria-label': 'Previous Page' }}
+          nextIconButtonProps={{ 'aria-label': 'Siguiente pagina' }}
+          backIconButtonProps={{ 'aria-label': 'Pagina anterior' }}
         />
       </Box>
     </SimpleCard>

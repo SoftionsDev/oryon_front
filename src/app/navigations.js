@@ -34,13 +34,13 @@ export const navigations = [
 
     children: [
       {
-        name: "Submenu",
-        path: "/dashboard/analytics",
+        name: "Colaboradores",
+        path: "/dashboard/user-comercial",
         iconText: "A"
       },
       {
-        name: "Submenu2",
-        path: "/dashboard/sales",
+        name: "Registro colaborador",
+        path: "/dashboard/register-comercial",
         iconText: "S",
       }
     ]

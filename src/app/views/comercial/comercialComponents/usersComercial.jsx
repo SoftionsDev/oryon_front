@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Grid, styled, Alert, AlertTitle } from '@mui/material';
-
-import PaginatedTableUsers from 'app/components/PaginatedTableUsers';
 import { getAllApiUser, deleteApiUser } from '../../users/componentsUser/servicesUser';
+import PaginatedTableComercial from 'app/components/paginatedtableComercial';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -13,7 +12,7 @@ const Container = styled('div')(({ theme }) => ({
   },
 }));
 
-function ListUser() {
+function UserComercial() {
   const [users, setListUser] = useState([]);
   const [hasError, setError] = useState(false);
   const [refresh, setRefresh] = useState(false);
@@ -65,7 +64,7 @@ function ListUser() {
         <Grid item xs={12} md={12}></Grid>
 
         <Grid item xs={0} md={0}></Grid>
-        <PaginatedTableUsers
+        <PaginatedTableComercial
           props={{
             columnNames,
             items: users,
@@ -84,4 +83,4 @@ function ListUser() {
   );
 }
 
-export default ListUser;
+export default UserComercial;
