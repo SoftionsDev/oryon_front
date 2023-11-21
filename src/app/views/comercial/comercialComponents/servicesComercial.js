@@ -1,16 +1,18 @@
-// Function to create a new store
-
+// Function to create a new user
 const API_URL = process.env.REACT_APP_BACKEND_URL || 'http://localhost:3001'
-const SERVICE = 'stores'
+const SERVICE = 'comercials'
 const ERROR_MESSAGE = "An error has occurred"
 
-export const createApiStore = async (storeData) => {
+
+//Create user
+
+export const createApiComercial = async (userData) => {
     const response = await fetch(`${API_URL}/${SERVICE}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(storeData)
+        body: JSON.stringify(userData)
     });
     const data = await response.json();
     if (response.status !== 201) {
@@ -19,14 +21,15 @@ export const createApiStore = async (storeData) => {
     return data;
 };
 
-// Function to update an existing store
-export const updateApiStore = async (storeId, storeData) => {
-    const response = await fetch(`${API_URL}/${SERVICE}/${storeId}`, {
+// Function to update an existing user
+
+export const updateApiComercial = async (userId, userData) => {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(storeData)
+        body: JSON.stringify(userData)
     });
     const data = await response.json();
     if (response.status !== 200) {
@@ -35,9 +38,9 @@ export const updateApiStore = async (storeId, storeData) => {
     return data;
 };
 
-// Function to delete an existing store
-export const deleteApiStore = async (storeId) => {
-    const response = await fetch(`${API_URL}/${SERVICE}/${storeId}`, {
+// Function to delete an existing user
+export const deleteApiComercial = async (userId) => {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'DELETE'
     });
     
@@ -48,9 +51,9 @@ export const deleteApiStore = async (storeId) => {
     return data;
 };
 
-// Function to retrieve a single store
-export const getApiStore = async (storeId) => {
-    const response = await fetch(`${API_URL}/${SERVICE}/${storeId}`, {
+// Function to retrieve a single user
+export const getApiComercial = async (userId) => {
+    const response = await fetch(`${API_URL}/${SERVICE}/${userId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -63,8 +66,9 @@ export const getApiStore = async (storeId) => {
     return data;
 };
 
-// Function to retrieve all stores
-export const getAllApiStores = async () => {
+
+// Function to retrieve all user
+export const getAllApiComercial = async () => {
     const URL = `${API_URL}/${SERVICE}`
     const response = await fetch(`${URL}`, {
         method: 'GET',
@@ -78,4 +82,5 @@ export const getAllApiStores = async () => {
     }
     return data;
 };
+
 

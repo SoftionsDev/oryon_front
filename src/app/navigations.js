@@ -7,6 +7,11 @@ export const navigations = [
 
 
   {
+    name: "Ventas",
+    icon: "local_grocery_store",
+    path: "/dashboard/menu-sale",
+  },
+  {
     name: "Comisiones",
     icon: "wallet",
 
@@ -29,13 +34,13 @@ export const navigations = [
 
     children: [
       {
-        name: "Submenu",
-        path: "/dashboard/analytics",
+        name: "Colaboradores",
+        path: "/dashboard/user-comercial",
         iconText: "A"
       },
       {
-        name: "Submenu2",
-        path: "/dashboard/sales",
+        name: "Registro colaborador",
+        path: "/dashboard/register-comercial",
         iconText: "S",
       }
     ]
@@ -123,9 +128,8 @@ export const navigations = [
     name: 'Sesion/autenticacion',
     icon: 'security',
     children: [
-      { name: 'Registrar usuario', iconText: 'SU', path: '/session/signup' },
-      { name: 'Forgot Password', iconText: 'FP', path: '/session/forgot-password' },
-      { name: 'Error', iconText: '404', path: '/session/404' },
+      { name: 'Registrar usuario', iconText: 'SU', path: '/dashboard/new-user' },
+      { name: 'Usuarios', iconText: 'FP', path: '/dashboard/list-user' },
       
     ],
   },
