@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Grid, styled, Alert, AlertTitle, Icon, Button, Input } from '@mui/material';
+import { Grid, styled, Alert, AlertTitle, Icon, Button,  } from '@mui/material';
 import { Span } from 'app/components/Typography';
 import PaginatedTableSale from 'app/components/paginatedtableSale';
 import { getAllApiSale, deleteApiSale } from '../componentsSale/serviceSale';
@@ -19,13 +19,11 @@ const Container = styled('div')(({ theme }) => ({
 
 function MenuSale() {
   const [sales, setMenuSale] = useState([]);
-  const [archive, setArchive] = useState([]);
+  const [archive, ] = useState([]);
   const [hasError, setError] = useState(false);
   const [refresh, setRefresh] = useState(false);
 
-  const uploadFiles=e=>{
-    setArchive(e);
-  }
+  
 
   const insertArchive=async()=>{
     const f = new FormData();
@@ -81,9 +79,8 @@ function MenuSale() {
         </Alert>
       )}
       <Grid container spacing={2}>
-      <br/><br/>
-        <Input component="span" type="file" name="files" multiple onChange={(e)=>uploadFiles(e.target.files)}/>
-        <br/><br/>
+      
+        
         <Grid item xs={12} md={12}></Grid>
 
         <Button color="primary" variant="contained" type="submit" onClick={()=>insertArchive()}>

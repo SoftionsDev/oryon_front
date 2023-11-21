@@ -48,10 +48,11 @@ function ListUser() {
     'Apellido',
     'Codigo de cargo',
     'Fecha',
-    'Punto asignado',
     'Jefe Inmediato',
+    'Punto asignado',
+    'Correo electronico',
     'Rol',
-    'Correo electronico'
+    
   ];
   return (
     <Container>

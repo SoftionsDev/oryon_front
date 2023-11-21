@@ -23,17 +23,15 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 const RegisterComercial = () => {
-  const [state, setState] = useState([]);
+  const [state, setState] = useState({});
   const [hasError, setHasError] = useState(false);
-  const handleState = (event) => {
-    setState(event.target.value);
-    console.log(state);
-  };
+  
   const navigate = useNavigate();
 
   const handleChange = (event) => {
-    event.persist();
+    event.preventDefault();
     setState({ ...state, [event.target.name]: event.target.value });
+    console.log(state)
   };
 
   const handleSubmit = async (event) => {
@@ -41,7 +39,7 @@ const RegisterComercial = () => {
     try {
       await createApiComercial(state);
       navigate('/dashboard/user-comercial');
-      navigate('/');
+      
     } catch (error) {
       console.log(error);
       setHasError(true);
@@ -66,10 +64,10 @@ const RegisterComercial = () => {
             <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
             <TextField
                 type="text"
-                name="state"
+                name="code"
                 value={state.code || ''}
                 label="Codigo de usuario"
-                onChange={handleState}
+                onChange={handleChange}
                 validators={['required']}
                 errorMessages={['Este Campo es requerido']}
               />
@@ -79,9 +77,9 @@ const RegisterComercial = () => {
                   type="text"
                   name="select_user"
                   id="standart basic"
-                  value={state}
+                  value={state.select_user || ''}
                   label="Selecionar usuario"
-                  onChange={handleState}
+                  onChange={handleChange}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
                 >
@@ -103,7 +101,7 @@ const RegisterComercial = () => {
                   id="standart basic"
                   value={state.select_manager || ''}
                   label="Selecionar manager"
-                  onChange={handleState}
+                  onChange={handleChange}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
                 >
@@ -121,11 +119,11 @@ const RegisterComercial = () => {
                 <InputLabel id="demo-simple-select-label">Definir meta</InputLabel>
                 <Select
                   type="text"
-                  name="define_goal"
+                  name="type_goal"
                   id="standart basic"
                   value={state.type_goal || ''}
                   label="Dfinir meta"
-                  onChange={handleState}
+                  onChange={handleChange}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
                 >
@@ -140,7 +138,7 @@ const RegisterComercial = () => {
             <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
               <TextField
                 type="number"
-                name="state"
+                name="current_goal"
                 value={state.current_goal || ''}
                 label="Establecer Meta"
                 onChange={handleChange}
@@ -151,8 +149,8 @@ const RegisterComercial = () => {
           </Grid>
 
           <Button color="primary" variant="contained" type="submit">
-            <Icon>send</Icon>
-            <Span sx={{ pl: 1, textTransform: 'capitalize' }}>Crear</Span>
+            <Icon>person_add</Icon>
+            <Span sx={{ pl: 1, textTransform: 'capitalize' }}>Registrar</Span>
           </Button>
         </ValidatorForm>
       </SimpleCard>

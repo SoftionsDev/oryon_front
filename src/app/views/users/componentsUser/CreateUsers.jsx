@@ -9,24 +9,27 @@ import { useNavigate } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-
+import * as Yup from 'yup';
 
 const TextField = styled(TextValidator)(() => ({
   width: '100%',
   marginBottom: '16px',
 }));
 
+const validationSchema = Yup.object().shape({
+  password: Yup.string()
+    .min(6, 'Password must be 6 character length')
+    .required('Password is required!'),
+  email: Yup.string().email('Invalid Email address').required('Email is required!'),
+});
+
 const CreateUsers = () => {
-  const [state, setState] = useState({});  
+  const [state, setState] = useState({});
   const navigate = useNavigate();
-  const [ hasError, setHasError] = useState(false);
-  const handleState = (event) => {
-    setState(event.target.value);
-    console.log(state);
-  };
+  const [hasError, setHasError] = useState(false);
 
   const handleChange = (event) => {
-    event.persist();
+    event.preventDefault();
     setState({ ...state, [event.target.name]: event.target.value });
   };
 
@@ -35,7 +38,6 @@ const CreateUsers = () => {
     try {
       await createApiUser(state);
       navigate('/dashboard/list-user');
-      navigate('/');
     } catch (error) {
       console.log(error);
       setHasError(true);
@@ -55,7 +57,11 @@ const CreateUsers = () => {
         </Alert>
       )}
       <SimpleCard title="Registrar nuevo usuario">
-        <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
+        <ValidatorForm
+          onSubmit={handleSubmit}
+          onError={handleError}
+          validationSchema={validationSchema}
+        >
           <Grid container spacing={6}>
             <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
               <TextField
@@ -104,7 +110,7 @@ const CreateUsers = () => {
                 type="date"
                 name="date"
                 value={state.date || ''}
-                onChange={handleChange}                
+                onChange={handleChange}
                 errorMessages={['Este Campo es requerido']}
                 validators={['required', 'minStringLength:4', 'maxStringLength: 16']}
               />
@@ -115,9 +121,9 @@ const CreateUsers = () => {
                   type="text"
                   name="immediate_boss"
                   id="standart basic"
-                  value={state}
+                  value={state.immediate_boss || ''}
                   label="Jefe inmediato"
-                  onChange={handleState}
+                  onChange={handleChange}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
                 >
@@ -138,9 +144,9 @@ const CreateUsers = () => {
                   type="text"
                   name="assigned_point"
                   id="standart basic"
-                  value={state}
-                  label="Jefe inmediato"
-                  onChange={handleState}
+                  value={state.assigned_point}
+                  label="Punto asignado"
+                  onChange={handleChange}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
                 >
@@ -152,7 +158,7 @@ const CreateUsers = () => {
               <p />
               <TextField
                 type="text"
-                name="Email"
+                name="email"
                 value={state.email || ''}
                 label="Email"
                 onChange={handleChange}
@@ -169,38 +175,27 @@ const CreateUsers = () => {
                 errorMessages={['Este Campo es requerido']}
               />
 
-              <TextField
-                type="text"
-                name="charge_code"
-                value={state.charge_code || ''}
-                label="Codigo de cargo"
-                onChange={handleChange}
-                validators={['required']}
-                errorMessages={['Este Campo es requerido']}
-              />
-              
-                <FormControl fullWidth>
-                  <InputLabel id="demo-simple-select-label">Rol</InputLabel>
-                  <Select
-                    type="text"
-                    name="rol"
-                    id="standart basic"
-                    value={state}
-                    label="Rol"
-                    onChange={handleState}
-                  >
-                    <MenuItem value={'Admin'}>Admin</MenuItem>
-                    <MenuItem value={'Manager'}>Manager</MenuItem>
-                    <MenuItem value={'Colaborador'}>Colaborador</MenuItem>
-                  </Select>
-                </FormControl>
-              
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Rol</InputLabel>
+                <Select
+                  type="text"
+                  name="rol"
+                  id="standart basic"
+                  value={state.rol || ''}
+                  label="Rol"
+                  onChange={handleChange}
+                >
+                  <MenuItem value={'Admin'}>Admin</MenuItem>
+                  <MenuItem value={'Manager'}>Manager</MenuItem>
+                  <MenuItem value={'Colaborador'}>Colaborador</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
           </Grid>
           <p />
           <Button color="primary" variant="contained" type="submit">
-            <Icon>send</Icon>
-            <Span sx={{ pl: 1, textTransform: 'capitalize' }}>Crear</Span>
+            <Icon>person_add</Icon>
+            <Span sx={{ pl: 1, textTransform: 'capitalize' }}>Registrar</Span>
           </Button>
         </ValidatorForm>
       </SimpleCard>
