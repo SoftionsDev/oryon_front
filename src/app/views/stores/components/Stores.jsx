@@ -36,7 +36,6 @@ function Stores() {
             try {
                 const data = await getAllApiStores()
                 setStores(data)
-                console.log(data)
             } catch (error) {
                 setError(true)
                 console.log(error)
