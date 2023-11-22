@@ -6,7 +6,7 @@ import { MatxLoading } from 'app/components'
 const initialState = {
     isAuthenticated: false,
     isInitialised: false,
-    user: null,
+    user: null
 }
 
 const isValidToken = (accessToken) => {
@@ -38,7 +38,8 @@ const reducer = (state, action) => {
                 ...state,
                 isAuthenticated,
                 isInitialised: true,
-                user,
+                user
+
             }
         }
         case 'LOGIN': {
@@ -47,14 +48,14 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 isAuthenticated: true,
-                user,
+                user
             }
         }
         case 'LOGOUT': {
             return {
                 ...state,
                 isAuthenticated: false,
-                user: null,
+                user: null
             }
         }
         case 'REGISTER': {
@@ -63,7 +64,7 @@ const reducer = (state, action) => {
             return {
                 ...state,
                 isAuthenticated: true,
-                user,
+                user
             }
         }
         default: {
@@ -91,11 +92,12 @@ export const AuthProvider = ({ children }) => {
         const { accessToken, user } = response.data
 
         setSession(accessToken)
-
+        console.log(user)
         dispatch({
             type: 'LOGIN',
             payload: {
                 user,
+                role: user.role
             },
         })
     }

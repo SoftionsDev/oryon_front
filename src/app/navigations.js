@@ -1,6 +1,6 @@
 
 export const navigations = [
-  
+
   { name: 'Dashboard', path: '/dashboard/default', icon: 'dashboard' },
 
   { label: 'Administración', type: 'label' },
@@ -123,13 +123,61 @@ export const navigations = [
     name: 'Sesion/autenticacion',
     icon: 'security',
     children: [
-      { name: 'Registrar usuario', iconText: 'SU', path: '/session/signup' },
-      { name: 'Forgot Password', iconText: 'FP', path: '/session/forgot-password' },
-      { name: 'Error', iconText: '404', path: '/session/404' },
-      
+      { name: 'Registrar usuario', iconText: 'SU', path: '/dashboard/new-user' },
+      { name: 'Usuarios', iconText: 'FP', path: '/dashboard/list-user' },
+
     ],
   },
 
 ];
 
+export const navigationsManager = [
+
+  {
+    name: 'Dashboard',
+    path: '/dashboard/default',
+    icon: 'dashboard'
+  },
+  {
+    label: 'Administración',
+    type: 'label'
+  },
+  {
+    name: "Maestro de ventas",
+    icon: "shop",
+    path: '/dashboard/default'
+  }
+]
+
+export const navigationsCollaborator = [
+
+  {
+    name: 'Dashboard',
+    path: '/dashboard/default',
+    icon: 'dashboard'
+  },
+  {
+    label: 'Administración',
+    type: 'label'
+  },
+  {
+    name: "Indicadores",
+    path: '/dashboard/default',
+    icon: "light",
+
+    children: [
+      {
+        name: "Submenu",
+        path: "/dashboard/analytics",
+        iconText: "A"
+      },
+      {
+        name: "Submenu2",
+        path: "/dashboard/sales",
+        iconText: "S",
+      }
+    ]
+  },
+  
+]
 

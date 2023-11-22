@@ -1,32 +1,21 @@
 import jwt from 'jsonwebtoken';
 import Mock from '../mock';
+import testjson from '../stores.json'
 
 const JWT_SECRET = 'jwt_secret_key';
 const JWT_VALIDITY = '7 days';
 
-const userList = [
-  {
-    id: 1,
-    role: 'SA',
-    name: 'Usuario Nuevo',
-    username: 'usuario_nuevo',
-    email: 'usuario@oryon.com',
-    avatar: '/assets/images/usuario.jpg',
-    age: 25,
-  },
-];
-
-// FOLLOWING CODES ARE MOCK SERVER IMPLEMENTATION
-// YOU NEED TO BUILD YOUR OWN SERVER
-// IF YOU NEED HELP ABOUT SERVER SIDE IMPLEMENTATION
-// CONTACT US AT support@ui-lib.com
+const userList = testjson.users
+  
 
 Mock.onPost('/api/auth/login').reply(async (config) => {
   try {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    const { email } = JSON.parse(config.data);
-    const user = userList.find((u) => u.email === email);
+    const { email, password } = JSON.parse(config.data);
+    //const user = userList.find((u) => u.email === email );
+    // Example
+    const user = userList.find((u) => u.email === email && u.password === password);
 
     if (!user) {
       return [400, { message: 'Invalid email or password' }];
@@ -85,6 +74,7 @@ Mock.onPost('/api/auth/register').reply((config) => {
           id: newUser.id,
           avatar: newUser.avatar,
           email: newUser.email,
+          password: newUser.password,
           name: newUser.name,
           username: newUser.username,
           role: newUser.role,
