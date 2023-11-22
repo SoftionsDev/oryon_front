@@ -44,6 +44,23 @@ export const navigations = [
     name: "Puntos de venta",
     icon: "house",
     path: "/dashboard/stores",
+    children: [
+      {
+        name: "Tiendas",
+        path: "/dashboard/stores",
+        iconText: "A"
+      },
+      {
+        name: "Regiones",
+        path: "/dashboard/stores/regions",
+        iconText: "A"
+      },
+      {
+        name: "Ciudades",
+        path: "/dashboard/stores/cities",
+        iconText: "S",
+      }
+    ]
   },
   {
     name: "Productos",

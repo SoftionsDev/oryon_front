@@ -43,47 +43,50 @@ const PaginatedTable = ({ props }) => {
             <Box width="100%" overflow="auto">
             <StyledTable>
                 <TableHead>
-                <TableRow>
-                    {
-                        columnNames.map((column, index) => {
-                            let alignment = 'center'
-                            if (index === 0) {
-                                alignment = 'left'
-                            } else if (index === columnNames.length - 1) {
-                                alignment = 'right'
-                            }
-                            return (<TableCell key={index} align={alignment}>{column}</TableCell>)
-                        })
-                    }
-                </TableRow>
+                    <TableRow>
+                        {
+                            columnNames.map((column, index) => {
+                                let alignment = 'center'
+                                if (index === 0) {
+                                    alignment = 'left'
+                                } else if (index === columnNames.length - 1) {
+                                    alignment = 'right'
+                                }
+                                return (<TableCell key={index} align={alignment}>{column}</TableCell>)
+                            })
+                        }
+                    </TableRow>
                 </TableHead>
                 <TableBody>
-                {items.length >= 1 ? items
+                { items.length >= 1 ? items
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((item, index) => (
-                    <TableRow key={index}>
-                        <TableCell align="left">{item.code}</TableCell>
-                        <TableCell align="center">{item.description}</TableCell>
-                        <TableCell align="center">{item.code_location}</TableCell>
-                        <TableCell align="center">{item.detail_location}</TableCell>
-                        <TableCell align="center">{item.state}</TableCell>
-                        <TableCell align="right">{item.manager}</TableCell>
+                        <TableRow key={index}>
+                            {
+                                Object.keys(item).map((key, cellIndex) => (
+                                    <TableCell 
+                                        key={cellIndex} 
+                                        align={cellIndex === 0 ? "left" : cellIndex === Object.keys(item).length - 1 ? "right" : "center"}>
+                                        {item[key]}
+                                    </TableCell>
+                                ))
+                            }
                         <TableCell align="right">
-                        {
-                            actions.map((action, index) => (
-                                <IconButton key={index} onClick={() => action.click(item)}>
-                                    <Icon color={action.color}>{action.icon}</Icon>
-                                </IconButton>
-                            ))        
-                        }
+                            {
+                                actions.map((action, actionIndex) => (
+                                    <IconButton key={actionIndex} onClick={() => action.click(item)}>
+                                        <Icon color={action.color}>{action.icon}</Icon>
+                                    </IconButton>
+                                ))        
+                            }
                         </TableCell>
-                    </TableRow>
+                        </TableRow>
                     ))
                 : 
                 <TableRow>
-                    <TableCell align="center" colSpan={columnNames.length}>Retrieving data...</TableCell>
+                    <TableCell align="center" colSpan={Object.keys(columnNames || {}).length + 1}>Retrieving data...</TableCell>
                 </TableRow>
-                } 
+                }
                 </TableBody>
             </StyledTable>
         
