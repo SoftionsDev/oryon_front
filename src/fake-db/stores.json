@@ -48,6 +48,7 @@
       "name": "Usuario Nuevo",
       "username": "usuario_nuevo",
       "email": "usuario@oryon.com",
+      "password": "usuarioroot",
       "avatar": "/assets/images/usuario.jpg",
       "age": 25
     },
@@ -75,19 +76,19 @@
       "date": "2023-11-29",
       "immediate_boss": "Fredy Acosrta",
       "assigned_point": "Cali",
-      "email": "fredy@gmail.com",
+      "email": "santiago@gmail.com",
       "password": "123456",
       "role": "Manager"
     },
     {
       "code": "2027",
-      "name": "Santiago",
+      "name": "Fernanado",
       "last_name": "Lopez",
       "charge_code": "1023",
       "date": "2023-11-29",
       "immediate_boss": "Fredy Acosrta",
       "assigned_point": "Cali",
-      "email": "fredy@gmail.com",
+      "email": "fernando  @gmail.com",
       "password": "123456",
       "role": "Manager"
     },
@@ -135,42 +136,8 @@
       "email": "usuario@oryon.com",
       "avatar": "/assets/images/usuario.jpg",
       "age": 25
-    },
-    {
-      "email": "usuario@oryon.com",
-      "password": "dummyPass",
-      "code": "ALzZbc4"
-    },
-    {
-      "email": "usuario@oryon.com",
-      "password": "dummyPass",
-      "code": "JKkiJwR"
-    },
-    {
-      "email": "usuario@oryon.com",
-      "password": "dummyPass",
-      "code": "irrWwdv"
-    },
-    {
-      "email": "usuario@oryon.com",
-      "password": "dummyPass",
-      "code": "9VYgsce"
-    },
-    {
-      "email": "usuario@oryon.com",
-      "password": "dummyPass",
-      "code": "YoJk8Q8"
-    },
-    {
-      "email": "usuario@oryon.com",
-      "password": "dummyPass",
-      "code": "riOFX30"
-    },
-    {
-      "email": "usuario@oryon.com",
-      "password": "dummyPass",
-      "code": "oEi4Iap"
     }
+   
   ],
   "sales": [
     {

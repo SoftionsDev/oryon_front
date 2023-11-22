@@ -44,7 +44,8 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, 'Password must be 6 character length')
     .required('Password is required!'),
-  email: Yup.string().email('Invalid Email address').required('Email is required!'),
+  email: Yup.string().email('Correo invalido').required('Email es requerido'),
+
 });
 
 const JwtLogin = () => {
