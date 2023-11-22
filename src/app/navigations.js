@@ -7,11 +7,6 @@ export const navigations = [
 
 
   {
-    name: "Ventas",
-    icon: "local_grocery_store",
-    path: "/dashboard/menu-sale",
-  },
-  {
     name: "Comisiones",
     icon: "wallet",
 
@@ -34,13 +29,13 @@ export const navigations = [
 
     children: [
       {
-        name: "Colaboradores",
-        path: "/dashboard/user-comercial",
+        name: "Submenu",
+        path: "/dashboard/analytics",
         iconText: "A"
       },
       {
-        name: "Registro colaborador",
-        path: "/dashboard/register-comercial",
+        name: "Submenu2",
+        path: "/dashboard/sales",
         iconText: "S",
       }
     ]
