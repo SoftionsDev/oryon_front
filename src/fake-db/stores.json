@@ -2,67 +2,171 @@
   "stores": [
     {
       "code": "001",
-      "description": "Store 1",
-      "code_location": "LOC001",
-      "detail_location": "Detail 1",
-      "state": "State 1",
-      "manager": "Manager 1"
+      "name": "Store 1",
+      "city": {
+        "code": "001",
+        "name": "City 1"
+      },
+      "manager": {
+        "code": "001",
+        "email": "manager1@email.com"
+      }
     },
     {
       "code": "002",
-      "description": "Store 2",
-      "code_location": "LOC002",
-      "detail_location": "Detail 2",
-      "state": "State 2",
-      "manager": "Manager 2"
+      "name": "Store 2",
+      "city": {
+        "code": "002",
+        "name": "City 2"
+      },
+      "manager": {
+        "code": "002",
+        "email": "manager2@email.com"
+      }
     },
     {
       "code": "003",
-      "description": "Store 3",
-      "code_location": "LOC003",
-      "detail_location": "Detail 3",
-      "state": "State 3",
-      "manager": "Manager 3"
+      "name": "Store 3",
+      "city": {
+        "code": "003",
+        "name": "City 3"
+      },
+      "manager": {
+        "code": "003",
+        "email": "manager3@email.com"
+      }
     },
     {
       "code": "004",
-      "description": "Store 4",
-      "code_location": "LOC004",
-      "detail_location": "Detail 4",
-      "state": "State 4",
-      "manager": "Manager 4"
+      "name": "Store 4",
+      "city": {
+        "code": "004",
+        "name": "City 4"
+      },
+      "manager": {
+        "code": "004",
+        "email": "manager4@email.com"
+      }
     },
     {
       "code": "005",
-      "description": "Store 5",
-      "code_location": "LOC005",
-      "detail_location": "Detail 5",
-      "state": "State 5",
-      "manager": "Manager 5"
+      "name": "Store 5",
+      "city": {
+        "code": "005",
+        "name": "City 5"
+      },
+      "manager": {
+        "code": "005",
+        "email": "manager5@email.com"
+      }
     },
     {
-      "code": "0007",
-      "description": "Tienda Toto",
-      "code_location": "LOC007",
-      "detail_location": "Centro",
-      "state": "Cundinamarca",
-      "manager": "Manager 7"
+      "code": "006",
+      "name": "Store 6",
+      "city": {
+        "code": "006",
+        "name": "City 6"
+      },
+      "manager": {
+        "code": "006",
+        "email": "manager6@email.com"
+      }
+    }
+  ],
+  "regions": [
+    {
+      "code": "004",
+      "name": "Central",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      }
     },
     {
-      "code": "sadfcsa",
-      "description": "dfsghd",
-      "code_location": "sdfh",
-      "detail_location": "dfshsdfh",
-      "state": "sdfhsd",
-      "manager": "sdfhsdfh"
+      "code": "002",
+      "name": "Oriental",
+      "manager": {
+        "code": "0002",
+        "email": "manager2@email.com"
+      }
     },
     {
-      "code": "popayan",
-      "description": "Comercial",
-      "code_location": "1014",
-      "detail_location": "centro",
-      "state": "caqueta",
-      "manager": "5050"
+      "code": "001",
+      "name": "Norte",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      }
+    },
+    {
+      "code": "003",
+      "name": "Sur",
+      "manager": {
+        "code": "0002",
+        "email": "manager2@email.com"
+      }
+    }
+  ],
+  "cities": [
+    {
+      "code": "0001",
+      "name": "City 1",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      },
+      "region": {
+        "code": "0001",
+        "name": "Region 1"
+      }
+    },
+    {
+      "code": "0002",
+      "name": "City 2",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      },
+      "region": {
+        "code": "0001",
+        "name": "Region 1"
+      }
+    },
+    {
+      "code": "0003",
+      "name": "City 3",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      },
+      "region": {
+        "code": "0001",
+        "name": "Region 1"
+      }
+    },
+    {
+      "code": "0004",
+      "name": "City 4",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      },
+      "region": {
+        "code": "0001",
+        "name": "Region 1"
+      }
+    },
+    {
+      "code": "0005",
+      "name": "City 5",
+      "region": {
+        "code": "0001",
+        "name": "region1"
+      },
+      "manager": {
+        "code": "0002",
+        "email": "manager2@email.com"
+      }
     }
   ],
   "users": [
@@ -160,109 +264,6 @@
       "email": "usuario@oryon.com",
       "avatar": "/assets/images/usuario.jpg",
       "age": 25
-    }
-   
-  ],
-  "sales": [
-    {
-      "id_sale": 6031361,
-      "comercial": "EDWIN JHON GAITAN LEON ",
-      "id_shop": "CALLE 170",
-      "id_product": 110900,
-      "date": "01/01/2023",
-      "value": 76900000,
-      "code": 1
-    },
-    {
-      "id_sale": 3539739,
-      "comercial": "DUVAN ALVAREZ ZAMBRANO ",
-      "id_shop": "AUTONORTE 220",
-      "id_product": 110625,
-      "date": "08/01/2023",
-      "value": 59990000,
-      "code": 2
-    },
-    {
-      "id_sale": 7366628,
-      "comercial": "DEISON ANDERSON CORAL GOMEZ ",
-      "id_shop": "AUTONORTE 220",
-      "id_product": 110625,
-      "date": "15/01/2023",
-      "value": 59990000,
-      "code": 3
-    },
-    {
-      "id_sale": 9296944,
-      "comercial": "GUILLERMO LAGUNA GIRALDO ",
-      "id_shop": "AV DEL RIO",
-      "id_product": 110625,
-      "date": "01/01/2023",
-      "value": 59990000,
-      "code": 4
-    },
-    {
-      "id_sale": 6198067,
-      "comercial": "HERNAN RICARDO LEON DIAZ ",
-      "id_shop": "AV DEL RIO",
-      "id_product": 110625,
-      "date": "01/01/2023",
-      "value": 59990000,
-      "code": 5
-    },
-    {
-      "id_sale": 8002280,
-      "comercial": "DULFARI VIVIANA DIAZ HERNANDEZ ",
-      "id_shop": "AVENIDA CHILE",
-      "id_product": 110625,
-      "date": "22/01/2023",
-      "value": 59990000,
-      "code": 6
-    },
-    {
-      "id_sale": 7382038,
-      "comercial": "EDGAR AUGUSTO DIAZ TORO ",
-      "id_shop": "AVENIDA CHILE",
-      "id_product": 110625,
-      "date": "08/01/2023",
-      "value": 59990000,
-      "code": 7
-    }
-  ],
-  "comercials": [
-    {
-      "code": 124,
-      "select_user": "Fernanado Castro",
-      "select_manager": "Natalia Perez",
-      "type_goal": "Diaria",
-      "current_goal": "$25.000.000"
-    },
-    {
-      "code": "1145",
-      "select_user": "Frenando Suarez",
-      "select_manager": "Leonardo Sanchez",
-      "type_goal": "Anual",
-      "current_goal": "25.0000000"
-    },
-    {
-      "code": "1023",
-      "select_user": "Frenando Suarez",
-      "select_manager": "Leonardo Sanchez",
-      "type_goal": "Mensual",
-      "current_goal": "15.000"
-    },
-    {
-      "select_user": "Carolina Gomez",
-      "select_manager": "Patricia Laña",
-      "type_goal": "Mensual",
-      "current_goal": "20.000",
-      "code": "1024"
-    },
-    {
-      "code": "564564",
-      "select_user": "David Martinez",
-      "select_manager": "Fredy Acosrta",
-      "type_goal": "Mensual",
-      "current_goal": "12.000"
     }
   ]
 }

@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import { createApiStore } from "../services"
+import { createFunction } from "../../../utils/rest_connector"
 import { useNavigate } from 'react-router-dom'
 
 const TextField = styled(TextValidator)(() => ({
@@ -25,7 +25,7 @@ const CreateStores = () => {
     const navigate = useNavigate()
 
     const handleChange = (event) => {
-        event.persist();
+        event.preventDefault()
         setState({ ...state, [event.target.name]: event.target.value });
       };
 
@@ -33,7 +33,7 @@ const CreateStores = () => {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            await createApiStore(state)
+            await createFunction(state)
             navigate('/dashboard/stores')
         } catch (error) {
             console.log(error)
@@ -70,33 +70,33 @@ const CreateStores = () => {
 
                     <TextField
                     type="text"
-                    name="description"
-                    label="Descripción"
+                    name="name"
+                    label="Nombre"
                     onChange={handleChange}
-                    value={state.description || ""}
+                    value={state.name || ""}
                     validators={["required"]}
                     errorMessages={["Este Campo es requerido"]}
                     />
 
                     <TextField
                     type="text"
-                    name="code_location"
-                    label="Codigo Ubicacion"
-                    value={state.code_location || ""}
+                    name="city"
+                    label="Ubicacion"
+                    value={state.city?.name || ""}
                     onChange={handleChange}
                     validators={["required"]}
-                    errorMessages={["Este Campo es requerido", "email is not valid"]}
+                    errorMessages={["Este Campo es requerido"]}
                     />
 
                     <TextField
                     sx={{ mb: 4 }}
                     type="text"
-                    name="detail_location"
-                    label="Detalle de Ubicacion"
+                    name="manager"
+                    label="Manager"
                     onChange={handleChange}
-                    value={state.detail_location || ""}
+                    value={state.manager?.email || ""}
                     errorMessages={["Este Campo es requerido"]}
-                    validators={["required", "minStringLength:4", "maxStringLength: 16"]}
+                    validators={["required"]}
                     />
                 </Grid>
 
