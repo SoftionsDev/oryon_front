@@ -97,14 +97,6 @@
         "code": "0001",
         "email": "manager1@email.com"
       }
-    },
-    {
-      "code": "003",
-      "name": "Sur",
-      "manager": {
-        "code": "0002",
-        "email": "manager2@email.com"
-      }
     }
   ],
   "cities": [
@@ -185,7 +177,7 @@
       "code": "2025",
       "name": "David",
       "last_name": "Fernandez",
-      "charge_code": "1024",
+      "description_charge": "1024",
       "date": "2023-11-29",
       "immediate_boss": "Fredy Acosrta",
       "assigned_point": "Cali",
@@ -200,7 +192,7 @@
       "code": "2026",
       "name": "Santiago",
       "last_name": "Lopez",
-      "charge_code": "1023",
+      "description_charge": "1023",
       "date": "2023-11-29",
       "immediate_boss": "Fredy Acosrta",
       "assigned_point": "Cali",
@@ -212,7 +204,7 @@
       "code": "2027",
       "name": "Fernanado",
       "last_name": "Lopez",
-      "charge_code": "1023",
+      "description_charge": "1023",
       "date": "2023-11-29",
       "immediate_boss": "Fredy Acosrta",
       "assigned_point": "Cali",
@@ -221,22 +213,10 @@
       "role": "Manager"
     },
     {
-      "code": "2028",
-      "name": "Santiago",
-      "last_name": "Lopez",
-      "charge_code": "1023",
-      "date": "2023-11-29",
-      "immediate_boss": "Fredy Acosrta",
-      "assigned_point": "Cali",
-      "email": "fredy@gmail.com",
-      "password": "123456",
-      "role": "Manager"
-    },
-    {
       "code": "sadfsd",
       "name": "asdfsdf",
       "last_name": "sdfsadf",
-      "charge_code": "1030",
+      "description_charge": "1030",
       "immediate_boss": "Leonardo Sanchez",
       "assigned_point": "Medellin",
       "email": "fredy@gmail.com",
@@ -248,7 +228,7 @@
       "code": "sdfsdaf",
       "name": "asdfasdf",
       "last_name": "asdfasdf",
-      "charge_code": "sdfdsa",
+      "description_charge": "sdfdsa",
       "date": "2023-11-15",
       "immediate_boss": "Leonardo Sanchez",
       "assigned_point": "Medellin",
@@ -257,13 +237,736 @@
       "role": "Manager"
     },
     {
-      "id": 1,
+      "code": 1,
       "role": "SA",
       "name": "Usuario Nuevo",
       "username": "usuario_nuevo",
       "email": "usuario@oryon.com",
       "avatar": "/assets/images/usuario.jpg",
       "age": 25
+    },
+    {
+      "code": "3008",
+      "name": "Juan david",
+      "last_name": "Garcia solorzano",
+      "description_charge": "2109",
+      "immediate_boss": "Griselda Lara",
+      "assigned_point": "Cali",
+      "email": "me@gmail.com",
+      "role": "Colaborador",
+      "password": "123456",
+      "date": "2023-11-10"
+    }
+  ],
+  "products": [
+    {
+      "code": "6031361",
+      "name": "OLIDER JONATHAN SANDOVAL",
+      "description": "CALLE 170",
+      "description_category": "110900",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "ONIX",
+      "price": 76900000
+    },
+    {
+      "code": "3539739",
+      "name": "MILLER ANTONIO ROZO CASTAÑEDA",
+      "description": "AUTONORTE 220",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7366628",
+      "name": "MILLER ANTONIO ROZO CASTAÑEDA",
+      "description": "AUTONORTE 220",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "9296944",
+      "name": "MAICOL ANDRES RESTREPO JIMENEZ",
+      "description": "AV DEL RIO",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "6198067",
+      "name": "MAICOL ANDRES RESTREPO JIMENEZ",
+      "description": "AV DEL RIO",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8002280",
+      "name": "DIALI ABRIL MARTIN",
+      "description": "AVENIDA CHILE",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7382038",
+      "name": "DIALI ABRIL MARTIN",
+      "description": "AVENIDA CHILE",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7378920",
+      "name": "DIALI ABRIL MARTIN",
+      "description": "AVENIDA CHILE",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8337981",
+      "name": "OMAR JAVIER SANTACRUZ PANTOJA",
+      "description": "CAJICA",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7632111",
+      "name": "OMAR JAVIER SANTACRUZ PANTOJA",
+      "description": "CAJICA",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8193141",
+      "name": "OMAR JAVIER SANTACRUZ PANTOJA",
+      "description": "CAJICA",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8193141",
+      "name": "OMAR JAVIER SANTACRUZ PANTOJA",
+      "description": "CAJICA",
+      "description_category": "110625",
+      "category": "Automoviles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": 59990000
+    },
+    {
+      "code": "8192542",
+      "name": "OMAR JAVIER SANTACRUZ PANTOJA",
+      "description": "CAJICA",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8337981",
+      "name": "OMAR JAVIER SANTACRUZ PANTOJA",
+      "description": "CAJICA",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8193141",
+      "name": "OMAR JAVIER SANTACRUZ PANTOJA",
+      "description": "CAJICA",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7572972",
+      "name": "OLIDER JONATHAN SANDOVAL",
+      "description": "CALLE 170",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "5969547",
+      "name": "OLIDER JONATHAN SANDOVAL",
+      "description": "CALLE 170",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "5968595",
+      "name": "OLIDER JONATHAN SANDOVAL",
+      "description": "CALLE 170",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "6017825",
+      "name": "OLIDER JONATHAN SANDOVAL",
+      "description": "CALLE 170",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7218113",
+      "name": "NAIDY YICELA RUIZ GARCIA",
+      "description": "MORATO",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7333781",
+      "name": "NAIDY YICELA RUIZ GARCIA",
+      "description": "MORATO",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "5854918",
+      "name": "NILSON DARIO SANCHEZ ANGULO",
+      "description": "PUENTE ARANDA",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "3174319",
+      "name": "NILSON DARIO SANCHEZ ANGULO",
+      "description": "PUENTE ARANDA",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "9656144",
+      "name": "SINDY YESENIA VALLEJO MORAN",
+      "description": "SEDE PRINCIPAL",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "1985094",
+      "name": "SHIRLEY VALENCIA CABRALES",
+      "description": "SEDE PRINCIPAL",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "6322731",
+      "name": "CARLOS MARIO GIL RESTREPO",
+      "description": "SEDE PRINCIPAL",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "6393730",
+      "name": "CARLOS MARIO GIL RESTREPO",
+      "description": "SEDE PRINCIPAL",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7636271",
+      "name": "WILLIAM YEPES TORRES",
+      "description": "SEDE PRINCIPAL",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "9635987",
+      "name": "SINDY YESENIA VALLEJO MORAN",
+      "description": "SEDE PRINCIPAL",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "9434356",
+      "name": "CARLOS MARIO GIL RESTREPO",
+      "description": "SEDE PRINCIPAL",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "4284743",
+      "name": "MILLER ANTONIO ROZO CASTA�EDA",
+      "description": "AUTONORTE 220",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7364882",
+      "name": "MILLER ANTONIO ROZO CASTA�EDA",
+      "description": "AUTONORTE 220",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "3276278",
+      "name": "MILLER ANTONIO ROZO CASTA�EDA",
+      "description": "AUTONORTE 220",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7366628",
+      "name": "MILLER ANTONIO ROZO CASTA�EDA",
+      "description": "AUTONORTE 220",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "3166734",
+      "name": "MILLER ANTONIO ROZO CASTA�EDA",
+      "description": "AUTONORTE 220",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "6911262",
+      "name": "WILDER SAIN VILLARREAL ZAMBRANO",
+      "description": "AV LIBERTADORES",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8191228",
+      "name": "DIALI ABRIL MARTIN",
+      "description": "AVENIDA CHILE",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "4258898",
+      "name": "TATIANA MARTIN TORRES",
+      "description": "CALLE 30",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8780928",
+      "name": "TATIANA MARTIN TORRES",
+      "description": "CALLE 30",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "8773269",
+      "name": "TATIANA MARTIN TORRES",
+      "description": "CALLE 30",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "7822363",
+      "name": "NASLY SULEIDY SALAZAR NARVAEZ",
+      "description": "CENTRO MAYOR",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "3908675",
+      "name": "SILVINO VALENCIA GARCIA",
+      "description": "CHIPICHAPE",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "3908675",
+      "name": "SILVINO VALENCIA GARCIA",
+      "description": "CHIPICHAPE",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "5629179",
+      "name": "SILVINO VALENCIA GARCIA",
+      "description": "CHIPICHAPE",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "5046645",
+      "name": "NAIDY YICELA RUIZ GARCIA",
+      "description": "MORATO",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "502290",
+      "name": "NAIDY YICELA RUIZ GARCIA",
+      "description": "MORATO",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "328261",
+      "name": "NAIDY YICELA RUIZ GARCIA",
+      "description": "MORATO",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "3184646",
+      "name": "NILSON DARIO SANCHEZ ANGULO",
+      "description": "PUENTE ARANDA",
+      "description_category": "110625",
+      "category": "Autom�viles",
+      "brand": "CHEVROLET",
+      "brand_description": "JOY",
+      "price": "59990000"
+    },
+    {
+      "code": "XYVf4H5"
+    },
+    {
+      "code": "vpzLGou"
+    },
+    {
+      "code": "e8hVd-9"
+    }
+  ],
+  "comercials": [
+    {
+      "code": "001",
+      "email": "prueba@email.com",
+      "user": "",
+      "manager": "Calos",
+      "asigned_point": "cucuta",
+      "type_goal": "15.000.000",
+      "current_goal": "20.000.000"
+    },
+    {
+      "code": "654654",
+      "email": "4546@gmail.com",
+      "user": "Carolina Gomez",
+      "manager": "Paola Gutierres",
+      "asigned_point": "vitrica 53",
+      "current_goal": "654654654",
+      "type_goal": "Mensual"
+    },
+    {
+      "code": "564654",
+      "email": "le@gmail.com",
+      "user": "Carolina Gomez",
+      "manager": "Fredy Acosrta",
+      "asigned_point": "asdgfsdf",
+      "current_goal": "5646546",
+      "type_goal": "Anual"
+    },
+    {
+      "code": "gfhjfhgj",
+      "email": "le@gmail.comhgfjfghj",
+      "user": "Frenando Suarez",
+      "manager": "Paola Gutierres",
+      "asigned_point": "jfghjgfhjfghj",
+      "current_goal": "456456456",
+      "type_goal": "Diario"
+    }
+  ],
+  "sales": [
+    {
+      "code": "6031361",
+      "name_comercial": "EDWIN JHON GAITAN LEON",
+      "store": "CALLE 170",
+      "sale": "110900",
+      "product": "ONIX",
+      "date": "01/01/2023",
+      "sale_value": "76900000"
+    },
+    {
+      "code": "3539739",
+      "name_comercial": "DUVAN ALVAREZ ZAMBRANO",
+      "store": "AUTONORTE 220",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/08/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "7366628",
+      "name_comercial": "DEISON ANDERSON CORAL GOMEZ",
+      "store": "AUTONORTE 220",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/15/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "9296944",
+      "name_comercial": "GUILLERMO LAGUNA GIRALDO",
+      "store": "AV DEL RIO",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "6198067",
+      "name_comercial": "HERNAN RICARDO LEON DIAZ",
+      "store": "AV DEL RIO",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "8002280",
+      "name_comercial": "DULFARI VIVIANA DIAZ HERNANDEZ",
+      "store": "AVENIDA CHILE",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/22/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "7382038",
+      "name_comercial": "EDGAR AUGUSTO DIAZ TORO",
+      "store": "AVENIDA CHILE",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/08/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "7378920",
+      "name_comercial": "EDGAR ANTONIO DIAZ ROMERO",
+      "store": "AVENIDA CHILE",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/29/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "8337981",
+      "name_comercial": "ELIZABETH GAMEZ GORDILLO",
+      "store": "CAJICA",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/15/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "7632111",
+      "name_comercial": "EDY YAZMIN GAITAN MACABARE",
+      "store": "CAJICA",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "8193141",
+      "name_comercial": "ELKIN DANIEL GARCIA CARDENAS",
+      "store": "CAJICA",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "8193141",
+      "name_comercial": "ELKIN DANIEL GARCIA CARDENAS",
+      "store": "CAJICA",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "8192542",
+      "name_comercial": "ELISENIA GAITAN TREJOS",
+      "store": "CAJICA",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/08/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "8337981",
+      "name_comercial": "ELIZABETH GAMEZ GORDILLO",
+      "store": "CAJICA",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/15/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "8193141",
+      "name_comercial": "ELKIN DANIEL GARCIA CARDENAS",
+      "store": "CAJICA",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/22/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "7572972",
+      "name_comercial": "EDIXON YARLEY FLOREZ GONZALEZ",
+      "store": "CALLE 170",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "5969547",
+      "name_comercial": "EDUAR FONTECHA YUNDA",
+      "store": "CALLE 170",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "5968595",
+      "name_comercial": "EDUAN YOBANI FLOREZ TORRES",
+      "store": "CALLE 170",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "6017825",
+      "name_comercial": "EDWIN ISRAEL GAITAN GAITAN",
+      "store": "CALLE 170",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
+    },
+    {
+      "code": "7218113",
+      "name_comercial": "ARLEY BABATIVA GARCIA",
+      "store": "MORATO",
+      "sale": "110625",
+      "product": "JOY",
+      "date": "01/01/2023",
+      "sale_value": "59990000"
     }
   ]
 }

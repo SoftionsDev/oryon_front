@@ -14,7 +14,7 @@ export const navigations = [
       {
         name: "Submenu",
         path: "/dashboard/analytics",
-        iconText: "A"
+        icon: "keyboard_arrow_right"
       },
       {
         name: "Submenu2",
@@ -26,20 +26,21 @@ export const navigations = [
   {
     name: "Equipo comercial",
     icon: "person",
-
+    path: "/dashboard/comercial",
     children: [
       {
-        name: "Submenu",
-        path: "/dashboard/analytics",
-        iconText: "A"
+        name: "Registrar Colaborador",
+        path: "/dashboard/comercial",
+        icon: "keyboard_arrow_right"
       },
       {
-        name: "Submenu2",
-        path: "/dashboard/sales",
-        iconText: "S",
+        name: "Colaboradores",
+        path: '/dashboard/userComercial',
+        icon: "keyboard_arrow_right",
       }
     ]
   },
+
   {
     name: "Puntos de venta",
     icon: "house",
@@ -48,70 +49,34 @@ export const navigations = [
       {
         name: "Tiendas",
         path: "/dashboard/stores",
-        iconText: "A"
+        icon: "keyboard_arrow_right"
       },
       {
         name: "Regiones",
         path: "/dashboard/stores/regions",
-        iconText: "A"
+        icon: "keyboard_arrow_right"
       },
       {
         name: "Ciudades",
         path: "/dashboard/stores/cities",
-        iconText: "S",
+        icon: "keyboard_arrow_right",
       }
     ]
   },
   {
     name: "Productos",
     icon: "article",
-
-    children: [
-      {
-        name: "Submenu",
-        path: "/dashboard/analytics",
-        iconText: "A"
-      },
-      {
-        name: "Submenu2",
-        path: "/dashboard/sales",
-        iconText: "S",
-      }
-    ]
+    path: '/dashboard/listProducts'
   },
   {
     name: "Maestro de ventas",
     icon: "shop",
-
-    children: [
-      {
-        name: "Submenu",
-        path: "/dashboard/analytics",
-        iconText: "A"
-      },
-      {
-        name: "Submenu2",
-        path: "/dashboard/sales",
-        iconText: "S",
-      }
-    ]
+    path: '/dashboard/menuSale'
   },
   {
     name: "Indicadores",
     icon: "light",
-
-    children: [
-      {
-        name: "Submenu",
-        path: "/dashboard/analytics",
-        iconText: "A"
-      },
-      {
-        name: "Submenu2",
-        path: "/dashboard/sales",
-        iconText: "S",
-      }
-    ]
+    path: '/dashboard/indicatorSale',
   },
 
   { label: 'Seguridad', type: 'label' },
@@ -139,12 +104,21 @@ export const navigations = [
   {
     name: 'Sesion/autenticacion',
     icon: 'security',
+    path: '/dashboard/default',
     children: [
-      { name: 'Registrar usuario', iconText: 'SU', path: '/dashboard/new-user' },
-      { name: 'Usuarios', iconText: 'FP', path: '/dashboard/list-user' },
+      {
+        name: 'Registrar usuario',
+        icon: 'person_add',
+        path: '/dashboard/createUser'
+      },
+      {
+        name: 'Usuarios',
+        icon: 'person',
+        path: '/dashboard/listUser'
+      }
 
-    ],
-  },
+    ]
+  }
 
 ];
 
@@ -195,6 +169,6 @@ export const navigationsCollaborator = [
       }
     ]
   },
-  
+
 ]
 

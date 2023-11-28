@@ -14,8 +14,12 @@ import {
 } from '@mui/material';
 import { Span } from 'app/components/Typography';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
-import { createApiComercial } from '../comercialComponents/servicesComercial';
 import { useNavigate } from 'react-router-dom';
+import { createFunction } from 'app/utils/rest_connector';
+import { API_URL } from '../../../../constants';
+
+
+const SERVICE = process.env.REACT_APP_COMERCIALS_SERVICE || 'comercials';
 
 const TextField = styled(TextValidator)(() => ({
   width: '100%',
@@ -23,23 +27,23 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 const RegisterComercial = () => {
-  const [state, setState] = useState({});
+  const [comercial, setComercial] = useState({});
   const [hasError, setHasError] = useState(false);
-  
+  const [ setRefresh] = useState(false)
   const navigate = useNavigate();
 
   const handleChange = (event) => {
     event.preventDefault();
-    setState({ ...state, [event.target.name]: event.target.value });
-    console.log(state)
+    setComercial({ ...comercial, [event.target.name]: event.target.value });
+    console.log(comercial);
   };
 
   const handleSubmit = async (event) => {
-    event.preventDefault();
+    event.preventDefault()
     try {
-      await createApiComercial(state);
-      navigate('/dashboard/user-comercial');
-      
+      await createFunction(API_URL, SERVICE, comercial)
+      navigate('/dashboard/userComercial');
+      setRefresh(true)
     } catch (error) {
       console.log(error);
       setHasError(true);
@@ -62,11 +66,20 @@ const RegisterComercial = () => {
         <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
           <Grid container spacing={6}>
             <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-            <TextField
+              <TextField
                 type="text"
                 name="code"
-                value={state.code || ''}
+                value={comercial.code || ''}
                 label="Codigo de usuario"
+                onChange={handleChange}
+                validators={['required']}
+                errorMessages={['Este Campo es requerido']}
+              />
+              <TextField
+                type="text"
+                name="email"
+                value={comercial.email || ''}
+                label="Correo electronico"
                 onChange={handleChange}
                 validators={['required']}
                 errorMessages={['Este Campo es requerido']}
@@ -75,9 +88,9 @@ const RegisterComercial = () => {
                 <InputLabel id="demo-simple-select-label">Selecionar usuario</InputLabel>
                 <Select
                   type="text"
-                  name="select_user"
+                  name="user"
                   id="standart basic"
-                  value={state.select_user || ''}
+                  value={comercial.user || ''}
                   label="Selecionar usuario"
                   onChange={handleChange}
                   validators={['required']}
@@ -97,9 +110,9 @@ const RegisterComercial = () => {
                 <InputLabel id="demo-simple-select-label">Selecionar manager</InputLabel>
                 <Select
                   type="text"
-                  name="select_manager"
+                  name="manager"
                   id="standart basic"
-                  value={state.select_manager || ''}
+                  value={comercial.manager || ''}
                   label="Selecionar manager"
                   onChange={handleChange}
                   validators={['required']}
@@ -114,6 +127,28 @@ const RegisterComercial = () => {
                 </Select>
               </FormControl>
               <p />
+              <TextField
+                type="text"
+                name="asigned_point"
+                value={comercial.asigned_point || ''}
+                label="Punto asignado"
+                onChange={handleChange}
+                validators={['required']}
+                errorMessages={['Este Campo es requerido']}
+              />
+              <p />
+            </Grid>
+
+            <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
+              <TextField
+                type="number"
+                name="current_goal"
+                value={comercial.current_goal || ''}
+                label="Establecer Meta"
+                onChange={handleChange}
+                validators={['required']}
+                errorMessages={['Este Campo es requerido']}
+              />
 
               <FormControl fullWidth>
                 <InputLabel id="demo-simple-select-label">Definir meta</InputLabel>
@@ -121,8 +156,8 @@ const RegisterComercial = () => {
                   type="text"
                   name="type_goal"
                   id="standart basic"
-                  value={state.type_goal || ''}
-                  label="Dfinir meta"
+                  value={comercial.type_goal || ''}
+                  label="Definir meta"
                   onChange={handleChange}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
@@ -132,19 +167,6 @@ const RegisterComercial = () => {
                   <MenuItem value={'Anual'}>Anual</MenuItem>
                 </Select>
               </FormControl>
-              <p />
-            </Grid>
-
-            <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-              <TextField
-                type="number"
-                name="current_goal"
-                value={state.current_goal || ''}
-                label="Establecer Meta"
-                onChange={handleChange}
-                validators={['required']}
-                errorMessages={['Este Campo es requerido']}
-              />
             </Grid>
           </Grid>
 
