@@ -1,0 +1,269 @@
+{
+  "stores": [
+    {
+      "code": "001",
+      "name": "Store 1",
+      "city": {
+        "code": "001",
+        "name": "City 1"
+      },
+      "manager": {
+        "code": "001",
+        "email": "manager1@email.com"
+      }
+    },
+    {
+      "code": "002",
+      "name": "Store 2",
+      "city": {
+        "code": "002",
+        "name": "City 2"
+      },
+      "manager": {
+        "code": "002",
+        "email": "manager2@email.com"
+      }
+    },
+    {
+      "code": "003",
+      "name": "Store 3",
+      "city": {
+        "code": "003",
+        "name": "City 3"
+      },
+      "manager": {
+        "code": "003",
+        "email": "manager3@email.com"
+      }
+    },
+    {
+      "code": "004",
+      "name": "Store 4",
+      "city": {
+        "code": "004",
+        "name": "City 4"
+      },
+      "manager": {
+        "code": "004",
+        "email": "manager4@email.com"
+      }
+    },
+    {
+      "code": "005",
+      "name": "Store 5",
+      "city": {
+        "code": "005",
+        "name": "City 5"
+      },
+      "manager": {
+        "code": "005",
+        "email": "manager5@email.com"
+      }
+    },
+    {
+      "code": "006",
+      "name": "Store 6",
+      "city": {
+        "code": "006",
+        "name": "City 6"
+      },
+      "manager": {
+        "code": "006",
+        "email": "manager6@email.com"
+      }
+    }
+  ],
+  "regions": [
+    {
+      "code": "004",
+      "name": "Central",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      }
+    },
+    {
+      "code": "002",
+      "name": "Oriental",
+      "manager": {
+        "code": "0002",
+        "email": "manager2@email.com"
+      }
+    },
+    {
+      "code": "001",
+      "name": "Norte",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      }
+    },
+    {
+      "code": "003",
+      "name": "Sur",
+      "manager": {
+        "code": "0002",
+        "email": "manager2@email.com"
+      }
+    }
+  ],
+  "cities": [
+    {
+      "code": "0001",
+      "name": "City 1",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      },
+      "region": {
+        "code": "0001",
+        "name": "Region 1"
+      }
+    },
+    {
+      "code": "0002",
+      "name": "City 2",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      },
+      "region": {
+        "code": "0001",
+        "name": "Region 1"
+      }
+    },
+    {
+      "code": "0003",
+      "name": "City 3",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      },
+      "region": {
+        "code": "0001",
+        "name": "Region 1"
+      }
+    },
+    {
+      "code": "0004",
+      "name": "City 4",
+      "manager": {
+        "code": "0001",
+        "email": "manager1@email.com"
+      },
+      "region": {
+        "code": "0001",
+        "name": "Region 1"
+      }
+    },
+    {
+      "code": "0005",
+      "name": "City 5",
+      "region": {
+        "code": "0001",
+        "name": "region1"
+      },
+      "manager": {
+        "code": "0002",
+        "email": "manager2@email.com"
+      }
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "role": "Admin",
+      "name": "Usuario Nuevo",
+      "username": "usuario_nuevo",
+      "email": "usuario@oryon.com",
+      "password": "usuarioroot",
+      "avatar": "/assets/images/usuario.jpg",
+      "age": 25
+    },
+    {
+      "id": 2,
+      "code": "2025",
+      "name": "David",
+      "last_name": "Fernandez",
+      "charge_code": "1024",
+      "date": "2023-11-29",
+      "immediate_boss": "Fredy Acosrta",
+      "assigned_point": "Cali",
+      "email": "fredy@gmail.com",
+      "password": "123456",
+      "role": "Manager",
+      "username": "usuario test",
+      "avatar": "/assets/images/usuario.jpg",
+      "age": 25
+    },
+    {
+      "code": "2026",
+      "name": "Santiago",
+      "last_name": "Lopez",
+      "charge_code": "1023",
+      "date": "2023-11-29",
+      "immediate_boss": "Fredy Acosrta",
+      "assigned_point": "Cali",
+      "email": "santiago@gmail.com",
+      "password": "123456",
+      "role": "Manager"
+    },
+    {
+      "code": "2027",
+      "name": "Fernanado",
+      "last_name": "Lopez",
+      "charge_code": "1023",
+      "date": "2023-11-29",
+      "immediate_boss": "Fredy Acosrta",
+      "assigned_point": "Cali",
+      "email": "fernando  @gmail.com",
+      "password": "123456",
+      "role": "Manager"
+    },
+    {
+      "code": "2028",
+      "name": "Santiago",
+      "last_name": "Lopez",
+      "charge_code": "1023",
+      "date": "2023-11-29",
+      "immediate_boss": "Fredy Acosrta",
+      "assigned_point": "Cali",
+      "email": "fredy@gmail.com",
+      "password": "123456",
+      "role": "Manager"
+    },
+    {
+      "code": "sadfsd",
+      "name": "asdfsdf",
+      "last_name": "sdfsadf",
+      "charge_code": "1030",
+      "immediate_boss": "Leonardo Sanchez",
+      "assigned_point": "Medellin",
+      "email": "fredy@gmail.com",
+      "role": "Colaborador",
+      "date": "2023-11-06",
+      "password": "asdfsadf"
+    },
+    {
+      "code": "sdfsdaf",
+      "name": "asdfasdf",
+      "last_name": "asdfasdf",
+      "charge_code": "sdfdsa",
+      "date": "2023-11-15",
+      "immediate_boss": "Leonardo Sanchez",
+      "assigned_point": "Medellin",
+      "email": "sdf@gmail.com",
+      "password": "123456",
+      "role": "Manager"
+    },
+    {
+      "id": 1,
+      "role": "SA",
+      "name": "Usuario Nuevo",
+      "username": "usuario_nuevo",
+      "email": "usuario@oryon.com",
+      "avatar": "/assets/images/usuario.jpg",
+      "age": 25
+    }
+  ]
+}

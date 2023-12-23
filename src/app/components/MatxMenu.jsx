@@ -29,6 +29,9 @@ const MatxMenu = (props) => {
     <Fragment>
       <MenuButton onClick={handleClick}>{props.menuButton}</MenuButton>
       <ThemeProvider theme={settings.themes[settings.activeTheme]}>
+        {
+          // ! Menu por cada Rol
+        }
         <Menu
           elevation={8}
           getContentAnchorEl={null}
