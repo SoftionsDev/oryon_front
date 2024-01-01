@@ -13,6 +13,7 @@
     "autosuggest-highlight": "^3.2.0",
     "axios": "^0.24.0",
     "babel-polyfill": "^6.26.0",
+    "bootstrap": "^5.3.2",
     "clsx": "^1.1.1",
     "cross-fetch": "^3.1.4",
     "date-fns": "^2.26.0",
@@ -44,7 +45,8 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts --openssl-legacy-provider build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "ghp": "react-scripts build && gh-pages -d build"
+    "ghp": "react-scripts build && gh-pages -d build",
+    "winBuild": "set \"GENERATE_SOURCEMAP=false\" && react-scripts --openssl-legacy-provider build"
   },
   "eslintConfig": {
     "extends": "react-app"

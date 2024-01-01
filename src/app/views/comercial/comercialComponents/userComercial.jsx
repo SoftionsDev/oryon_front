@@ -57,13 +57,13 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 
-const SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
+const SERVICE = process.env.REACT_APP_COMERCIALS_SERVICE || 'comercials'
 
 
-function Users() {
+function Comercials() {
 
-    const [users, setUsers] = useState([]);
-    const [user, setUser] = useState({});
+    const [comercials, setComercials] = useState([]);
+    const [comercial, setComercial] = useState({});
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
@@ -73,13 +73,12 @@ function Users() {
         const transformed_data = data.map((item) => {
             return {
                 code: item.code,
-                name: item.name,
-                last_name: item.last_name,
-                description_charge: item.description_charge,
-                date: item.date,
-                immediate_boss: item.immediate_boss,
-                assigned_point: item.assigned_point,
-                role: item.role
+                email: item.email,
+                user: item.user,
+                manager: item.manager,
+                asigned_point: item.asigned_point,
+                type_goal: item.type_goal,
+                current_goal: item.current_goal
             }
         })
         return transformed_data
@@ -88,7 +87,7 @@ function Users() {
     useEffect(() => {
         setError(false)
         handleGetInfo(
-            getFunction, API_URL, SERVICE, transformObject, setUsers, setError
+            getFunction, API_URL, SERVICE, transformObject, setComercials, setError
         )
     }, [refresh])
 
@@ -99,7 +98,7 @@ function Users() {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            await createFunction(API_URL, SERVICE, user)
+            await createFunction(API_URL, SERVICE, comercial)
             setRefresh(true)
             handleClose()
         } catch (error) {
@@ -112,7 +111,7 @@ function Users() {
     const handleChange = (event) => {
         event.preventDefault()
         const {name, value} = event.target
-        setUser((prevRegion) => {
+        setComercial((prevRegion) => {
             const updatedRegion = {...prevRegion, [name]: value}
             if (name === 'manager') {
                 const selectedManager = managers.find(item => item.email === value)
@@ -140,13 +139,12 @@ function Users() {
 
     const columnNames = [
         "Codigo de usuario",
-        "Nomres",
-        "Apellidos",
-        "Descripcion cargo",
-        "Fecha de ingreso",
-        "Jefe inmediato",
-        "Punto de venta asignado",
-        "Rol"
+        "Email",
+        "Colaborador",
+        "Manager",
+        "Tineda asignada",
+        "Tipo de meta",
+        "Meta actual"
     ]
     
 
@@ -181,7 +179,7 @@ function Users() {
                                         type="text"
                                         name="code"
                                         id="standard-basic"
-                                        value={user.code || ""}
+                                        value={comercial.code || ""}
                                         onChange={handleChange}
                                         errorMessages={["Este Campo es requerido"]}
                                         label="Codigo de region"
@@ -194,7 +192,7 @@ function Users() {
                                         name="name"
                                         label="Nombre de la Region"
                                         onChange={handleChange}
-                                        value={user.name || ""}
+                                        value={comercial.name || ""}
                                         validators={["required"]}
                                         errorMessages={["Este Campo es requerido"]}
                                         />
@@ -204,7 +202,7 @@ function Users() {
                                             id="manager"
                                             name="manager"
                                             label="example@email.com"
-                                            value={user.manager?.email || ""}
+                                            value={comercial.manager?.email || ""}
                                             onChange={handleChange}
                                         >
                                             {
@@ -227,7 +225,7 @@ function Users() {
                 <PaginatedTable props={
                     {
                         columnNames: columnNames,
-                        items: users,
+                        items: comercials,
                         actions: [
                             {
                                 icon: "delete",
@@ -243,4 +241,4 @@ function Users() {
     )
 }
 
-export default Users
+export default Comercials

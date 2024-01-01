@@ -4,12 +4,13 @@ import { SimpleCard } from 'app/components';
 import { Button, Grid, Icon, styled, Alert, AlertTitle } from '@mui/material';
 import { Span } from 'app/components/Typography';
 import { TextValidator, ValidatorForm } from 'react-material-ui-form-validator';
-import { createApiUser } from '../componentsUser/servicesUser';
 import { useNavigate } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import * as Yup from 'yup';
+import { createFunction } from 'app/utils/rest_connector';
+import { API_URL } from "../../../../constants"
 
 const TextField = styled(TextValidator)(() => ({
   width: '100%',
@@ -23,24 +24,30 @@ const validationSchema = Yup.object().shape({
   email: Yup.string().email('Invalid Email address').required('Email is required!'),
 });
 
+const SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
+
 const CreateUsers = () => {
-  const [state, setState] = useState({});
+  const [user, setUser] = useState({});
   const navigate = useNavigate();
   const [hasError, setHasError] = useState(false);
+  const [setRefresh] = useState(false)
+  
 
   const handleChange = (event) => {
     event.preventDefault();
-    setState({ ...state, [event.target.name]: event.target.value });
+    setUser({ ...user, [event.target.name]: event.target.value });
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await createApiUser(state);
-      navigate('/dashboard/list-user');
+      await createFunction(API_URL, SERVICE, user);
+      navigate('/dashboard/listUser');
+      setRefresh(true)
     } catch (error) {
       console.log(error);
       setHasError(true);
+      
     }
   };
   const handleError = (event) => {
@@ -68,7 +75,7 @@ const CreateUsers = () => {
                 type="text"
                 name="code"
                 id="standard-basic"
-                value={state.code || ''}
+                value={user.code || ''}
                 onChange={handleChange}
                 errorMessages={['Este Campo es requerido']}
                 label="Codigo de usuario"
@@ -80,7 +87,7 @@ const CreateUsers = () => {
                 name="name"
                 label="Nombre"
                 onChange={handleChange}
-                value={state.name || ''}
+                value={user.name || ''}
                 validators={['required']}
                 errorMessages={['Este Campo es requerido']}
               />
@@ -89,7 +96,7 @@ const CreateUsers = () => {
                 type="text"
                 name="last_name"
                 label="Apellidos"
-                value={state.last_name || ''}
+                value={user.last_name || ''}
                 onChange={handleChange}
                 validators={['required']}
                 errorMessages={['Este Campo es requerido', 'email is not valid']}
@@ -98,9 +105,9 @@ const CreateUsers = () => {
               <TextField
                 sx={{ mb: 4 }}
                 type="text"
-                name="charge_code"
+                name="description_charge"
                 label="Codigo de cargo"
-                value={state.charge_code || ''}
+                value={user.description_charge || ''}
                 onChange={handleChange}
                 errorMessages={['Este Campo es requerido']}
                 validators={['required', 'minStringLength:4', 'maxStringLength: 16']}
@@ -109,7 +116,7 @@ const CreateUsers = () => {
               <TextField
                 type="date"
                 name="date"
-                value={state.date || ''}
+                value={user.date || ''}
                 onChange={handleChange}
                 errorMessages={['Este Campo es requerido']}
                 validators={['required', 'minStringLength:4', 'maxStringLength: 16']}
@@ -121,7 +128,7 @@ const CreateUsers = () => {
                   type="text"
                   name="immediate_boss"
                   id="standart basic"
-                  value={state.immediate_boss || ''}
+                  value={user.immediate_boss || ''}
                   label="Jefe inmediato"
                   onChange={handleChange}
                   validators={['required']}
@@ -144,7 +151,7 @@ const CreateUsers = () => {
                   type="text"
                   name="assigned_point"
                   id="standart basic"
-                  value={state.assigned_point}
+                  value={user.assigned_point}
                   label="Punto asignado"
                   onChange={handleChange}
                   validators={['required']}
@@ -159,7 +166,7 @@ const CreateUsers = () => {
               <TextField
                 type="text"
                 name="email"
-                value={state.email || ''}
+                value={user.email || ''}
                 label="Email"
                 onChange={handleChange}
                 validators={['required']}
@@ -168,7 +175,7 @@ const CreateUsers = () => {
               <TextField
                 type="password"
                 name="password"
-                value={state.password || ''}
+                value={user.password || ''}
                 label="Contraseña"
                 onChange={handleChange}
                 validators={['required']}
@@ -179,9 +186,9 @@ const CreateUsers = () => {
                 <InputLabel id="demo-simple-select-label">Rol</InputLabel>
                 <Select
                   type="text"
-                  name="rol"
+                  name="role"
                   id="standart basic"
-                  value={state.rol || ''}
+                  value={user.role || ''}
                   label="Rol"
                   onChange={handleChange}
                 >

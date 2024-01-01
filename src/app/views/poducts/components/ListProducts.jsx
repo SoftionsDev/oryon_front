@@ -5,6 +5,7 @@ import { getFunction, deleteFunction } from '../../../utils/rest_connector';
 import { handleGetInfo, handleDelete } from '../../../utils/utils';
 import { API_URL } from '../../../../constants';
 import axios from 'axios';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -15,10 +16,21 @@ const Container = styled('div')(({ theme }) => ({
   },
 }));
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  margin: theme.spacing(1),
-}));
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
+const StyledButton = styled(Button)(({ theme }) => ({
+  margin: theme.spacing(0),
+}));
 
 const initialValues = {
   archive: null,
@@ -26,26 +38,22 @@ const initialValues = {
   archiveUrl: '',
 };
 
-const SERVICE = process.env.REACT_APP_SALES_SERVICE || 'sales';
+const SERVICE = process.env.REACT_APP_PRODUCTS_SERVICE || 'products';
 
-function Sales() {
-  const [sales, setSales] = useState([]);
+function Products() {
+  const [products, setProducts] = useState([]);
   const [hasError, setError] = useState(false);
   const [archive, setArchive] = useState(initialValues);
 
   const [refresh, setRefresh] = useState(false);
 
-
   const transformObject = (data) => {
     const transformed_data = data.map((item) => {
       return {
-        code: item.code,
-        name_comercial: item.name_comercial,
-        store: item.store,
-        sale: item.sale,
-        product: item.product,
-        date: item.date,
-        sale_value: item.sale_value,
+        name: item.name,
+        brand: item.brand,
+        category: item.category,
+        price: item.price,
       };
     });
     return transformed_data;
@@ -53,36 +61,28 @@ function Sales() {
 
   useEffect(() => {
     setError(false);
-    handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setSales, setError);
-  }, [refresh]);
+    handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setProducts, setError);
+  }, [refresh])
 
   const performDelete = async (item) => {
-    handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError);
-  };
+    handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+  }
 
-  const columnNames = [
-    'ID Comercial',
-    'Nombre del comercial',
-    'Tienda',
-    'Venta',
-    'Producto',
-    'Fecha de venta',
-    'valor de venta',
-  ];
+  const columnNames = ['Nombre', 'Marca', 'Categoria', 'Valor'];
 
   const fileSelectHandler = (e) => {
     setArchive({
       archive: e.target.files[0],
       archiveNme: e.target.files[0].name,
     });
-  };
+  }
 
   const onSubmit = (e) => {
     e.preventDefault();
     const fd = new FormData();
     fd.append('file', archive.archive, archive.archiveName);
     axios.post('http://localhost:3001/products');
-  };
+  }
 
   return (
     <Container>
@@ -96,16 +96,24 @@ function Sales() {
         <Grid item xs={12} md={12} />
         <Grid item xs={0} md={0}>
           <StyledButton variant="contained" color="primary" onClick={onSubmit}>
-            Cargar productos
+            Cargar lista de productos
           </StyledButton>
           <p />
-          <input type="file" id="archive" onChange={fileSelectHandler} onClick={onSubmit}/>
+          <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
+            Seleccionar CSV
+            <VisuallyHiddenInput
+              type="file"
+              id="archive"
+              accept=".csv,.json"
+              onChange={fileSelectHandler}
+            />
+          </Button>
           <p />
         </Grid>
         <PaginatedTable
           props={{
             columnNames: columnNames,
-            items: sales,
+            items: products,
             actions: [
               {
                 icon: 'delete',
@@ -120,4 +128,4 @@ function Sales() {
   );
 }
 
-export default Sales;
+export default Products;
