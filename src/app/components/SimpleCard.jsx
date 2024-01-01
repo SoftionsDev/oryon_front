@@ -17,7 +17,7 @@ const SimpleCard = ({ children, title, subtitle, icon }) => {
   return (
     <CardRoot elevation={6}>
       <CardTitle subtitle={subtitle}>{title}</CardTitle>
-      {subtitle && <Box sx={{ mb: 2 }}>{subtitle}</Box>}
+      {subtitle && <Box sx={{ mb: 2}}>{subtitle}</Box>}
       {children}
     </CardRoot>
   );

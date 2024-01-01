@@ -69,6 +69,25 @@ export const navigations = [
     path: '/dashboard/listProducts'
   },
   {
+    name: "Motor de reglas (BRM)",
+    icon: "perm_data_setting",
+    path: '/dashboard/rulesCreate',
+  
+    children: [
+      {
+        name: "Crear Regla",
+        path: "/dashboard/rulesCreate",
+        icon: "keyboard_arrow_right"
+      },
+      {
+        name: "Lista reglas",
+        path: '/dashboard/rulesList',
+        icon: "keyboard_arrow_right",
+      }
+    ]
+  },
+
+  {
     name: "Maestro de ventas",
     icon: "shop",
     path: '/dashboard/menuSale'
@@ -76,7 +95,7 @@ export const navigations = [
   {
     name: "Indicadores",
     icon: "light",
-    path: '/dashboard/indicatorSale',
+    path: "/dashboard/indicatorSale",
   },
 
   { label: 'Seguridad', type: 'label' },
