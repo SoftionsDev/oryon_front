@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Grid, Button, styled, Alert, AlertTitle } from '@mui/material';
+import { Grid, Button, styled, Alert, AlertTitle, Input
+ } from '@mui/material';
 import PaginatedTable from 'app/components/PaginatedTable';
 import { getFunction, deleteFunction } from '../../../utils/rest_connector';
 import { handleGetInfo, handleDelete } from '../../../utils/utils';
 import { API_URL } from '../../../../constants';
 import axios from 'axios';
+
 
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
@@ -99,7 +101,7 @@ function Sales() {
             Cargar productos
           </StyledButton>
           <p />
-          <input type="file" id="archive" onChange={fileSelectHandler} onClick={onSubmit}/>
+          <Input type="file" id="archive" onChange={fileSelectHandler} onClick={onSubmit}/>
           <p />
         </Grid>
         <PaginatedTable

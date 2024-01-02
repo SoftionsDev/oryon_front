@@ -26,7 +26,7 @@ const CreateStores = () => {
 
     const handleChange = (event) => {
         event.preventDefault()
-        setState({ ...state, [event.target.nam]: event.target.value });
+        setState({ ...state, [event.target.name]: event.target.value });
       };
 
 
