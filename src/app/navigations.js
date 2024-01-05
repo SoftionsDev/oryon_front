@@ -9,19 +9,7 @@ export const navigations = [
   {
     name: "Comisiones",
     icon: "wallet",
-
-    children: [
-      {
-        name: "Submenu",
-        path: "/dashboard/analytics",
-        icon: "keyboard_arrow_right"
-      },
-      {
-        name: "Submenu2",
-        path: "/dashboard/sales",
-        iconText: "S",
-      }
-    ]
+    path: '/dashboard/commissionsList'
   },
   {
     name: "Equipo comercial",
@@ -71,7 +59,7 @@ export const navigations = [
   {
     name: "Motor de reglas (BRM)",
     icon: "perm_data_setting",
-    path: '/dashboard/rulesCreate',
+    path: '/dashboard/rulesList',
   
     children: [
       {

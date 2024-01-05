@@ -16,6 +16,7 @@ const ListProducts = Loadable(lazy(() => import('../poducts/components/ListProdu
 const SaleIndicator = Loadable(lazy(() => import('../indicators/SaleIndicator')));
 const CreateRules = Loadable(lazy(() => import('../brmRules/createRules')));
 const ListRules = Loadable(lazy(() => import('../brmRules/listRules')));
+const ListCommissions = Loadable(lazy(() => import('../commissions/listCommissions')));
 
 
 
@@ -36,6 +37,7 @@ const dashboardRoutes = [
   { path: '/dashboard/indicatorSale', element: <SaleIndicator />, auth: authRoles.admin },
   { path: '/dashboard/rulesCreate', element: <CreateRules />, auth: authRoles.admin },
   { path: '/dashboard/rulesList', element: <ListRules />, auth: authRoles.admin },
+  { path: '/dashboard/commissionsList', element: <ListCommissions />, auth: authRoles.admin },
   
   
   
