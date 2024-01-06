@@ -14,15 +14,18 @@ import {
     Divider
   } from "@mui/material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, createFunction, deleteFunction } from 'app/utils/rest_connector'
 import { handleGetInfo, handleDelete } from "../../utils/utils"
 import { API_URL } from "../../../constants"
+import PaginatedTable from "app/components/PaginatedTable";
 
 
 const Container = styled("div")(({ theme }) => ({
     margin: "30px",
-    [theme.breakpoints.down("sm")]: { margin: "16px" },
+    [theme.breakpoints.down("sm")]: { 
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+        margin: "16px" },
     "& .breadcrumb": {
         marginBottom: "30px",
         [theme.breakpoints.down("sm")]: { marginBottom: "16px" },
@@ -57,7 +60,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 
-const SERVICE = process.env.REACT_APP_RULES_SERVICE || 'rules'
+const SERVICE = process.env.REACT_APP_COMMISSIONS_SERVICE || 'commissions'
 
 
 function ListRules() {
@@ -72,21 +75,10 @@ function ListRules() {
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
             return {
-              code: item.code,
-              table1: item.table1,
-              campo1: item.campo1,
-              operatorComp1: item.operatorComp1,
-              valuenumber1: item.valuenumber1,
-              andor1: item.andor1,
-              campo2: item.campo2,
-              operator2: item.operator2,
-              valuenumber2: item.valuenumber2,
-              valuenumber3: item.valuenumber3,
-              table2: item.table2,
-              valueSale2: item.valueSale2,
-              valuenumber4: item.valuenumber4,
-              operator3: item.operator3,
-              campo3: item.campo3
+              id_sale: item.id_sale,
+              value: item.value,
+              comercial: item.comercial,
+              product: item.product,
             }
         })
         return transformed_data
@@ -146,26 +138,17 @@ function ListRules() {
     ]
 
     const columnNames = [
-        "Codigo de usuario",
-        "Email",
-        "Colaborador",
-        "Manager",
-        "Tineda asignada",
-        "Tipo de meta",
-        "Meta actual",
-        "asdas",
-        "asdasDF",
-        "ahfdAS",
-        "afhsdf",
-        "sdjfhsadf",
-        "sipoufiosua",
-        "isahdfiosd",
-        "asidhfjiosadf"
+        "ID de venta",
+        "Valor",
+        "Comercial",
+        "Producto",
+        
     ]
     
 
     return (
         <Container>
+            <div>
             {hasError &&
                 <Alert severity="error">
                     <AlertTitle>Error</AlertTitle>
@@ -253,6 +236,7 @@ function ListRules() {
                 }
                 />
             </Grid>
+            </div>
         </Container>
     )
 }
