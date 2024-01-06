@@ -1027,5 +1027,52 @@
       "operator3": "*",
       "campo3": "sdfsdfsdf"
     }
-  ]
+  ],
+  "fields": {
+    "user": [
+      "code",
+      "email",
+      "user",
+      "manager",
+      "asigned_point",
+      "type_goal",
+      "current_goal"
+    ],
+    "sales": [
+      "code",
+      "name_comercial",
+      "store",
+      "sale",
+      "product",
+      "date",
+      "sale_value"
+    ],
+    "products": [
+      "code",
+      "name",
+      "description",
+      "description_category",
+      "category",
+      "brand",
+      "brand_description",
+      "price"
+    ],
+    "regions": [
+      "code",
+      "name"
+    ],
+    "cities": [
+      "code",
+      "name"
+    ],
+    "stores": [
+      "code",
+      "name",
+      "region",
+      "city",
+      "address",
+      "phone",
+      "email"
+    ]
+  }
 }
