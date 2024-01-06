@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import { SimpleCard } from 'app/components';
-import { Button, Icon, styled, Alert, AlertTitle } from '@mui/material';
+import { Button, Icon, styled, Alert, AlertTitle, Grid } from '@mui/material';
 import { Span } from 'app/components/Typography';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import { useNavigate } from 'react-router-dom';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { createFunction } from 'app/utils/rest_connector';
+import { createFunction, getFunction } from 'app/utils/rest_connector';
 import { API_URL } from "../../../constants"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -26,23 +26,96 @@ const Container = styled('div')(({ theme }) => ({
 
 
 const SERVICE = process.env.REACT_APP_RULES_SERVICE || 'rules'
+const SERVICE_FIELDS = 'fields'
 
 const CreateRules = () => {
-  const [rule, setRule] = useState({});
+  const [rule, setRule] = useState({ name: '', rule: '', percentage: '', formula: '' });
+  const [formula, setFormula] = useState({ operator: '', percentage: '', operator1: '/', percentage1: '100' })
   const navigate = useNavigate();
+  const [fields, setFields] = useState({});
   const [hasError, setHasError] = useState(false);
   const [setRefresh] = useState(false)
 
+  const [ruleGroups, setRuleGroups] = useState([
+    { campo: '', operatorComp: '', valuenumber: '', binaryOperator: '' }
+  ]);
 
-  const handleChange = (event) => {
-    event.preventDefault();
-    setRule({ ...rule, [event.target.name]: event.target.value });
+  useEffect(() => {
+    concatenateValues();
+    const getFields = async () => {
+      try {
+        const availableFields = await getFunction(API_URL, SERVICE_FIELDS)
+        setFields(availableFields)
+      } catch (error) {
+        console.log(error);
+        setHasError(true);
+      }
+    }
+    getFields()
+    console.log(rule);
+  }, [ruleGroups]);
+
+  const handleChange = (event, index) => {
+    const { name, value } = event.target;
+    const updatedGroups = ruleGroups.map((group, i) =>
+      i === index ? { ...group, [name]: value } : group
+    );
+    setRuleGroups(updatedGroups);
+  }
+
+  const handleRuleChange = (event) => {
+    const { name, value } = event.target;
+    setRule({ ...rule, [name]: value });
+    if (name === 'percentage') {
+      setFormula(prevFormula => ({
+        ...prevFormula,
+        percentage: value
+      }));
+    }
+    console.log(rule)
+  };
+
+  const handleFormulaChange = (event) => {
+    const { name, value } = event.target;
+    console.log(name, value);
+    setFormula(prevFormula => ({
+      ...prevFormula,
+      [name]: value
+    }));
+    console.log(formula);
+  };
+
+  const addNewGroup = () => {
+    setRuleGroups([...ruleGroups, { campo: '', operatorComp: '', valuenumber: '', binaryOperator: '' }]);
+  };
+
+  const deleteGroup = (index) => {
+    const updatedGroups = ruleGroups.filter((_, i) => i !== index);
+    setRuleGroups(updatedGroups);
+  };
+
+  const concatenateValues = () => {
+    const ruleParts = ruleGroups.map((group, index) => {
+      let ruleString = `${group.campo} ${group.operatorComp} ${group.valuenumber}`
+      if (index < ruleGroups.length - 1) {
+        ruleString += ` ${group.binaryOperator} ` || '';
+      }
+      return ruleString
+    });
+    const formulaParts =
+      setRule({ ...rule, rule: ruleParts.join(' ') })
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
-      await createFunction(API_URL, SERVICE, rule)
+      const body = {
+        'rule': rule.rule,
+        'name': rule.name,
+        'percentage': rule.percentage,
+        'formula': rule.formula
+      }
+      await createFunction(API_URL, SERVICE, body)
       navigate('/dashboard/rulesList');
       setRefresh(true)
     } catch (error) {
@@ -54,6 +127,10 @@ const CreateRules = () => {
   const handleError = (event) => {
     console.log(event);
     setHasError(true);
+  };
+
+  const hasValues = () => {
+    return ruleGroups.some(group => group.campo || group.operatorComp || group.valuenumber);
   };
 
   return (
@@ -79,196 +156,155 @@ const CreateRules = () => {
           noValidate
           autoComplete="off"
         >
-
           <SimpleCard title="Creacion de reglas BRM">
-            <p />
             <TextField
-              type="text"
-              name="code"
-              id="standard-basic"
-              value={rule.code || ""}
-              onChange={handleChange}
-              label="Regla numero"
-              validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+              label="Nombre"
+              name="name"
+              value={rule.name}
+              onChange={handleRuleChange}
             />
-            <TextField
-              label="table1"
-              name="table1"
-              multiline
-              value={rule.table1 || ''}
-              onChange={handleChange}
-              rows={6}
-              validators={['required']}
-              errorMessages={['Este Campo es requerido']}
+            {ruleGroups.map((group, index) => (
+              <div key={index}>
+                <FormControl fullWidth>
+                  <InputLabel htmlFor={`field-label-${index}`}>Campo</InputLabel>
+                  <Select
+                    native
+                    defaultValue=" "
+                    labelId={`field-label-${index}`}
+                    name={`campo`}
+                    value={group.campo || ''}
+                    onChange={(event) => handleChange(event, index)}
+                  >
+                    <option aria-label="None" value="" />
+                    {Object.keys(fields).map((key) => (
+                      <optgroup key={key} label={key}>
+                        {fields[key].map((value) => (
+                          <option key={value} value={`${key}.${value}`}>{value}</option>
+                        ))}
+                      </optgroup>
+                    ))}
+                  </Select>
+                </FormControl>
 
-            />
-            <TextField
-              label="campo1"
-              name="campo1"
-              multiline
-              value={rule.campo1 || ''}
-              onChange={handleChange}
-              maxRows={4}
-              validators={['required']}
-              errorMessages={['Este Campo es requerido']}
-            />
-            <FormControl autoWidth>
-              <InputLabel id="demo-simple-select-label">Operador</InputLabel>
-              <Select
-                label="operatorComp"
-                name="operatorComp1"
-                multiline
-                value={rule.operatorComp1 || ''}
-                onChange={handleChange}
-                maxRows={4}
-                validators={['required']}
-                errorMessages={['Este Campo es requerido']}
-              >
-                <MenuItem value={'>'}>Menor que</MenuItem>
-                <MenuItem value={'>='}>Menor o igual</MenuItem>
-                <MenuItem value={'<'}>Mayor</MenuItem>
-                <MenuItem value={'<=>'}>Mayor o igual</MenuItem>
-                <MenuItem value={'='}>Igual</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label="valuenumber "
-              name="valuenumber1"
-              multiline
-              value={rule.valuenumber1 || ''}
-              onChange={handleChange}
-              validators={['required']}
-              errorMessages={['Este Campo es requerido']}
+                <FormControl fullWidth>
+                  <InputLabel id={`operator-comp-label-${index}`}>Operador</InputLabel>
+                  <Select
+                    labelId={`operator-comp-label-${index}`}
+                    name={`operatorComp`}
+                    value={group.operatorComp || ''}
+                    onChange={(event) => handleChange(event, index)}
+                  >
+                    <MenuItem value={'<'}>Menor que</MenuItem>
+                    <MenuItem value={'<='}>Menor o igual</MenuItem>
+                    <MenuItem value={'>'}>Mayor</MenuItem>
+                    <MenuItem value={'>='}>Mayor o igual</MenuItem>
+                    <MenuItem value={'='}>Igual</MenuItem>
+                  </Select>
+                </FormControl>
 
-            />
-            <FormControl autoWidth>
-              <InputLabel id="demo-simple-select-label">And/Or</InputLabel>
-              <Select
-                label="andor"
-                name="andor1"
-                multiline
-                value={rule.andor1 || ''}
-                onChange={handleChange}
-                maxRows={4}
-                errorMessages={['Este Campo es requerido']}
-                validators={['required']}
-              >
-                <MenuItem value={'And'}>And</MenuItem>
-                <MenuItem value={'Or'}>Or</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label="Campo DB"
-              name="campo2"
-              value={rule.campo2 || ''}
-              onChange={handleChange}
-              placeholder="Placeholder"
-              multiline
-              maxRows={4}
-              validators={['required']}
-            />
-            <FormControl autoWidth>
-              <InputLabel id="demo-simple-select-label">Operador</InputLabel>
-              <Select
-                label="Jefe inmediato"
-                name="operator2"
-                value={rule.operator2 || ''}
-                onChange={handleChange}
-                multiline
-                maxRows={4}
-                errorMessages={['Este Campo es requerido']}
-                validators={['required']}
-              >
-                <MenuItem value={'>'}>Menor que</MenuItem>
-                <MenuItem value={'>='}>Menor o igual</MenuItem>
-                <MenuItem value={'<'}>Mayor</MenuItem>
-                <MenuItem value={'<=>'}>Mayor o igual</MenuItem>
-                <MenuItem value={'='}>Igual</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label="Valor numerico"
-              name="valuenumber2"
-              value={rule.valuenumber2 || ''}
-              onChange={handleChange}
-              placeholder="Placeholder"
-              multiline
-              validators={['required']}
-            />
+                <TextField
+                  label={`Valor ${index + 1}`}
+                  name={`valuenumber`}
+                  multiline
+                  value={group.valuenumber || ''}
+                  onChange={(event) => handleChange(event, index)}
+                  validators={['required']}
+                  errorMessages={['Este Campo es requerido']}
+                />
+                {ruleGroups.length >= 2 && (
+                  <>
+                    {index < ruleGroups.length - 1 && (
+                      <FormControl fullWidth>
+                        <InputLabel id={`binary-operator-${index}`}>Operador Binario</InputLabel>
+                        <Select
+                          labelId={`binary-operator-${index}`}
+                          name={`binaryOperator`}
+                          value={group.binaryOperator || ''}
+                          onChange={(event) => handleChange(event, index)}
+                        >
+                          <MenuItem value={'AND'}>AND</MenuItem>
+                          <MenuItem value={'OR'}>OR</MenuItem>
+                        </Select>
+                      </FormControl>
+                    )}
+                    <Button
+                      color="error"
+                      variant="contained"
+                      onClick={() => deleteGroup(index)}
+                      style={{ marginTop: '15px', marginRight: index === ruleGroups.length - 1 ? '10px' : '0px' }}
+                    >
+                      -
+                    </Button>
+                  </>
+                )}
+                {index === ruleGroups.length - 1 && (
+                  <Button
+                    color="primary"
+                    variant="contained"
+                    onClick={addNewGroup}
+                    style={{ marginTop: '15px' }}
+                  >
+                    +
+                  </Button>
+                )}
+              </div>
+            ))}
+            {hasValues() && (
+              <Alert severity="info">
+                Regla: {rule.rule}
+              </Alert>
+            )}
           </SimpleCard>
-          <p />
-          <SimpleCard>
-            <TextField
-              label="Tabla campos DB"
-              name="valuenumber3"
-              value={rule.valuenumber3 || ''}
-              onChange={handleChange}
-              multiline
-              rows={6}
-              defaultValue="Default Value"
-              validators={['required']}
-            />
-            <TextField
-              label="Valor de la venta"
-              name="table2"
-              value={rule.table2 || ''}
-              onChange={handleChange}
-              multiline
-              maxRows={4}
-              validators={['required']}
-            />
-            <FormControl autoWidth>
-              <InputLabel id="demo-simple-select-label">Operador logico</InputLabel>
-              <Select
-                label="Jefe inmediato"
-                name="valueSale2"
-                value={rule.valueSale2 || ''}
-                onChange={handleChange}
+          <SimpleCard title="Formulación">
+            <Grid container spacing={2} sx={{ marginBottom: '20px' }}>
+              <TextField
+                label="Porcentaje"
+                name="percentage"
+                value={rule.percentage || ''}
+                onChange={handleRuleChange}
+                type="number"
+              />
+            </Grid>
+            <Grid container spacing={2}>
+              <TextField
+                label={`Valor Venta`}
+                name={`amount`}
+                disabled
+              />
+              <FormControl fullWidth>
+                <InputLabel id={`operator-label`}>Operador</InputLabel>
+                <Select
+                  labelId={`operator-label`}
+                  name={`operator`}
+                  value={formula.operator || ''}
+                  onChange={handleFormulaChange}
+                >
+                  <MenuItem value={'+'}>+</MenuItem>
+                  <MenuItem value={'-'}>-</MenuItem>
+                  <MenuItem value={'*'}>*</MenuItem>
+                  <MenuItem value={'/'}>/</MenuItem>
+                </Select>
+              </FormControl>
+              <TextField
+                label={`Porcentaje`}
+                name={`percentage`}
                 multiline
-                maxRows={4}
-                errorMessages={['Este Campo es requerido']}
-              >
-                <MenuItem value={'+'}>Suma</MenuItem>
-                <MenuItem value={'-'}>Resta</MenuItem>
-                <MenuItem value={'*'}>Multiplicacion</MenuItem>
-                <MenuItem value={'/'}>Division</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label="Campo DB"
-              name="valuenumber4"
-              value={rule.valuenumber4 || ''}
-              onChange={handleChange}
-              placeholder="Placeholder"
-              multiline
-            />
-            <FormControl autoWidth>
-              <InputLabel id="demo-simple-select-label">Operador logico</InputLabel>
-              <Select
-                label="Jefe inmediato"
-                multiline
-                name="operator3"
-                value={rule.operator3 || ''}
-                onChange={handleChange}
-                maxRows={4}
-                errorMessages={['Este Campo es requerido']}
-              >
-                <MenuItem value={'+'}>Suma</MenuItem>
-                <MenuItem value={'-'}>Resta</MenuItem>
-                <MenuItem value={'*'}>Multiplicacion</MenuItem>
-                <MenuItem value={'/'}>Division</MenuItem>
-              </Select>
-            </FormControl>
-            <TextField
-              label="Valor numerico"
-              name="campo3"
-              value={rule.campo3 || ''}
-              onChange={handleChange}
-              placeholder="Placeholder"
-              multiline
-            />
+                value={rule.percentage || ''}
+                disabled
+                onChange={handleFormulaChange}
+              />
+              <TextField
+                disabled
+                value='/'
+                style={{ width: '50px' }}
+              />
+              <TextField
+                disabled
+                value='100'
+                style={{ width: '60px' }}
+              />
+            </Grid>
           </SimpleCard>
-          <p />
         </Box>
       </ValidatorForm>
     </Container >

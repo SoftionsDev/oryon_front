@@ -12,7 +12,7 @@ import {
     InputLabel,
     Typography,
     Divider
-  } from "@mui/material";
+} from "@mui/material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, createFunction, deleteFunction } from 'app/utils/rest_connector'
@@ -32,7 +32,7 @@ const Container = styled("div")(({ theme }) => ({
 const TextField = styled(TextValidator)(() => ({
     width: "100%",
     marginBottom: "16px",
-  }));
+}));
 
 const SelectStyled = styled(Select)(() => ({
     width: "100%",
@@ -41,7 +41,7 @@ const SelectStyled = styled(Select)(() => ({
 
 const StyledButton = styled(Button)(({ theme }) => ({
     margin: theme.spacing(1),
-})); 
+}));
 
 const StyledBox = styled(Box)(({ theme }) => ({
     margin: theme.spacing(1),
@@ -72,21 +72,21 @@ function ListRules() {
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
             return {
-              code: item.code,
-              table1: item.table1,
-              campo1: item.campo1,
-              operatorComp1: item.operatorComp1,
-              valuenumber1: item.valuenumber1,
-              andor1: item.andor1,
-              campo2: item.campo2,
-              operator2: item.operator2,
-              valuenumber2: item.valuenumber2,
-              valuenumber3: item.valuenumber3,
-              table2: item.table2,
-              valueSale2: item.valueSale2,
-              valuenumber4: item.valuenumber4,
-              operator3: item.operator3,
-              campo3: item.campo3
+                code: item.code,
+                table1: item.table1,
+                campo1: item.campo1,
+                operatorComp1: item.operatorComp1,
+                valuenumber1: item.valuenumber1,
+                andor1: item.andor1,
+                campo2: item.campo2,
+                operator2: item.operator2,
+                valuenumber2: item.valuenumber2,
+                valuenumber3: item.valuenumber3,
+                table2: item.table2,
+                valueSale2: item.valueSale2,
+                valuenumber4: item.valuenumber4,
+                operator3: item.operator3,
+                campo3: item.campo3
             }
         })
         return transformed_data
@@ -118,9 +118,9 @@ function ListRules() {
 
     const handleChange = (event) => {
         event.preventDefault()
-        const {name, value} = event.target
+        const { name, value } = event.target
         setComercial((prevRegion) => {
-            const updatedRegion = {...prevRegion, [name]: value}
+            const updatedRegion = { ...prevRegion, [name]: value }
             if (name === 'manager') {
                 const selectedManager = managers.find(item => item.email === value)
                 updatedRegion.manager = selectedManager || null
@@ -162,7 +162,7 @@ function ListRules() {
         "isahdfiosd",
         "asidhfjiosadf"
     ]
-    
+
 
     return (
         <Container>
@@ -173,44 +173,44 @@ function ListRules() {
                 </Alert>
             }
             <Grid container spacing={2}>
-                <Grid item xs={12} md={12}/>
+                <Grid item xs={12} md={12} />
                 <Grid item xs={0} md={0}>
-                   
+
                     <Modal
                         open={open}
                         onClose={handleClose}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
-                    >   
+                    >
                         <StyledBox sx={{ minWidth: 120 }}>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
                                 Agregar Nueva Region
                             </Typography>
-                            <Divider/>
+                            <Divider />
                             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
                                 <Grid container spacing={1}>
                                     <Grid item lg={10} md={9} sm={11} xs={12} sx={{ mt: 3 }}>
                                         <InputLabel id='lbl-code' sx={{ mb: 1 }}>Código</InputLabel>
                                         <TextField
-                                        type="text"
-                                        name="code"
-                                        id="standard-basic"
-                                        value={listRule.code || ""}
-                                        onChange={handleChange}
-                                        errorMessages={["Este Campo es requerido"]}
-                                        label="Codigo de region"
-                                        validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+                                            type="text"
+                                            name="code"
+                                            id="standard-basic"
+                                            value={listRule.code || ""}
+                                            onChange={handleChange}
+                                            errorMessages={["Este Campo es requerido"]}
+                                            label="Codigo de region"
+                                            validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
                                         />
 
                                         <InputLabel id='lbl-name' sx={{ mb: 1 }}>Nombre</InputLabel>
                                         <TextField
-                                        type="text"
-                                        name="name"
-                                        label="Nombre de la Region"
-                                        onChange={handleChange}
-                                        value={listRule.name || ""}
-                                        validators={["required"]}
-                                        errorMessages={["Este Campo es requerido"]}
+                                            type="text"
+                                            name="name"
+                                            label="Nombre de la Region"
+                                            onChange={handleChange}
+                                            value={listRule.name || ""}
+                                            validators={["required"]}
+                                            errorMessages={["Este Campo es requerido"]}
                                         />
 
                                         <InputLabel id='lbl-manager' sx={{ mb: 1 }}>Manager</InputLabel>
@@ -229,7 +229,7 @@ function ListRules() {
                                         </SelectStyled>
                                     </Grid>
                                 </Grid>
-                                <StyledButton 
+                                <StyledButton
                                     variant="contained" color="primary" onClick={handleSubmit}
                                 >
                                     Agregar
