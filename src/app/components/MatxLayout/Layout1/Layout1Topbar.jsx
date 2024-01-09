@@ -97,14 +97,14 @@ const Layout1Topbar = () => {
         </Box>
 
         <Box display="flex" alignItems="center">
-          
+
 
           <MatxMenu
             menuButton={
               <UserMenu>
                 <Hidden xsDown>
                   <Span>
-                    Hola <strong>{user.name}</strong>
+                    Hola <strong>{user.firstName} {user.lastName}</strong>
                   </Span>
                 </Hidden>
                 <Avatar src={user.avatar} sx={{ cursor: 'pointer' }} />

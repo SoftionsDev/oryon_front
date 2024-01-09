@@ -5,6 +5,7 @@ import useSettings from 'app/hooks/useSettings';
 import { navigations, navigationsCollaborator, navigationsManager } from 'app/navigations';
 import { Fragment } from 'react';
 import Scrollbar from 'react-perfect-scrollbar';
+import { ROLES } from '../../constants';
 
 const StyledScrollBar = styled(Scrollbar)(() => ({
   paddingLeft: '1rem',
@@ -51,11 +52,11 @@ const Sidenav = ({ children }) => {
         {
           //! Role Dependent gave you a different navigation
         }
-        {user.role === 'Admin' && <MatxVerticalNav items={navigations} />}
-        {user.role === 'Manager' && <MatxVerticalNav items={navigationsManager} />}
-        {user.role === 'Colaborador ' && <MatxVerticalNav items={navigationsCollaborator} />}
+        {user.groups.includes(ROLES.Admin) && <MatxVerticalNav items={navigations} />}
+        {user.groups.includes(ROLES.Manager) && <MatxVerticalNav items={navigationsManager} />}
+        {user.groups.includes(ROLES.Collaborator) && <MatxVerticalNav items={navigationsCollaborator} />}
 
-       
+
       </StyledScrollBar>
 
       <SideNavMobile onClick={() => updateSidebarMode({ mode: 'close' })} />
