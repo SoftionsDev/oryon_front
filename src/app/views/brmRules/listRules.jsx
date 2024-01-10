@@ -13,10 +13,6 @@ import { API_URL } from "../../../constants"
 import { SimpleCard } from 'app/components';
 
 
-
-
-
-
 const Container = styled("div")(({ theme }) => ({
     margin: "30px",
     [theme.breakpoints.down("sm")]: { margin: "16px" },
@@ -65,7 +61,7 @@ function ListRules() {
         "Nombre",
         "Regla",
         "Porcentaje",
-        "Fehca de creacion"
+        "Fecha de creacion"
     ]
 
 

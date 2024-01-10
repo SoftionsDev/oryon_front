@@ -726,15 +726,6 @@
       "brand": "CHEVROLET",
       "brand_description": "JOY",
       "price": "59990000"
-    },
-    {
-      "code": "XYVf4H5"
-    },
-    {
-      "code": "vpzLGou"
-    },
-    {
-      "code": "e8hVd-9"
     }
   ],
   "comercials": [
@@ -983,6 +974,13 @@
       "formula": "",
       "date": "2024-01-08T19:45Z",
       "code": "a582Xv9"
+    },
+    {
+      "rule": "user.email > sadfasdf",
+      "name": "asdfasd",
+      "percentage": "",
+      "formula": "",
+      "code": "NEcLRAA"
     }
   ],
   "fields": {

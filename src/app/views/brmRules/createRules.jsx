@@ -12,10 +12,6 @@ import { createFunction, getFunction } from 'app/utils/rest_connector';
 import { API_URL } from "../../../constants"
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import axios from 'axios';
-
-
-
 
 
 const Container = styled('div')(({ theme }) => ({
@@ -36,7 +32,6 @@ const CreateRules = () => {
   const [formula, setFormula] = useState({ operator: '', percentage: '', operator1: '/', percentage1: '100' })
   const navigate = useNavigate();
   const [fields, setFields] = useState({});
-  const [fechaExacta, setFechaExacta] = useState(null);
   const [hasError, setHasError] = useState(false);
   const [setRefresh] = useState(false)
 
@@ -57,19 +52,6 @@ const CreateRules = () => {
     getFields();
     console.log(rule);
   }, [ruleGroups]);
-
-  useEffect(() => {
-    const obtenerFechaExacta = async () => {
-      try {
-        const respuesta = await axios.get('http://worldclockapi.com/api/json/utc/now');
-        const { currentDateTime } = respuesta.data;
-        setFechaExacta(currentDateTime);
-      } catch (error) {
-        console.error('Error al obtener la fecha exacta:', error);
-      }
-    };
-    obtenerFechaExacta();
-  }, []);
 
   const handleChange = (event, index) => {
     const { name, value } = event.target;
@@ -324,15 +306,6 @@ const CreateRules = () => {
                   value={formula.percent || '100'}
                   style={{ width: '60px' }}
                   onChange={handleFormulaChange}
-                />
-                <TextField
-                  label="Fecha Exacta"
-                  variant="outlined"
-                  value={fechaExacta || 'Cargando...'}
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
                 />
               </Grid>
             </Grid>
