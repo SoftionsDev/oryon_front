@@ -1,35 +1,18 @@
-import ReactEcharts from 'echarts-for-react';
+import * as React from 'react';
+import { BarChart } from '@mui/icons-material';
 
-const option = {
-  grid: {
-    left: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-  },
-  xAxis: {
-    show: false,
-    type: 'category',
-    showGrid: false,
-    boundaryGap: false,
-  },
-  yAxis: {
-    show: false,
-    type: 'value',
-    splitLine: { show: false },
-  },
-  series: [
-    {
-      data: [25, 18, 20, 30, 40, 43],
-      type: 'line',
-      areaStyle: {},
-      smooth: true,
-    },
-  ],
-};
-
-const SaleIndicator = ({ height, color }) => {
-  return <ReactEcharts style={{ height: height }} option={{ ...option, color: [...color] }} />;
-};
-
-export default SaleIndicator;
+export default function StackBars() {
+  return (
+    <BarChart
+      series={[
+        { data: [3, 4, 1, 6, 5], stack: 'A', label: 'Series A1' },
+        { data: [4, 3, 1, 5, 8], stack: 'A', label: 'Series A2' },
+        { data: [4, 2, 5, 4, 1], stack: 'B', label: 'Series B1' },
+        { data: [2, 8, 1, 3, 1], stack: 'B', label: 'Series B2' },
+        { data: [10, 6, 5, 8, 9], label: 'Series C1' },
+      ]}
+      width={600}
+      height={350}
+    />
+  );
+}
