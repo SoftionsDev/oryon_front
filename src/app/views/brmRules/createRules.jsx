@@ -14,7 +14,6 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
 
-
 const Container = styled('div')(({ theme }) => ({
   margin: '30px',
   [theme.breakpoints.down('sm')]: { margin: '16px' },
@@ -48,10 +47,9 @@ const CreateRules = () => {
         setFields(availableFields)
       } catch (error) {
         console.log(error);
-        setHasError(true);
       }
-    }
-    getFields()
+    };
+    getFields();
     console.log(rule);
   }, [ruleGroups]);
 
@@ -102,8 +100,9 @@ const CreateRules = () => {
       }
       return ruleString
     });
-    const formulaParts =
-      setRule({ ...rule, rule: ruleParts.join(' ') })
+    setRule({ ...rule, rule: ruleParts.join(' ') })
+
+
   };
 
   const handleSubmit = async (event) => {
@@ -254,9 +253,11 @@ const CreateRules = () => {
                 Regla: {rule.rule}
               </Alert>
             )}
+
           </SimpleCard>
+          <p />
           <SimpleCard title="Formulación">
-            <Grid container spacing={2} sx={{ marginBottom: '20px' }}>
+            <Grid container spacing={-1} sx={{ marginBottom: '15px' }}>
               <TextField
                 label="Porcentaje"
                 name="percentage"
@@ -264,45 +265,49 @@ const CreateRules = () => {
                 onChange={handleRuleChange}
                 type="number"
               />
-            </Grid>
-            <Grid container spacing={2}>
-              <TextField
-                label={`Valor Venta`}
-                name={`amount`}
-                disabled
-              />
-              <FormControl fullWidth>
-                <InputLabel id={`operator-label`}>Operador</InputLabel>
-                <Select
-                  labelId={`operator-label`}
-                  name={`operator`}
-                  value={formula.operator || ''}
+              <Grid container spacing={-1}>
+                <TextField
+                  label={`Valor Venta`}
+                  name={`amount`}
+                  disabled
+                />
+                <FormControl fullWidth>
+                  <InputLabel id={`operator-label`}>Operador</InputLabel>
+                  <Select
+                    labelId={`operator-label`}
+                    name={`operator`}
+                    value={formula.operator || ''}
+                    onChange={handleFormulaChange}
+                  >
+                    <MenuItem value={'+'}>+</MenuItem>
+                    <MenuItem value={'-'}>-</MenuItem>
+                    <MenuItem value={'*'}>*</MenuItem>
+                    <MenuItem value={'/'}>/</MenuItem>
+                  </Select>
+                </FormControl>
+                <TextField
+                  label={`Porcentaje`}
+                  name={`percentage`}
+                  multiline
+                  value={rule.percentage || ''}
+                  disabled
                   onChange={handleFormulaChange}
-                >
-                  <MenuItem value={'+'}>+</MenuItem>
-                  <MenuItem value={'-'}>-</MenuItem>
-                  <MenuItem value={'*'}>*</MenuItem>
-                  <MenuItem value={'/'}>/</MenuItem>
-                </Select>
-              </FormControl>
-              <TextField
-                label={`Porcentaje`}
-                name={`percentage`}
-                multiline
-                value={rule.percentage || ''}
-                disabled
-                onChange={handleFormulaChange}
-              />
-              <TextField
-                disabled
-                value='/'
-                style={{ width: '50px' }}
-              />
-              <TextField
-                disabled
-                value='100'
-                style={{ width: '60px' }}
-              />
+                />
+                <TextField
+                  name={`divider`}
+                  disabled
+                  value={formula.divider || '/'}
+                  style={{ width: '50px' }}
+                  onChange={handleFormulaChange}
+                />
+                <TextField
+                  name={`percent`}
+                  disabled
+                  value={formula.percent || '100'}
+                  style={{ width: '60px' }}
+                  onChange={handleFormulaChange}
+                />
+              </Grid>
             </Grid>
           </SimpleCard>
         </Box>

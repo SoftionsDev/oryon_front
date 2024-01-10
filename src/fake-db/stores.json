@@ -726,15 +726,6 @@
       "brand": "CHEVROLET",
       "brand_description": "JOY",
       "price": "59990000"
-    },
-    {
-      "code": "XYVf4H5"
-    },
-    {
-      "code": "vpzLGou"
-    },
-    {
-      "code": "e8hVd-9"
     }
   ],
   "comercials": [
@@ -977,55 +968,19 @@
   ],
   "rules": [
     {
-      "code": "120",
-      "table1": "lsdfhsdfsd",
-      "campo1": "kjsdfkjsdfj",
-      "operatorComp1": "ohsdfjhasdf",
-      "valuenumber1": "klhjsdfhsdf",
-      "andor1": "pñsldfklñjsd",
-      "campo2": "lkshdjjhsdf",
-      "operator2": "ilhsdfjhsdfh",
-      "valuenumber2": "ilhsdfjkhsdfh",
-      "valuenumber3": "shdfjkhsadjfh",
-      "table2": "ijskhdfjkhsdfkj",
-      "valueSale2": "hsdfjkhsdkjfh",
-      "valuenumber4": "ishdfjkhsdfkj",
-      "operator3": "hjsdfkhsdkjfh",
-      "campo3": "lksjdfkjsdlkfj"
+      "rule": "user.asigned_point > sdfdsfsadf",
+      "name": "asdfsad",
+      "percentage": "50",
+      "formula": "",
+      "date": "2024-01-08T19:45Z",
+      "code": "a582Xv9"
     },
     {
-      "code": "dsafsad",
-      "table1": "sdfsdf",
-      "campo1": "sdfsdf",
-      "operatorComp1": "<",
-      "valuenumber1": "sdfsdf",
-      "andor1": "Or",
-      "campo2": "sdfsdf",
-      "operator2": "<=>",
-      "valuenumber2": "fsdfsdf",
-      "valuenumber3": "sdfsdf",
-      "table2": "sdfsdf",
-      "valueSale2": "*",
-      "valuenumber4": "sdfsdf",
-      "operator3": "*",
-      "campo3": "sdfsdfsd"
-    },
-    {
-      "code": "sdafsdf",
-      "table1": "sdfsdf",
-      "campo1": "sdfsdf",
-      "operatorComp1": ">=",
-      "valuenumber1": "sdfsdf",
-      "andor1": "Or",
-      "campo2": "sdfsd",
-      "operator2": ">=",
-      "valuenumber2": "sdfsdf",
-      "valuenumber3": "sdfsdf",
-      "table2": "sdfsdf",
-      "valueSale2": "-",
-      "valuenumber4": "sdfsdf",
-      "operator3": "*",
-      "campo3": "sdfsdfsdf"
+      "rule": "user.email > sadfasdf",
+      "name": "asdfasd",
+      "percentage": "",
+      "formula": "",
+      "code": "NEcLRAA"
     }
   ],
   "fields": {

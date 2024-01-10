@@ -83,7 +83,7 @@ export const navigations = [
   {
     name: "Indicadores",
     icon: "light",
-    path: "/dashboard/indicatorSale",
+    path: '/dashboard/indicatorSale',
   },
 
   { label: 'Seguridad', type: 'label' },
