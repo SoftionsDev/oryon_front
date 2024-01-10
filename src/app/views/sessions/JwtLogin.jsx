@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { Alert } from '@mui/material';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -48,9 +49,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const JwtLogin = () => {
-  
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   const { login } = useAuth();
 
@@ -61,6 +63,7 @@ const JwtLogin = () => {
       navigate('/');
     } catch (e) {
       setLoading(false);
+      setLoginError(true);
     }
   };
 
@@ -112,7 +115,7 @@ const JwtLogin = () => {
                       error={Boolean(errors.password && touched.password)}
                       sx={{ mb: 1.5 }}
                     />
-                       <LoadingButton
+                    <LoadingButton
                       type="submit"
                       color="primary"
                       loading={loading}
@@ -125,6 +128,12 @@ const JwtLogin = () => {
                 )}
               </Formik>
             </ContentBox>
+          </Grid>
+          <Grid item sm={12} xs={12}>
+            {loginError && (
+              <Alert severity="error">Usuario o contraseña incorrecta</Alert>
+            )
+            }
           </Grid>
         </Grid>
       </Card>

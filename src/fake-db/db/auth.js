@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import Mock from '../mock';
 import testjson from '../stores.json'
 
-const JWT_SECRET = 'jwt_secret_key';
+const JWT_SECRET = process.env.REACT_APP_JWT_SECRET || 'jwt_secret';
 const JWT_VALIDITY = '7 days';
 
 const userList = testjson.users
@@ -13,28 +13,30 @@ Mock.onPost('/api/auth/login').reply(async (config) => {
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
     const { email, password } = JSON.parse(config.data);
-    //const user = userList.find((u) => u.email === email );
-    // Example
     const user = userList.find((u) => u.email === email && u.password === password);
-
+    
     if (!user) {
       return [400, { message: 'Invalid email or password' }];
     }
-    const accessToken = jwt.sign({ userId: user.id }, JWT_SECRET, {
-      expiresIn: JWT_VALIDITY,
+    const userPayload = {
+      code: user.code,
+      email: user.email,
+      first_name: user.first_name,
+      last_name: user.last_name,
+      position: user.position,
+      is_active: user.is_active,
+      groups: user.groups,
+      avatar: user.avatar
+    };
+    
+    const accessToken = jwt.sign(userPayload, JWT_SECRET, {
+      expiresIn: JWT_VALIDITY
     });
 
     return [
       200,
       {
-        accessToken,
-        user: {
-          id: user.id,
-          avatar: user.avatar,
-          email: user.email,
-          name: user.name,
-          role: user.role,
-        },
+        access: accessToken
       },
     ];
   } catch (err) {
@@ -106,11 +108,14 @@ Mock.onGet('/api/auth/profile').reply((config) => {
       200,
       {
         user: {
-          id: user.id,
+          code: user.code,
           avatar: user.avatar,
           email: user.email,
-          name: user.name,
-          role: user.role,
+          firstName: user.first_name,
+          lastName: user.last_name,
+          position: user.position,
+          is_active: user.is_active,
+          groups: user.groups,
         },
       },
     ];

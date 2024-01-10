@@ -2,6 +2,11 @@ import React, { createContext, useEffect, useReducer } from 'react'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
 import { MatxLoading } from 'app/components'
+import { API_URL } from '../../constants'
+
+
+const LOGIN_SERVICE = process.env.REACT_APP_LOGIN_SERVICE ? `${API_URL}${process.env.REACT_APP_LOGIN_SERVICE}` : '/api/auth/login'
+
 
 const initialState = {
     isAuthenticated: false,
@@ -17,6 +22,22 @@ const isValidToken = (accessToken) => {
     const decodedToken = jwtDecode(accessToken)
     const currentTime = Date.now() / 1000
     return decodedToken.exp > currentTime
+}
+
+const decodeToken = (accessToken) => {
+    if (!accessToken) {
+        return null
+    }
+    const decodedToken = jwtDecode(accessToken)
+    const user = {
+        email: decodedToken.email,
+        firstName: decodedToken.first_name,
+        lastName: decodedToken.last_name,
+        position: decodedToken.position,
+        is_active: decodedToken.is_active,
+        groups: decodedToken.groups,
+    }
+    return user
 }
 
 const setSession = (accessToken) => {
@@ -58,15 +79,6 @@ const reducer = (state, action) => {
                 user: null
             }
         }
-        case 'REGISTER': {
-            const { user } = action.payload
-
-            return {
-                ...state,
-                isAuthenticated: true,
-                user
-            }
-        }
         default: {
             return { ...state }
         }
@@ -85,39 +97,17 @@ export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const login = async (email, password) => {
-        const response = await axios.post('/api/auth/login', {
+        const response = await axios.post(`${LOGIN_SERVICE}`, {
             email,
             password,
         })
-        const { accessToken, user } = response.data
-
-        setSession(accessToken)
-        console.log(user)
+        const { access, refresh } = response.data
+        const user = decodeToken(access)
+        
+        setSession(access)
         dispatch({
             type: 'LOGIN',
-            payload: {
-                user,
-                role: user.role
-            },
-        })
-    }
-
-    const register = async (email, username, password) => {
-        const response = await axios.post('/api/auth/register', {
-            email,
-            username,
-            password,
-        })
-
-        const { accessToken, user } = response.data
-
-        setSession(accessToken)
-
-        dispatch({
-            type: 'REGISTER',
-            payload: {
-                user,
-            },
+            payload: { user }
         })
     }
 
@@ -133,8 +123,7 @@ export const AuthProvider = ({ children }) => {
 
                 if (accessToken && isValidToken(accessToken)) {
                     setSession(accessToken)
-                    const response = await axios.get('/api/auth/profile')
-                    const { user } = response.data
+                    const user = decodeToken(accessToken)
 
                     dispatch({
                         type: 'INIT',
@@ -176,7 +165,6 @@ export const AuthProvider = ({ children }) => {
                 method: 'JWT',
                 login,
                 logout,
-                register,
             }}
         >
             {children}
