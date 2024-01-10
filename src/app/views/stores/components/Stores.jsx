@@ -137,14 +137,14 @@ function Stores() {
     const managers = [
         {
             code: "0001",
-            email: 'sebastian1231@hotmail.com'
+            email: 'manager1@email.com'
         }
     ]
 
     const cities = [
         {
-            code: "BOG",
-            name: "Bogota"
+            code: "5013",
+            name: "Cali"
         },
         {
             code: "BAR",

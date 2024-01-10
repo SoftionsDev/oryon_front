@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
             email,
             password,
         })
-        const { access, refresh } = response.data
+        const { access } = response.data
         const user = decodeToken(access)
         
         setSession(access)

@@ -6,6 +6,10 @@ const apiHandler = async (url, method, body = null, contentType = 'application/j
     const headers = {
         'Content-Type': contentType
     };
+    const token = localStorage.getItem('accessToken')
+    if (token){
+        headers['Authorization'] = `Bearer ${token}` 
+    }
     const config = {
         method: method,
         headers: headers

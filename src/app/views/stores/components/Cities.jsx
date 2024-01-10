@@ -94,8 +94,15 @@ function Cities () {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            await createFunction(API_URL, SERVICE, city)
+            const datas = {
+                code:city.code,
+                name:city.name,
+                manager:city.manager,
+                region:city.region.name
+            }
+            await createFunction(API_URL, SERVICE, datas)
             setRefresh(true)
+            setCity({})
             handleClose()
         } catch (error) {
             console.log(error)
@@ -115,7 +122,7 @@ function Cities () {
             }
             if (name === 'region') {
                 const selectedRegion = regions.find(item => item.name === value)
-                updatedCity.region_info = selectedRegion || null
+                updatedCity.region = selectedRegion || null
             }
             return updatedCity
         })
@@ -129,14 +136,14 @@ function Cities () {
     const managers = [
         {
             code: "0001",
-            email: 'sebastian1231@hotmail.com'
+            email: 'manager1@email.com'
         }
     ]
 
     const regions = [
         {
-            code: "0001",
-            name: "Bogota"
+            code: "5012",
+            name: "Boyaca"
         },
         {
             code: "0002",
@@ -207,7 +214,7 @@ function Cities () {
                                             id="region"
                                             name="region"
                                             label="Codigo de Region"
-                                            value={city.region_info?.name || ""}
+                                            value={city.region?.name || ""}
                                             onChange={handleChange}
                                         >
                                             {

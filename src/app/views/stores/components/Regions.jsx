@@ -12,7 +12,7 @@ import {
     InputLabel,
     Typography,
     Divider
-  } from "@mui/material";
+} from "@mui/material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, createFunction, deleteFunction } from "../../../utils/rest_connector"
@@ -32,7 +32,7 @@ const Container = styled("div")(({ theme }) => ({
 const TextField = styled(TextValidator)(() => ({
     width: "100%",
     marginBottom: "16px",
-  }));
+}));
 
 const SelectStyled = styled(Select)(() => ({
     width: "100%",
@@ -41,7 +41,7 @@ const SelectStyled = styled(Select)(() => ({
 
 const StyledButton = styled(Button)(({ theme }) => ({
     margin: theme.spacing(1),
-})); 
+}));
 
 const StyledBox = styled(Box)(({ theme }) => ({
     margin: theme.spacing(1),
@@ -83,9 +83,7 @@ function Regions() {
 
     useEffect(() => {
         setError(false)
-        handleGetInfo(
-            getFunction, API_URL, SERVICE, transformObject, setRegions, setError
-        )
+        handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setRegions, setError)
     }, [refresh])
 
     const performDelete = async (item) => {
@@ -95,8 +93,14 @@ function Regions() {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            await createFunction(API_URL, SERVICE, region)
+            const datas = {
+                code:region.code,
+                name:region.name,
+                manager:region.manager
+            }
+            await createFunction(API_URL, SERVICE, datas)
             setRefresh(true)
+            setRegion({})
             handleClose()
         } catch (error) {
             console.log(error)
@@ -107,9 +111,9 @@ function Regions() {
 
     const handleChange = (event) => {
         event.preventDefault()
-        const {name, value} = event.target
+        const { name, value } = event.target
         setRegion((prevRegion) => {
-            const updatedRegion = {...prevRegion, [name]: value}
+            const updatedRegion = { ...prevRegion, [name]: value }
             if (name === 'manager') {
                 const selectedManager = managers.find(item => item.email === value)
                 updatedRegion.manager = selectedManager || null
@@ -139,7 +143,7 @@ function Regions() {
         "Nombre",
         "Manager"
     ]
-    
+
 
     return (
         <Container>
@@ -150,7 +154,7 @@ function Regions() {
                 </Alert>
             }
             <Grid container spacing={2}>
-                <Grid item xs={12} md={12}/>
+                <Grid item xs={12} md={12} />
                 <Grid item xs={0} md={0}>
                     <StyledButton variant="contained" color="primary" onClick={handleOpen}>
                         Crear Region
@@ -160,36 +164,36 @@ function Regions() {
                         onClose={handleClose}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
-                    >   
+                    >
                         <StyledBox sx={{ minWidth: 120 }}>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
                                 Agregar Nueva Region
                             </Typography>
-                            <Divider/>
+                            <Divider />
                             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
                                 <Grid container spacing={1}>
                                     <Grid item lg={10} md={9} sm={11} xs={12} sx={{ mt: 3 }}>
                                         <InputLabel id='lbl-code' sx={{ mb: 1 }}>Código</InputLabel>
                                         <TextField
-                                        type="text"
-                                        name="code"
-                                        id="standard-basic"
-                                        value={region.code || ""}
-                                        onChange={handleChange}
-                                        errorMessages={["Este Campo es requerido"]}
-                                        label="Codigo de region"
-                                        validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+                                            type="text"
+                                            name="code"
+                                            id="standard-basic"
+                                            value={region.code || ""}
+                                            onChange={handleChange}
+                                            errorMessages={["Este Campo es requerido"]}
+                                            label="Codigo de region"
+                                            validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
                                         />
 
                                         <InputLabel id='lbl-name' sx={{ mb: 1 }}>Nombre</InputLabel>
                                         <TextField
-                                        type="text"
-                                        name="name"
-                                        label="Nombre de la Region"
-                                        onChange={handleChange}
-                                        value={region.name || ""}
-                                        validators={["required"]}
-                                        errorMessages={["Este Campo es requerido"]}
+                                            type="text"
+                                            name="name"
+                                            label="Nombre de la Region"
+                                            onChange={handleChange}
+                                            value={region.name || ""}
+                                            validators={["required"]}
+                                            errorMessages={["Este Campo es requerido"]}
                                         />
 
                                         <InputLabel id='lbl-manager' sx={{ mb: 1 }}>Manager</InputLabel>
@@ -208,7 +212,7 @@ function Regions() {
                                         </SelectStyled>
                                     </Grid>
                                 </Grid>
-                                <StyledButton 
+                                <StyledButton
                                     variant="contained" color="primary" onClick={handleSubmit}
                                 >
                                     Agregar

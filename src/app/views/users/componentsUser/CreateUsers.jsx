@@ -31,7 +31,7 @@ const CreateUsers = () => {
   const navigate = useNavigate();
   const [hasError, setHasError] = useState(false);
   const [setRefresh] = useState(false)
-  
+
 
   const handleChange = (event) => {
     event.preventDefault();
@@ -41,13 +41,25 @@ const CreateUsers = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      await createFunction(API_URL, SERVICE, user);
+      const datas = {
+        code: user.code,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        password: user.passwrod,
+        position: user.position,
+        groups: [user.role],
+        user_permissions: []
+      }
+
+      await createFunction(API_URL, SERVICE, datas);
       navigate('/dashboard/listUser');
       setRefresh(true)
+      setUser({})  
     } catch (error) {
       console.log(error);
       setHasError(true);
-      
+
     }
   };
   const handleError = (event) => {
@@ -84,10 +96,10 @@ const CreateUsers = () => {
 
               <TextField
                 type="text"
-                name="name"
+                name="first_name"
                 label="Nombre"
                 onChange={handleChange}
-                value={user.name || ''}
+                value={user.first_name || ''}
                 validators={['required']}
                 errorMessages={['Este Campo es requerido']}
               />
@@ -105,64 +117,16 @@ const CreateUsers = () => {
               <TextField
                 sx={{ mb: 4 }}
                 type="text"
-                name="description_charge"
-                label="Codigo de cargo"
-                value={user.description_charge || ''}
+                name="position"
+                label="Posicion"
+                value={user.position || ''}
                 onChange={handleChange}
                 errorMessages={['Este Campo es requerido']}
                 validators={['required', 'minStringLength:4', 'maxStringLength: 16']}
               />
-
-              <TextField
-                type="date"
-                name="date"
-                value={user.date || ''}
-                onChange={handleChange}
-                errorMessages={['Este Campo es requerido']}
-                validators={['required', 'minStringLength:4', 'maxStringLength: 16']}
-              />
-
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Jefe inmediato</InputLabel>
-                <Select
-                  type="text"
-                  name="immediate_boss"
-                  id="standart basic"
-                  value={user.immediate_boss || ''}
-                  label="Jefe inmediato"
-                  onChange={handleChange}
-                  validators={['required']}
-                  errorMessages={['Este Campo es requerido']}
-                >
-                  <MenuItem value={'Calos Pereza'}>Calos Pereza</MenuItem>
-                  <MenuItem value={'Fredy Acosrta'}>Fredy Acosrta</MenuItem>
-                  <MenuItem value={'Leonardo Sanchez'}>Leonardo Sanchez</MenuItem>
-                  <MenuItem value={'Patricia Laña'}>Patricia Laña</MenuItem>
-                  <MenuItem value={'Paola Gutierres'}>Paola Gutierres</MenuItem>
-                  <MenuItem value={'Griselda Lara'}>Griselda Lara</MenuItem>
-                </Select>
-              </FormControl>
             </Grid>
 
             <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-              <FormControl fullWidth>
-                <InputLabel id="demo-simple-select-label">Punto asignado</InputLabel>
-                <Select
-                  type="text"
-                  name="assigned_point"
-                  id="standart basic"
-                  value={user.assigned_point}
-                  label="Punto asignado"
-                  onChange={handleChange}
-                  validators={['required']}
-                  errorMessages={['Este Campo es requerido']}
-                >
-                  <MenuItem value={'Popayan'}>Popayan</MenuItem>
-                  <MenuItem value={'Cali'}>Cali</MenuItem>
-                  <MenuItem value={'Medellin'}>Medellin</MenuItem>
-                </Select>
-              </FormControl>
-              <p />
               <TextField
                 type="text"
                 name="email"
@@ -192,9 +156,9 @@ const CreateUsers = () => {
                   label="Rol"
                   onChange={handleChange}
                 >
-                  <MenuItem value={'Admin'}>Admin</MenuItem>
-                  <MenuItem value={'Manager'}>Manager</MenuItem>
-                  <MenuItem value={'Colaborador'}>Colaborador</MenuItem>
+                  <MenuItem value={1}>Admin</MenuItem>
+                  <MenuItem value={2}>Manager</MenuItem>
+                  <MenuItem value={3}>Colaborador</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
