@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Grid, Button, styled, Alert, AlertTitle } from '@mui/material';
 import PaginatedTable from 'app/components/PaginatedTable';
 import { getFunction, deleteFunction } from '../../../utils/rest_connector';
@@ -28,10 +28,6 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  margin: theme.spacing(0),
-}));
-
 const initialValues = {
   archive: null,
   archiveName: '',
@@ -50,9 +46,10 @@ function Products() {
   const transformObject = (data) => {
     const transformed_data = data.map((item) => {
       return {
+        code: item.code,
         name: item.name,
-        brand: item.brand,
-        category: item.category,
+        brand: item.brand_description,
+        category: item.category_description,
         price: item.price,
       };
     });
@@ -62,26 +59,46 @@ function Products() {
   useEffect(() => {
     setError(false);
     handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setProducts, setError);
-  }, [refresh])
+    if (archive.archive && archive.archiveName) {
+      onSubmit();
+    }
+  }, [refresh, archive])
 
   const performDelete = async (item) => {
     handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+    setRefresh(false)
   }
 
-  const columnNames = ['Nombre', 'Marca', 'Categoria', 'Valor'];
+  const columnNames = ['Codigo', 'Nombre', 'Marca', 'Categoria', 'Valor'];
 
-  const fileSelectHandler = (e) => {
-    setArchive({
-      archive: e.target.files[0],
-      archiveNme: e.target.files[0].name,
-    });
+  const fileSelectHandler = async (e) => {
+    if (e.target.files.length > 0) {
+      console.log(e)
+      setArchive({
+        archive: e.target.files[0],
+        archiveName: e.target.files[0].name,
+      });
+    }
+    return false;
   }
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const inputRef = useRef();
+
+  const onSubmit = async (e) => {
     const fd = new FormData();
+    console.log(archive)
     fd.append('file', archive.archive, archive.archiveName);
-    axios.post('http://localhost:3001/products');
+    try {
+      await axios.post(`${API_URL}/${SERVICE}/upload/`, fd, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+        }
+      });
+      setRefresh(true);
+    } catch (error) {
+      console.log(error)
+      setError(true);
+    }
   }
 
   return (
@@ -95,12 +112,15 @@ function Products() {
       <Grid container spacing={2}>
         <Grid item xs={12} md={12} />
         <Grid item xs={0} md={0}>
-          <StyledButton variant="contained" color="primary" onClick={onSubmit}>
-            Cargar lista de productos
-          </StyledButton>
-          <p />
-          <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-            Seleccionar CSV
+          <Button
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}
+            onClick={() => {
+              inputRef.current.click();
+            }}
+          >
+            Cargar Datos
             <VisuallyHiddenInput
               type="file"
               id="archive"
@@ -112,6 +132,7 @@ function Products() {
         </Grid>
         <PaginatedTable
           props={{
+            title: 'Productos',
             columnNames: columnNames,
             items: products,
             actions: [

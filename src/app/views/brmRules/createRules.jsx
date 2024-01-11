@@ -25,22 +25,22 @@ const Container = styled('div')(({ theme }) => ({
 
 
 const SERVICE = process.env.REACT_APP_RULES_SERVICE || 'rules'
-const SERVICE_FIELDS = 'fields'
+const SERVICE_FIELDS = process.env.REACT_APP_FIELDS_SERFVICE || 'fields'
 
 const CreateRules = () => {
   const [rule, setRule] = useState({ name: '', rule: '', percentage: '', formula: '' });
-  const [formula, setFormula] = useState({ operator: '', percentage: '', operator1: '/', percentage1: '100' })
-  const navigate = useNavigate();
+  const [formulaGroup, setFormulaGroup] = useState({ operator: '', percentage: '', operator1: '/', percentage1: '100' })
   const [fields, setFields] = useState({});
   const [hasError, setHasError] = useState(false);
-  const [setRefresh] = useState(false)
 
   const [ruleGroups, setRuleGroups] = useState([
-    { campo: '', operatorComp: '', valuenumber: '', binaryOperator: '' }
+    { campo: '', operatorComp: '', valueNumber: '', binaryOperator: '' }
   ]);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
-    concatenateValues();
+    concatenateValues()
     const getFields = async () => {
       try {
         const availableFields = await getFunction(API_URL, SERVICE_FIELDS)
@@ -50,8 +50,7 @@ const CreateRules = () => {
       }
     };
     getFields();
-    console.log(rule);
-  }, [ruleGroups]);
+  }, [ruleGroups, formulaGroup]);
 
   const handleChange = (event, index) => {
     const { name, value } = event.target;
@@ -65,22 +64,19 @@ const CreateRules = () => {
     const { name, value } = event.target;
     setRule({ ...rule, [name]: value });
     if (name === 'percentage') {
-      setFormula(prevFormula => ({
+      setFormulaGroup(prevFormula => ({
         ...prevFormula,
         percentage: value
       }));
     }
-    console.log(rule)
   };
 
   const handleFormulaChange = (event) => {
-    const { name, value } = event.target;
-    console.log(name, value);
-    setFormula(prevFormula => ({
+    let { name, value } = event.target;
+    setFormulaGroup(prevFormula => ({
       ...prevFormula,
       [name]: value
     }));
-    console.log(formula);
   };
 
   const addNewGroup = () => {
@@ -94,29 +90,34 @@ const CreateRules = () => {
 
   const concatenateValues = () => {
     const ruleParts = ruleGroups.map((group, index) => {
-      let ruleString = `${group.campo} ${group.operatorComp} ${group.valuenumber}`
+      let campo = group.campo.toLowerCase()
+      let operatorComp = group.operatorComp
+      let updatedValue = (
+        typeof group.valueNumber === 'string' &&
+          group.valueNumber.includes(' ') ? `"${group.valueNumber}"` : group.valueNumber
+      )
+      let ruleString = `${campo} ${operatorComp} ${updatedValue}`
       if (index < ruleGroups.length - 1) {
-        ruleString += ` ${group.binaryOperator} ` || '';
+        ruleString += ` ${group.binaryOperator}` || '';
       }
       return ruleString
     });
-    setRule({ ...rule, rule: ruleParts.join(' ') })
-
-
-  };
+    console.log(ruleParts)
+    const formulaString = `${formulaGroup.operator} rule.percentage ${formulaGroup.operator1} ${formulaGroup.percentage1}`
+    setRule({ ...rule, rule: ruleParts.join(' '), formula: formulaString })
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     try {
       const body = {
-        'rule': rule.rule,
-        'name': rule.name,
-        'percentage': rule.percentage,
-        'formula': rule.formula
+        rule: rule.rule,
+        name: rule.name,
+        percentage: rule.percentage,
+        formula: rule.formula
       }
       await createFunction(API_URL, SERVICE, body)
       navigate('/dashboard/rulesList');
-      setRefresh(true)
     } catch (error) {
       console.log(error);
       setHasError(true);
@@ -129,7 +130,7 @@ const CreateRules = () => {
   };
 
   const hasValues = () => {
-    return ruleGroups.some(group => group.campo || group.operatorComp || group.valuenumber);
+    return ruleGroups.some(group => group.campo || group.operatorComp || group.valueNumber);
   };
 
   return (
@@ -203,9 +204,9 @@ const CreateRules = () => {
 
                 <TextField
                   label={`Valor ${index + 1}`}
-                  name={`valuenumber`}
+                  name={`valueNumber`}
                   multiline
-                  value={group.valuenumber || ''}
+                  value={group.valueNumber || ''}
                   onChange={(event) => handleChange(event, index)}
                   validators={['required']}
                   errorMessages={['Este Campo es requerido']}
@@ -221,8 +222,8 @@ const CreateRules = () => {
                           value={group.binaryOperator || ''}
                           onChange={(event) => handleChange(event, index)}
                         >
-                          <MenuItem value={'AND'}>AND</MenuItem>
-                          <MenuItem value={'OR'}>OR</MenuItem>
+                          <MenuItem value={'and'}>AND</MenuItem>
+                          <MenuItem value={'or'}>OR</MenuItem>
                         </Select>
                       </FormControl>
                     )}
@@ -276,7 +277,7 @@ const CreateRules = () => {
                   <Select
                     labelId={`operator-label`}
                     name={`operator`}
-                    value={formula.operator || ''}
+                    value={formulaGroup.operator || ''}
                     onChange={handleFormulaChange}
                   >
                     <MenuItem value={'+'}>+</MenuItem>
@@ -288,7 +289,6 @@ const CreateRules = () => {
                 <TextField
                   label={`Porcentaje`}
                   name={`percentage`}
-                  multiline
                   value={rule.percentage || ''}
                   disabled
                   onChange={handleFormulaChange}
@@ -296,14 +296,14 @@ const CreateRules = () => {
                 <TextField
                   name={`divider`}
                   disabled
-                  value={formula.divider || '/'}
+                  value={formulaGroup.operator1 || '/'}
                   style={{ width: '50px' }}
                   onChange={handleFormulaChange}
                 />
                 <TextField
-                  name={`percent`}
+                  name={`percentage1`}
                   disabled
-                  value={formula.percent || '100'}
+                  value={formulaGroup.percentage1 || '100'}
                   style={{ width: '60px' }}
                   onChange={handleFormulaChange}
                 />

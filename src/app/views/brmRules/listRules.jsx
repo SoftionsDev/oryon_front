@@ -10,7 +10,6 @@ import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, deleteFunction } from 'app/utils/rest_connector'
 import { handleGetInfo, handleDelete } from "../../utils/utils"
 import { API_URL } from "../../../constants"
-import { SimpleCard } from 'app/components';
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -35,11 +34,10 @@ function ListRules() {
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
             return {
-                code: item.code,
+                code: item.id,
                 name: item.name,
-                rule: item.rule,
                 percentage: item.percentage,
-                date: item.date 
+                date: item.created_at
             }
         })
         return transformed_data
@@ -59,11 +57,9 @@ function ListRules() {
     const columnNames = [
         "Codigo",
         "Nombre",
-        "Regla",
         "Porcentaje",
         "Fecha de creacion"
     ]
-
 
     return (
         <Container >
@@ -74,25 +70,21 @@ function ListRules() {
                 </Alert>
             }
             <Grid container spacing={2}>
-                <Grid item xs={12} md={12} />
-                <Grid item xs={0} md={0}>
-                </Grid >
-                <SimpleCard title="Listado reglas - formulas (BRM)">
-                    <PaginatedTable props={
-                        {
-                            columnNames: columnNames,
-                            items: listRules,
-                            actions: [
-                                {
-                                    icon: "delete",
-                                    color: "error",
-                                    click: performDelete
-                                }
-                            ]
-                        }
+                <PaginatedTable props={
+                    {
+                        title: "Lista de reglas",
+                        columnNames: columnNames,
+                        items: listRules,
+                        actions: [
+                            {
+                                icon: "delete",
+                                color: "error",
+                                click: performDelete
+                            }
+                        ]
                     }
-                    />
-                </SimpleCard>
+                }
+                />
             </Grid>
         </Container>
     )
