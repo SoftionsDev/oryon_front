@@ -13,14 +13,16 @@ import {
     InputLabel,
     Typography,
     Divider
-  } from "@mui/material";
+} from "@mui/material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, deleteFunction, createFunction } from "../../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../../utils/utils"
-import { API_URL } from "../../../../constants"
+import { API_URL, ROLES } from "../../../../constants"
 
 const SERVICE = process.env.REACT_APP_CITIES_SERVICE || 'cities'
+const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
+const REGIONS_SERVICE = process.env.REACT_APP_REGIONS_SERVICE || 'regions'
 
 const Container = styled("div")(({ theme }) => ({
     margin: "30px",
@@ -34,7 +36,7 @@ const Container = styled("div")(({ theme }) => ({
 const TextField = styled(TextValidator)(() => ({
     width: "100%",
     marginBottom: "16px",
-  }));
+}));
 
 const SelectStyled = styled(Select)(() => ({
     width: "100%",
@@ -43,7 +45,7 @@ const SelectStyled = styled(Select)(() => ({
 
 const StyledButton = styled(Button)(({ theme }) => ({
     margin: theme.spacing(1),
-})); 
+}));
 
 const StyledBox = styled(Box)(({ theme }) => ({
     margin: theme.spacing(1),
@@ -59,10 +61,12 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 
-function Cities () {
+function Cities() {
 
     const [cities, setCities] = useState([]);
     const [city, setCity] = useState({});
+    const [managers, setManagers] = useState([]);
+    const [regions, setRegions] = useState([]);
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
@@ -71,12 +75,32 @@ function Cities () {
 
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
-            console.log(item)
             return {
                 code: item.code,
                 name: item.name,
-                manager: item.manager.email || 'No asignado',
+                manager: item.manager?.email || 'No asignado',
                 region: item.region.name
+            }
+        })
+        return transformed_data
+    }
+
+    const managerObject = (data) => {
+        const transformed_data = data.map((item) => {
+            return {
+                code: item.code,
+                email: item.email,
+                groups: item.groups
+            }
+        })
+        return transformed_data
+    }
+
+    const regionObject = (data) => {
+        const transformed_data = data.map((item) => {
+            return {
+                code: item.code,
+                name: item.name,
             }
         })
         return transformed_data
@@ -85,8 +109,23 @@ function Cities () {
     useEffect(() => {
         setError(false)
         handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setCities, setError)
+        const getManagers = async () => {
+            const data = await getFunction(API_URL, USERS_SERVICE)
+            const transformed_data = managerObject(data)
+            const users = transformed_data.filter(
+                item => item.groups.includes(ROLES.Admin) || item.groups.includes(ROLES.Manager)
+            )
+            setManagers(users)
+        }
+        const getRegions = async () => {
+            const data = await getFunction(API_URL, REGIONS_SERVICE)
+            const regions_data = regionObject(data)
+            setRegions(regions_data)
+        }
+        getManagers()
+        getRegions()
     }, [refresh])
-    
+
     const performDelete = async (item) => {
         handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
     }
@@ -94,13 +133,13 @@ function Cities () {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            const datas = {
-                code:city.code,
-                name:city.name,
-                manager:city.manager,
-                region:city.region.name
+            const data = {
+                code: city.code,
+                name: city.name,
+                manager: city.manager.code,
+                region: city.region.code
             }
-            await createFunction(API_URL, SERVICE, datas)
+            await createFunction(API_URL, SERVICE, data)
             setRefresh(true)
             setCity({})
             handleClose()
@@ -113,9 +152,9 @@ function Cities () {
 
     const handleChange = (event) => {
         event.preventDefault()
-        const {name, value} = event.target
+        const { name, value } = event.target
         setCity((prevCity) => {
-            const updatedCity = {...prevCity, [name]: value}
+            const updatedCity = { ...prevCity, [name]: value }
             if (name === 'manager') {
                 const selectedManager = managers.find(item => item.email === value)
                 updatedCity.manager = selectedManager || null
@@ -133,24 +172,6 @@ function Cities () {
         setError(true)
     }
 
-    const managers = [
-        {
-            code: "0001",
-            email: 'manager1@email.com'
-        }
-    ]
-
-    const regions = [
-        {
-            code: "5012",
-            name: "Boyaca"
-        },
-        {
-            code: "0002",
-            name: "Zona Centro"
-        }
-    ]
-
     const columnNames = [
         "Codigo",
         "Nombre",
@@ -167,7 +188,7 @@ function Cities () {
                 </Alert>
             }
             <Grid container spacing={2}>
-                <Grid item xs={12} md={12}/>
+                <Grid item xs={12} md={12} />
                 <Grid item xs={0} md={0}>
                     <StyledButton variant="contained" color="primary" onClick={handleOpen}>
                         Crear Ciudad
@@ -177,36 +198,36 @@ function Cities () {
                         onClose={handleClose}
                         aria-labelledby="modal-modal-title"
                         aria-describedby="modal-modal-description"
-                    >   
+                    >
                         <StyledBox sx={{ minWidth: 120 }}>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
                                 Agregar Nueva Region
                             </Typography>
-                            <Divider/>
+                            <Divider />
                             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
                                 <Grid container spacing={1}>
                                     <Grid item lg={10} md={9} sm={11} xs={12} sx={{ mt: 3 }}>
                                         <InputLabel id='lbl-code' sx={{ mb: 1 }}>Código</InputLabel>
                                         <TextField
-                                        type="text"
-                                        name="code"
-                                        id="standard-basic"
-                                        value={city.code || ""}
-                                        onChange={handleChange}
-                                        errorMessages={["Este Campo es requerido"]}
-                                        label="Codigo de Ciudad"
-                                        validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+                                            type="text"
+                                            name="code"
+                                            id="standard-basic"
+                                            value={city.code || ""}
+                                            onChange={handleChange}
+                                            errorMessages={["Este Campo es requerido"]}
+                                            label="Codigo de Ciudad"
+                                            validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
                                         />
 
                                         <InputLabel id='lbl-name' sx={{ mb: 1 }}>Nombre</InputLabel>
                                         <TextField
-                                        type="text"
-                                        name="name"
-                                        label="Nombre de la Ciudad"
-                                        onChange={handleChange}
-                                        value={city.name || ""}
-                                        validators={["required"]}
-                                        errorMessages={["Este Campo es requerido"]}
+                                            type="text"
+                                            name="name"
+                                            label="Nombre de la Ciudad"
+                                            onChange={handleChange}
+                                            value={city.name || ""}
+                                            validators={["required"]}
+                                            errorMessages={["Este Campo es requerido"]}
                                         />
 
                                         <InputLabel id='lbl-region' sx={{ mb: 1 }}>Region</InputLabel>
@@ -240,7 +261,7 @@ function Cities () {
                                         </SelectStyled>
                                     </Grid>
                                 </Grid>
-                                <StyledButton 
+                                <StyledButton
                                     variant="contained" color="primary" onClick={handleSubmit}
                                 >
                                     Agregar
@@ -251,6 +272,7 @@ function Cities () {
                 </Grid>
                 <PaginatedTable props={
                     {
+                        title: 'Ciudades',
                         columnNames: columnNames,
                         items: cities,
                         actions: [

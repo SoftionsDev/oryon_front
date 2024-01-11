@@ -17,7 +17,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, createFunction, deleteFunction } from "../../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../../utils/utils"
-import { API_URL } from "../../../../constants"
+import { API_URL, ROLES } from "../../../../constants"
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -58,12 +58,14 @@ const StyledBox = styled(Box)(({ theme }) => ({
 
 
 const SERVICE = process.env.REACT_APP_REGIONS_SERVICE || 'regions'
+const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
 
 
 function Regions() {
 
     const [regions, setRegions] = useState([]);
     const [region, setRegion] = useState({});
+    const [managers, setManagers] = useState([]);
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
@@ -81,9 +83,28 @@ function Regions() {
         return transformed_data
     }
 
+    const managerObject = (data) => {
+        const transformed_data = data.map((item) => {
+            return {
+                code: item.code,
+                email: item.email,
+                groups: item.groups
+            }
+        })
+        return transformed_data
+    }
+
     useEffect(() => {
         setError(false)
         handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setRegions, setError)
+        const getManagers = async () => {
+            const data = await getFunction(API_URL, USERS_SERVICE)
+            const users = managerObject(data)
+            setManagers(() => users.filter(
+                item => item.groups.includes(ROLES.Manager) || item.groups.includes(ROLES.Admin))
+            )
+        }
+        getManagers()
     }, [refresh])
 
     const performDelete = async (item) => {
@@ -93,12 +114,12 @@ function Regions() {
     const handleSubmit = async (event) => {
         event.preventDefault()
         try {
-            const datas = {
-                code:region.code,
-                name:region.name,
-                manager:region.manager
+            const data = {
+                code: region.code,
+                name: region.name,
+                manager: region.manager.code
             }
-            await createFunction(API_URL, SERVICE, datas)
+            await createFunction(API_URL, SERVICE, data)
             setRefresh(true)
             setRegion({})
             handleClose()
@@ -127,23 +148,11 @@ function Regions() {
         setError(true)
     }
 
-    const managers = [
-        {
-            code: "0001",
-            email: 'manager1@email.com'
-        },
-        {
-            code: "0002",
-            email: 'manager2@email.com'
-        },
-    ]
-
     const columnNames = [
         "Codigo",
         "Nombre",
         "Manager"
     ]
-
 
     return (
         <Container>
@@ -223,6 +232,7 @@ function Regions() {
                 </Grid>
                 <PaginatedTable props={
                     {
+                        title: 'Regiones',
                         columnNames: columnNames,
                         items: regions,
                         actions: [

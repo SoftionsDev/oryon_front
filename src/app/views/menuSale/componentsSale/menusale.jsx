@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
-import { Grid, Button, styled, Alert, AlertTitle, Input
- } from '@mui/material';
+import { useState, useEffect, useRef } from 'react';
+import {
+  Grid, Button, styled, Alert, AlertTitle
+} from '@mui/material';
 import PaginatedTable from 'app/components/PaginatedTable';
 import { getFunction, deleteFunction } from '../../../utils/rest_connector';
 import { handleGetInfo, handleDelete } from '../../../utils/utils';
 import { API_URL } from '../../../../constants';
-import axios from 'axios';
+import axios from 'axios'
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 
 const Container = styled('div')(({ theme }) => ({
@@ -17,9 +19,17 @@ const Container = styled('div')(({ theme }) => ({
   },
 }));
 
-const StyledButton = styled(Button)(({ theme }) => ({
-  margin: theme.spacing(1),
-}));
+const VisuallyHiddenInput = styled('input')({
+  clip: 'rect(0 0 0 0)',
+  clipPath: 'inset(50%)',
+  height: 1,
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  whiteSpace: 'nowrap',
+  width: 1,
+});
 
 
 const initialValues = {
@@ -41,13 +51,15 @@ function Sales() {
   const transformObject = (data) => {
     const transformed_data = data.map((item) => {
       return {
-        code: item.code,
-        name_comercial: item.name_comercial,
-        store: item.store,
-        sale: item.sale,
-        product: item.product,
+        id: item.id,
+        email: item.user.email,
+        store: item.store.name,
+        product: item.product.name,
         date: item.date,
-        sale_value: item.sale_value,
+        price: item.price,
+        type: item.type,
+        comission_type: item.commission_type,
+        commissioned: item.commissioned ? 'Si' : 'No',
       };
     });
     return transformed_data;
@@ -56,35 +68,56 @@ function Sales() {
   useEffect(() => {
     setError(false);
     handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setSales, setError);
-  }, [refresh]);
+    if (archive.archive && archive.archiveName) {
+      onSubmit();
+    }
+  }, [refresh, archive]);
 
   const performDelete = async (item) => {
-    handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError);
+    handleDelete(deleteFunction, API_URL, SERVICE, item.id, setRefresh, setError);
+    setRefresh(false);
   };
 
-  const columnNames = [
-    'ID Comercial',
-    'Nombre del comercial',
-    'Tienda',
-    'Venta',
-    'Producto',
-    'Fecha de venta',
-    'valor de venta',
-  ];
+  const fileSelectHandler = async (e) => {
+    if (e.target.files.length > 0) {
+      setArchive({
+        archive: e.target.files[0],
+        archiveName: e.target.files[0].name,
+      });
+    }
+    return false;
+  }
 
-  const fileSelectHandler = (e) => {
-    setArchive({
-      archive: e.target.files[0],
-      archiveNme: e.target.files[0].name,
-    });
-  };
+  const inputRef = useRef();
 
-  const onSubmit = (e) => {
-    e.preventDefault();
+  const onSubmit = async (e) => {
     const fd = new FormData();
     fd.append('file', archive.archive, archive.archiveName);
-    axios.post('http://localhost:3001/products');
-  };
+    try {
+      await axios.post(`${API_URL}/${SERVICE}/upload/`, fd, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
+        }
+      });
+      setArchive(initialValues);
+      setRefresh(true);
+    } catch (error) {
+      console.log(error)
+      setError(true);
+    }
+  }
+
+  const columnNames = [
+    'Codigo',
+    'email',
+    'Tienda',
+    'Producto',
+    'Fecha',
+    'Valor',
+    'Tipo Venta',
+    'Tipo Comision',
+    'Comisionado'
+  ];
 
   return (
     <Container>
@@ -97,15 +130,27 @@ function Sales() {
       <Grid container spacing={2}>
         <Grid item xs={12} md={12} />
         <Grid item xs={0} md={0}>
-          <StyledButton variant="contained" color="primary" onClick={onSubmit}>
-            Cargar productos
-          </StyledButton>
-          <p />
-          <Input type="file" id="archive" onChange={fileSelectHandler} onClick={onSubmit}/>
+          <Button
+            component="label"
+            variant="contained"
+            startIcon={<CloudUploadIcon />}
+            onClick={() => {
+              inputRef.current.click();
+            }}
+          >
+            Cargar Datos
+            <VisuallyHiddenInput
+              type="file"
+              id="archive"
+              accept=".csv,.json"
+              onChange={fileSelectHandler}
+            />
+          </Button>
           <p />
         </Grid>
         <PaginatedTable
           props={{
+            title: 'Ventas',
             columnNames: columnNames,
             items: sales,
             actions: [

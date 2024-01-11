@@ -10,7 +10,7 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import * as Yup from 'yup';
 import { createFunction } from 'app/utils/rest_connector';
-import { API_URL } from "../../../../constants"
+import { API_URL, ROLES } from "../../../../constants"
 
 const TextField = styled(TextValidator)(() => ({
   width: '100%',
@@ -41,21 +41,21 @@ const CreateUsers = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const datas = {
+      const data = {
         code: user.code,
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
-        password: user.passwrod,
+        password: user.password,
         position: user.position,
         groups: [user.role],
         user_permissions: []
       }
-
-      await createFunction(API_URL, SERVICE, datas);
+      console.log(data);
+      await createFunction(API_URL, SERVICE, data);
       navigate('/dashboard/listUser');
       setRefresh(true)
-      setUser({})  
+      setUser({})
     } catch (error) {
       console.log(error);
       setHasError(true);
@@ -91,7 +91,7 @@ const CreateUsers = () => {
                 onChange={handleChange}
                 errorMessages={['Este Campo es requerido']}
                 label="Codigo de usuario"
-                validators={['required', 'minStringLength: 4', 'maxStringLength: 9']}
+                validators={['required', 'minStringLength: 4', 'maxStringLength: 10']}
               />
 
               <TextField
@@ -114,16 +114,22 @@ const CreateUsers = () => {
                 errorMessages={['Este Campo es requerido', 'email is not valid']}
               />
 
-              <TextField
-                sx={{ mb: 4 }}
-                type="text"
-                name="position"
-                label="Posicion"
-                value={user.position || ''}
-                onChange={handleChange}
-                errorMessages={['Este Campo es requerido']}
-                validators={['required', 'minStringLength:4', 'maxStringLength: 16']}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="demo-simple-select-label">Cargo</InputLabel>
+                <Select
+                  type="text"
+                  name="position"
+                  id="standart basic"
+                  value={user.position || ''}
+                  label="Rol"
+                  onChange={handleChange}
+                >
+                  <MenuItem value='MANAGER'>Gerente</MenuItem>
+                  <MenuItem value='DIRECTOR'>Director</MenuItem>
+                  <MenuItem value='ADVISER'>Asesor</MenuItem>
+                  <MenuItem value='ASSISTANT'>Asistente</MenuItem>
+                </Select>
+              </FormControl>
             </Grid>
 
             <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
@@ -156,9 +162,9 @@ const CreateUsers = () => {
                   label="Rol"
                   onChange={handleChange}
                 >
-                  <MenuItem value={1}>Admin</MenuItem>
-                  <MenuItem value={2}>Manager</MenuItem>
-                  <MenuItem value={3}>Colaborador</MenuItem>
+                  <MenuItem value={ROLES.Admin}>Admin</MenuItem>
+                  <MenuItem value={ROLES.Manager}>Manager</MenuItem>
+                  <MenuItem value={ROLES.Colaborador}>Colaborador</MenuItem>
                 </Select>
               </FormControl>
             </Grid>

@@ -54,7 +54,7 @@ const Sidenav = ({ children }) => {
         }
         {user.groups.includes(ROLES.Admin) && <MatxVerticalNav items={navigations} />}
         {user.groups.includes(ROLES.Manager) && <MatxVerticalNav items={navigationsManager} />}
-        {user.groups.includes(ROLES.Collaborator) && <MatxVerticalNav items={navigationsCollaborator} />}
+        {user.groups.includes(ROLES.Colaborador) && <MatxVerticalNav items={navigationsCollaborator} />}
 
 
       </StyledScrollBar>

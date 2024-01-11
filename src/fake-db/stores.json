@@ -151,24 +151,6 @@
         "code": "0001",
         "email": "manager1@email.com"
       }
-    },
-    {
-      "code": "5012",
-      "name": "Boyaca",
-      "manager": {
-        "code": "0001",
-        "email": "manager1@email.com"
-      },
-      "region": "Boyaca"
-    },
-    {
-      "code": "604",
-      "name": "Cucuta",
-      "manager": {
-        "code": "0001",
-        "email": "manager1@email.com"
-      },
-      "region": "Zona Centro"
     }
   ],
   "users": [

@@ -6,7 +6,6 @@ const Analytics = Loadable(lazy(() => import('./Analytics')));
 const Stores = Loadable(lazy(() => import('../stores/components/Stores')));
 const Regions = Loadable(lazy(() => import('../stores/components/Regions')));
 const Cities = Loadable(lazy(() => import('../stores/components/Cities')));
-const CreateStore = Loadable(lazy(() => import('../stores/components/CreateStores')));
 const CreateComercial = Loadable(lazy(() => import('../comercial/comercialComponents/registerComercial')));
 const UserComercial = Loadable(lazy(() => import('../comercial/comercialComponents/userComercial')));
 const CreateUser = Loadable(lazy(() => import('../users/componentsUser/CreateUsers')));
@@ -27,7 +26,6 @@ const dashboardRoutes = [
   { path: '/dashboard/stores', element: <Stores />, auth: authRoles.admin },
   { path: '/dashboard/stores/regions', element: <Regions />, auth: authRoles.admin },
   { path: '/dashboard/stores/cities', element: <Cities />, auth: authRoles.admin },
-  { path: '/create-stores', element: <CreateStore />, auth: authRoles.admin },
   { path: '/dashboard/createUser', element: <CreateUser />, auth: authRoles.admin },
   { path: '/dashboard/listUser', element: <ListUser />, auth: authRoles.admin },
   { path: '/dashboard/comercial', element: <CreateComercial />, auth: authRoles.admin },

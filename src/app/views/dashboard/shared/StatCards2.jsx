@@ -21,6 +21,7 @@ const H3 = styled('h3')(({ textcolor }) => ({
 
 const H1 = styled('h1')(({ theme }) => ({
   margin: 0,
+  paddingLeft: '60px',
   flexGrow: 1,
   color: theme.palette.text.secondary,
 }));
@@ -55,11 +56,11 @@ const StatCards2 = () => {
             <FabIcon size="medium" sx={{ background: 'rgba(9, 182, 109, 0.15)' }}>
               <Icon sx={{ color: '#08ad6c' }}>trending_up</Icon>
             </FabIcon>
-            <H3 textcolor={'#08ad6c'}>Active Users</H3>
+            <H3 textcolor={'#08ad6c'}>Crecimiento Ventas</H3>
           </ContentBox>
 
           <ContentBox sx={{ pt: 2 }}>
-            <H1>10.8k</H1>
+            <H1>$2,000,000</H1>
             <IconBox sx={{ background: 'rgba(9, 182, 109, 0.15)' }}>
               <Icon className="icon">expand_less</Icon>
             </IconBox>
@@ -72,17 +73,17 @@ const StatCards2 = () => {
         <Card elevation={3} sx={{ p: 2 }}>
           <ContentBox>
             <FabIcon size="medium" sx={{ background: bgError, overflow: 'hidden' }}>
-              <Icon sx={{ color: textError }}>star_outline</Icon>
+              <Icon sx={{ color: textError }}>trending_down</Icon>
             </FabIcon>
-            <H3 textcolor={textError}>Transactions</H3>
+            <H3 textcolor={textError}>Productos Disponibles</H3>
           </ContentBox>
 
           <ContentBox sx={{ pt: 2 }}>
-            <H1>$2.8M</H1>
+            <H1>39</H1>
             <IconBox sx={{ background: bgError }}>
               <Icon className="icon">expand_less</Icon>
             </IconBox>
-            <Span textcolor={textError}>(+21%)</Span>
+            <Span textcolor={textError}>(-10%)</Span>
           </ContentBox>
         </Card>
       </Grid>

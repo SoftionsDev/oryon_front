@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { Box, Card, Grid, Icon, IconButton, styled, Tooltip } from '@mui/material';
 import { Small } from 'app/components/Typography';
 
@@ -29,10 +30,10 @@ const Heading = styled('h6')(({ theme }) => ({
 
 const StatCards = () => {
   const cardList = [
-    { name: 'New Leads', amount: 3050, icon: 'group' },
-    { name: 'This week Sales', amount: '$80,500', icon: 'attach_money' },
-    { name: 'Inventory Status', amount: '8.5% Stock Surplus', icon: 'store' },
-    { name: 'Orders to deliver', amount: '305 Orders', icon: 'shopping_cart' },
+    { name: 'Total Ventas', amount: 273, icon: 'trending_up', to: "/dashboard/menuSale" },
+    { name: 'Total Comisionado', amount: '$800,500,000', icon: 'attach_money', to: "/dashboard/commissionsList" },
+    { name: 'Productos Vendidos', amount: '39', icon: 'store', to: "/dashboard/listProducts" },
+    { name: 'Equipo Comercial', amount: '5 Personas', icon: 'group', to: "/dashboard/userComercial" },
   ];
 
   return (
@@ -49,7 +50,7 @@ const StatCards = () => {
             </ContentBox>
 
             <Tooltip title="View Details" placement="top">
-              <IconButton>
+              <IconButton component={Link} to={item.to}>
                 <Icon>arrow_right_alt</Icon>
               </IconButton>
             </Tooltip>
