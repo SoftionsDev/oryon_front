@@ -1,6 +1,10 @@
 name: deploy front on ec2
 run-name: deploy front on ec2
 
+
+env:
+  CI: false
+
 on:
   push:
     branches: [ "dev" ]
