@@ -107,6 +107,7 @@ function Cities() {
     }
 
     useEffect(() => {
+        setRefresh(false)
         setError(false)
         handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setCities, setError)
         const getManagers = async () => {

@@ -58,7 +58,7 @@ function ListRules() {
         setNoCommission(false)
         try {
             const response = await createFunction(API_URL, `${SERVICE}/generate`, {})
-            if (response.report.length === 0) {
+            if (response.commissions.length === 0) {
                 setNoCommission(true)
             }
             setRefresh(true)

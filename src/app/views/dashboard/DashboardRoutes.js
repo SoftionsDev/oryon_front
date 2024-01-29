@@ -13,8 +13,8 @@ const ListUser = Loadable(lazy(() => import('../users/componentsUser/ListUser'))
 const MenuSale = Loadable(lazy(() => import('../menuSale/componentsSale/menusale')));
 const ListProducts = Loadable(lazy(() => import('../poducts/components/ListProducts')));
 const SaleIndicator = Loadable(lazy(() => import('../indicators/SaleIndicator')));
-const CreateRules = Loadable(lazy(() => import('../brmRules/createRules')));
-const ListRules = Loadable(lazy(() => import('../brmRules/listRules')));
+const CreateRules = Loadable(lazy(() => import('../brmRules/percentages')));
+const ListFormulas = Loadable(lazy(() => import('../brmRules/fomulations')));
 const ListCommissions = Loadable(lazy(() => import('../commissions/listCommissions')));
 
 
@@ -34,7 +34,7 @@ const dashboardRoutes = [
   { path: '/dashboard/listProducts', element: <ListProducts />, auth: authRoles.admin },
   { path: '/dashboard/indicatorSale', element: <SaleIndicator />, auth: authRoles.admin },
   { path: '/dashboard/rulesCreate', element: <CreateRules />, auth: authRoles.admin },
-  { path: '/dashboard/rulesList', element: <ListRules />, auth: authRoles.admin },
+  { path: '/dashboard/rulesList', element: <ListFormulas />, auth: authRoles.admin },
   { path: '/dashboard/commissionsList', element: <ListCommissions />, auth: authRoles.admin },
   
   
