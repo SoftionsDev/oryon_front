@@ -96,6 +96,7 @@ function Regions() {
 
     useEffect(() => {
         setError(false)
+        setRefresh(false)
         handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setRegions, setError)
         const getManagers = async () => {
             const data = await getFunction(API_URL, USERS_SERVICE)

@@ -63,12 +63,12 @@ export const navigations = [
   
     children: [
       {
-        name: "Crear Regla",
+        name: "Porcentajes y Equivalencias",
         path: "/dashboard/rulesCreate",
         icon: "keyboard_arrow_right"
       },
       {
-        name: "Lista reglas",
+        name: "Formulación",
         path: '/dashboard/rulesList',
         icon: "keyboard_arrow_right",
       }
