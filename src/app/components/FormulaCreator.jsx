@@ -107,9 +107,9 @@ const CreateFormulas = (props) => {
                                     value={formula.rule?.rule || ''}
                                     onChange={handleChange}
                                 >
-                                    {props.rules.map((rule) => (
+                                    {props.rules.filter(rule => !rule.has_formula).map((rule) => (
                                         <MenuItem key={rule.code} value={rule.rule}>
-                                            {rule.rule}
+                                            {rule.name}
                                         </MenuItem>
                                     ))}
                                 </Select>

@@ -74,6 +74,7 @@ function ListFormulas() {
                 code: item.id,
                 name: item.name,
                 rule: item.rule,
+                has_formula: item.has_formula,
                 percentages: {
                     manager: item.manager,
                     director: item.director,
