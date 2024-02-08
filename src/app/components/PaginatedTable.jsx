@@ -82,7 +82,9 @@ const PaginatedTable = ({ props }) => {
                                         Object.keys(item).map((key, cellIndex) => (
                                             <TableCell
                                                 key={cellIndex}
-                                                align={cellIndex === 0 ? "left" : cellIndex === Object.keys(item).length - 1 ? "right" : "center"}>
+                                                align={cellIndex === 0 ? "left" : cellIndex === Object.keys(item).length - 1 ? "right" : "center"}
+                                                style={{ textTransform: 'none' }}
+                                            >
                                                 {item[key]}
                                             </TableCell>
                                         ))
