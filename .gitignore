@@ -8,6 +8,7 @@
 
 # testing
 /coverage
+src/fake_db/
 
 # production
 /build
@@ -27,3 +28,5 @@ yarn-error.log*
 
 *.pem
 .env
+
+.vscode
