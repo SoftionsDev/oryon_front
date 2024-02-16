@@ -50,7 +50,7 @@ function Products() {
         name: item.name,
         brand: item.brand_description,
         category: item.category_description,
-        price: item.price,
+        price: Number(item.price).toLocaleString(),
       };
     });
     return transformed_data;

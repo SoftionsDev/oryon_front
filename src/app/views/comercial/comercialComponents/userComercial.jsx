@@ -75,7 +75,7 @@ function Comercials() {
                 email: item.user.email,
                 manager: item.manager,
                 goal_type: (() => Object.keys(GOALS_TYPES).find(key => GOALS_TYPES[key] === item.goal_type))(),
-                goal: item.goal,
+                goal: Number(item.goal).toLocaleString(),
             }
         })
         return transformed_data

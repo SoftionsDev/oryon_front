@@ -8,6 +8,8 @@ import {
     Modal,
     Box
 } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, deleteFunction } from 'app/utils/rest_connector'
 import { handleGetInfo, handleDelete } from "../../utils/utils"
@@ -126,6 +128,18 @@ function ListFormulas() {
                     aria-describedby="modal-modal-description"
                 >
                     <StyledBox>
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                                position: 'absolute',
+                                right: 8,
+                                top: 8,
+                                color: (theme) => theme.palette.grey[500],
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
                         <CreateFormulas
                             url={API_URL}
                             service={SERVICE}
@@ -133,6 +147,16 @@ function ListFormulas() {
                             setRefresh={setRefresh}
                             handleClose={handleClose}
                         />
+                        <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <StyledButton
+                                variant="contained"
+                                color="error"
+                                onClick={handleClose}
+                                sx={{ ml: 2 }}
+                            >
+                                Cancelar
+                            </StyledButton>
+                        </Box>
                     </StyledBox>
                 </Modal>
             </Grid >

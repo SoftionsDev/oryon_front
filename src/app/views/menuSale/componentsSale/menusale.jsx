@@ -52,11 +52,11 @@ function Sales() {
     const transformed_data = data.map((item) => {
       return {
         id: item.id,
-        email: item.user.email,
+        name: `${item.user.first_name} ${item.user.last_name}`,
         store: item.store.name,
         product: item.product.name,
         date: item.date,
-        price: item.price,
+        price: Number(item.price).toLocaleString(),
         type: item.type,
         comission_type: item.commission_type,
         commissioned: item.commissioned ? 'Si' : 'No',
@@ -109,7 +109,7 @@ function Sales() {
 
   const columnNames = [
     'Codigo',
-    'email',
+    'Nombre',
     'Tienda',
     'Producto',
     'Fecha',

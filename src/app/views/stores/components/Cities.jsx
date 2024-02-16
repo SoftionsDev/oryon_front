@@ -14,6 +14,8 @@ import {
     Typography,
     Divider
 } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, deleteFunction, createFunction } from "../../../utils/rest_connector"
@@ -75,10 +77,11 @@ function Cities() {
 
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
+            const manager_name = `${item.manager?.first_name} ${item.manager?.last_name}`
             return {
                 code: item.code,
                 name: item.name,
-                manager: item.manager?.email || 'No asignado',
+                manager: manager_name || 'No asignado',
                 region: item.region.name
             }
         })
@@ -90,6 +93,7 @@ function Cities() {
             return {
                 code: item.code,
                 email: item.email,
+                name: `${item.first_name} ${item.last_name}`,
                 groups: item.groups
             }
         })
@@ -201,6 +205,18 @@ function Cities() {
                         aria-describedby="modal-modal-description"
                     >
                         <StyledBox sx={{ minWidth: 120 }}>
+                            <IconButton
+                                aria-label="close"
+                                onClick={handleClose}
+                                sx={{
+                                    position: 'absolute',
+                                    right: 8,
+                                    top: 8,
+                                    color: (theme) => theme.palette.grey[500],
+                                }}
+                            >
+                                <CloseIcon />
+                            </IconButton>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
                                 Agregar Nueva Region
                             </Typography>
@@ -256,7 +272,9 @@ function Cities() {
                                         >
                                             {
                                                 managers.map((item, index) => (
-                                                    <MenuItem key={index} value={item.email}>{item.email}</MenuItem>
+                                                    <MenuItem key={index} value={item.email}>
+                                                        {item.name}
+                                                    </MenuItem>
                                                 ))
                                             }
                                         </SelectStyled>
@@ -266,6 +284,14 @@ function Cities() {
                                     variant="contained" color="primary" onClick={handleSubmit}
                                 >
                                     Agregar
+                                </StyledButton>
+                                <StyledButton
+                                    variant="contained"
+                                    color="error"
+                                    onClick={handleClose}
+                                    sx={{ ml: 2 }}
+                                >
+                                    Cancelar
                                 </StyledButton>
                             </ValidatorForm>
                         </StyledBox>

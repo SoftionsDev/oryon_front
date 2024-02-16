@@ -107,7 +107,7 @@ const RegisterComercial = () => {
                 >
                   {users.map((user) => (
                     <MenuItem key={user.id} value={user.email}>
-                      {user.email}
+                      {user.first_name + ' ' + user.last_name}
                     </MenuItem>
                   ))}
                 </Select>
