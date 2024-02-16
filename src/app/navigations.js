@@ -80,11 +80,11 @@ export const navigations = [
     icon: "shop",
     path: '/dashboard/menuSale'
   },
-  {
-    name: "Indicadores",
-    icon: "light",
-    path: '/dashboard/indicatorSale',
-  },
+  // {
+  //   name: "Indicadores",
+  //   icon: "light",
+  //   path: '/dashboard/indicatorSale',
+  // },
 
   { label: 'Seguridad', type: 'label' },
   {

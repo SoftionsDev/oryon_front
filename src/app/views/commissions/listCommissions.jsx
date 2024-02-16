@@ -41,9 +41,9 @@ function ListRules() {
         const transformed_data = data.map((item) => {
             return {
                 sale: item.sale,
-                amount: item.amount,
+                amount: Number(item.amount).toLocaleString(),
                 rule: item.rule,
-                user: item.user
+                user: `${item.user.first_name} ${item.user.last_name}`
             }
         })
         return transformed_data
@@ -69,7 +69,7 @@ function ListRules() {
     }
 
     const columnNames = [
-        "Venta",
+        "ID Venta",
         "Valor",
         "Regla",
         "Usuario"

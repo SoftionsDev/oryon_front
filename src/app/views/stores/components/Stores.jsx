@@ -14,6 +14,8 @@ import {
     Typography,
     Divider
 } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from 'app/components/PaginatedTable';
 import { Span } from "app/components/Typography";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
@@ -77,11 +79,12 @@ function Stores() {
 
     const transformData = (data) => {
         const transformed_data = data.map((item) => {
+            const manager_name = `${item.manager?.first_name} ${item.manager?.last_name}`
             return {
                 code: item.code,
                 name: item.name,
                 city: item.city.name,
-                manager: item.manager?.email || 'No asignado',
+                manager: manager_name || 'No asignado',
             }
         })
         return transformed_data
@@ -92,6 +95,7 @@ function Stores() {
             return {
                 code: item.code,
                 email: item.email,
+                name: `${item.first_name} ${item.last_name}`,
                 groups: item.groups
             }
         })
@@ -203,6 +207,18 @@ function Stores() {
                         aria-describedby="modal-modal-description"
                     >
                         <StyledBox sx={{ minWidth: 120 }}>
+                            <IconButton
+                                aria-label="close"
+                                onClick={handleClose}
+                                sx={{
+                                    position: 'absolute',
+                                    right: 8,
+                                    top: 8,
+                                    color: (theme) => theme.palette.grey[500],
+                                }}
+                            >
+                                <CloseIcon />
+                            </IconButton>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
                                 Agregar Nueva Tienda
                             </Typography>
@@ -256,7 +272,9 @@ function Stores() {
                                         >
                                             {
                                                 managers.map((manager) => {
-                                                    return <MenuItem value={manager.email}>{manager.email}</MenuItem>
+                                                    return <MenuItem value={manager.email}>
+                                                        {manager.name}
+                                                    </MenuItem>
                                                 })
                                             }
                                         </SelectStyled>
@@ -267,6 +285,14 @@ function Stores() {
                                     <Icon>send</Icon>
                                     <Span sx={{ pl: 1, textTransform: "capitalize" }}>Crear</Span>
                                 </Button>
+                                <StyledButton
+                                    variant="contained"
+                                    color="error"
+                                    onClick={handleClose}
+                                    sx={{ ml: 2 }}
+                                >
+                                    Cancelar
+                                </StyledButton>
                             </ValidatorForm>
                         </StyledBox>
                     </Modal>

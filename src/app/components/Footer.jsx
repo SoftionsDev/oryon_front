@@ -1,4 +1,4 @@
-import { AppBar,  ThemeProvider, Toolbar } from '@mui/material';
+import { AppBar, ThemeProvider, Toolbar } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
 import useSettings from 'app/hooks/useSettings';
 import { topBarHeight } from 'app/utils/constant';
@@ -35,15 +35,16 @@ const Footer = () => {
 
   const footerTheme = settings.themes[settings.footer.theme] || theme;
 
+  const currentYear = new Date().getFullYear();
+
   return (
     <ThemeProvider theme={footerTheme}>
       <AppBar color="primary" position="static" sx={{ zIndex: 96 }}>
         <AppFooter>
           <FooterContent>
-            
             <Span sx={{ m: 'auto' }}></Span>
             <Paragraph sx={{ m: 0 }}>
-              Design and Developed by Softions 2023
+              Design and Developed by Softions {currentYear}
             </Paragraph>
           </FooterContent>
         </AppFooter>
