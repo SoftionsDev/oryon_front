@@ -178,7 +178,7 @@ function Cities() {
     }
 
     const columnNames = [
-        "Codigo",
+        "Código",
         "Nombre",
         "Manager",
         "Region"
