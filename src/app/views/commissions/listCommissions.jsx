@@ -40,20 +40,19 @@ function ListRules() {
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
             return {
-                sale: item.sale.code || item.sale,
+                sale: item.sale.id,
                 amount: Number(item.amount).toLocaleString(),
-                rule: item.rule?.name || item.rule,
+                rule: item.percentage?.name,
                 userName: `${item.user.first_name} ${item.
                     user.last_name}`,
                 extra: {
-                    userCode: item.user?.code || "",
-                    product: item.product?.name || "",
-                    region: item.store?.region?.name || "",
-                    city: item.store?.city?.name || "",
-                    store: item.store?.name || "",
-                    base: Number(item.sale?.amount).toLocaleString() || "",
-                    percentage: item.rule?.percentage || "",
-                    payDate: item.payDate || ""
+                    userCode: item.user.code,
+                    product: item.product.name,
+                    region: item.store.region.name,
+                    city: item.store.city.name,
+                    store: item.store.name,
+                    base: Number(item.sale.price).toLocaleString(),
+                    percentage: `${item.percentage.formula.percentage} %`
                 }
             }
         })
@@ -87,14 +86,13 @@ function ListRules() {
     ]
 
     const secondaryColumnsNames = [
-        "Código",
+        "Código Usuario",
         "Producto",
         "Regional",
         "Ciudad",
         "Punto de Venta",
         "Base Comisión",
-        "Porcentaje",
-        "Fecha de Pago"
+        "Porcentaje"
     ]
 
     return (

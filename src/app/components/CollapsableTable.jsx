@@ -14,6 +14,7 @@ import {
     Icon
 } from '@mui/material';
 import { SimpleCard } from "app/components";
+import { tableCellClasses } from '@mui/material/TableCell'
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 
 
@@ -24,6 +25,26 @@ const StyledTable = styled(Table)(() => ({
     },
     "& tbody": {
         "& tr": { "& td": { paddingLeft: 0 } },
+    },
+}));
+
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    '&:last-child td, &:last-child th': {
+        border: 0,
     },
 }));
 
@@ -43,7 +64,6 @@ const CollapsableTable = ({ props }) => {
         setPage(newPage);
     };
 
-    // Function to handle click, toggles the open state for a specific row
     const handleOnClick = (index) => {
         setOpenStates(prevOpenStates => ({
             ...prevOpenStates,
@@ -140,19 +160,19 @@ const CollapsableTable = ({ props }) => {
                                                     </Typography>
                                                     <Table size="small" aria-label="purchases">
                                                         <TableHead>
-                                                            <TableRow>
+                                                            <StyledTableRow>
                                                                 {secondaryColumns.map((column, index) => (
                                                                     <TableCell key={index}>{column}</TableCell>
                                                                 ))}
-                                                            </TableRow>
+                                                            </StyledTableRow>
                                                         </TableHead>
                                                         <TableBody>
                                                             <TableRow>
                                                                 {Object.entries(item.extra || {}).map(([key, value], index) => {
                                                                     return (
-                                                                        <TableCell key={index}>
+                                                                        <StyledTableCell key={index}>
                                                                             {value}
-                                                                        </TableCell>
+                                                                        </StyledTableCell>
                                                                     );
                                                                 })}
                                                             </TableRow>
