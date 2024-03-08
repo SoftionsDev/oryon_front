@@ -11,7 +11,7 @@ import { Span } from 'app/components/Typography';
 import { createFunction, getFunction } from 'app/utils/rest_connector'
 import { handleGetInfo } from "../../utils/utils"
 import { API_URL } from "../../../constants"
-import PaginatedTable from "app/components/PaginatedTable";
+import CollapsableTable from "app/components/CollapsableTable";
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -40,10 +40,21 @@ function ListRules() {
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
             return {
-                sale: item.sale,
+                sale: item.sale.code || item.sale,
                 amount: Number(item.amount).toLocaleString(),
-                rule: item.rule,
-                user: `${item.user.first_name} ${item.user.last_name}`
+                rule: item.rule?.name || item.rule,
+                userName: `${item.user.first_name} ${item.
+                    user.last_name}`,
+                extra: {
+                    userCode: item.user?.code || "",
+                    product: item.product?.name || "",
+                    region: item.store?.region?.name || "",
+                    city: item.store?.city?.name || "",
+                    store: item.store?.name || "",
+                    base: Number(item.sale?.amount).toLocaleString() || "",
+                    percentage: item.rule?.percentage || "",
+                    payDate: item.payDate || ""
+                }
             }
         })
         return transformed_data
@@ -69,10 +80,21 @@ function ListRules() {
     }
 
     const columnNames = [
-        "ID Venta",
+        "Venta",
         "Valor",
         "Regla",
         "Usuario"
+    ]
+
+    const secondaryColumnsNames = [
+        "Código",
+        "Producto",
+        "Regional",
+        "Ciudad",
+        "Punto de Venta",
+        "Base Comisión",
+        "Porcentaje",
+        "Fecha de Pago"
     ]
 
     return (
@@ -97,10 +119,11 @@ function ListRules() {
                             <Span sx={{ pl: 1, textTransform: 'capitalize' }}>Ejecutar Comisiones</Span>
                         </Button>
                         <p></p>
-                        <PaginatedTable props={
+                        <CollapsableTable props={
                             {
                                 title: 'Comisiones',
                                 columnNames: columnNames,
+                                secondaryColumns: secondaryColumnsNames,
                                 items: commission,
                                 actions: []
                             }

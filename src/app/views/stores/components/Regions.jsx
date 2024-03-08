@@ -154,7 +154,7 @@ function Regions() {
     }
 
     const columnNames = [
-        "Codigo",
+        "Código",
         "Nombre",
         "Manager"
     ]

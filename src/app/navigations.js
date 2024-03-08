@@ -17,11 +17,6 @@ export const navigations = [
     path: "/dashboard/comercial",
     children: [
       {
-        name: "Registrar Colaborador",
-        path: "/dashboard/comercial",
-        icon: "keyboard_arrow_right"
-      },
-      {
         name: "Colaboradores",
         path: '/dashboard/userComercial',
         icon: "keyboard_arrow_right",
@@ -93,16 +88,10 @@ export const navigations = [
     path: '/dashboard/default',
     children: [
       {
-        name: 'Registrar usuario',
-        icon: 'person_add',
-        path: '/dashboard/createUser'
-      },
-      {
         name: 'Usuarios',
         icon: 'person',
         path: '/dashboard/listUser'
       }
-
     ]
   }
 

@@ -7,8 +7,10 @@ export const ROLES = {
 };
 
 export const GOALS_TYPES = {
-    Diaria: 'D',
     Mensual: 'M',
+    Bimensual: 'BM',
+    Trimestral: 'T',
+    Semestral: 'S',
     Anual: 'A'
 }
 
@@ -17,4 +19,17 @@ export const POSITIONS = {
     DIRECTOR: 'Director',
     ADVISER: 'Asesor',
     ASSISTANT: 'Asistente',
+}
+
+export const COMMISSIONS_TYPES = {
+    SALE: 'venta',
+    DELIVERY: 'entrega',
+    OTHER: 'otra'
+}
+
+export const SALES_TYPES = {
+    SELF: 'propia',
+    DELIVERY: 'entrega',
+    REFERRED: 'referido',
+    OTHER: 'otra'
 }

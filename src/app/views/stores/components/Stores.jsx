@@ -180,7 +180,7 @@ function Stores() {
     }
 
     const columnNames = [
-        "Codigo",
+        "Código",
         "Nombre",
         "Ciudad",
         "Manager"
