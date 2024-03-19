@@ -52,9 +52,9 @@ const Sidenav = ({ children }) => {
         {
           //! Role Dependent gave you a different navigation
         }
-        {user.groups.includes(ROLES.Admin) && <VerticalNav items={navigations} />}
-        {user.groups.includes(ROLES.Manager) && <VerticalNav items={navigationsManager} />}
-        {user.groups.includes(ROLES.Colaborador) && <VerticalNav items={navigationsCollaborator} />}
+        {user.groups?.includes(ROLES.Admin) && <VerticalNav items={navigations} />}
+        {user.groups?.includes(ROLES.Manager) && <VerticalNav items={navigationsManager} />}
+        {user.groups?.includes(ROLES.Colaborador) && <VerticalNav items={navigationsCollaborator} />}
 
 
       </StyledScrollBar>
