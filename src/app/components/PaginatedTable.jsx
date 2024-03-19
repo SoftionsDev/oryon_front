@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
     Box,
+    Grid,
     Icon,
     IconButton,
     styled,
@@ -10,8 +11,11 @@ import {
     TableHead,
     TablePagination,
     TableRow,
+    TextField,
     Typography,
 } from "@mui/material";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search"
 import { SimpleCard } from "app/components";
 
 
@@ -32,6 +36,8 @@ const PaginatedTable = ({ props }) => {
 
     const [showLoading, setShowLoading] = useState(false);
     const [page, setPage] = useState(0);
+    const [filterText, setFilterText] = useState("");
+    const [tableData, setTableData] = useState("");
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -41,6 +47,16 @@ const PaginatedTable = ({ props }) => {
         setPage(newPage);
     };
 
+    const handleFilter = () => {
+        const filteredData = items.filter((elem) => {
+            return Object.values(elem).some((value) => String(value).toLowerCase().includes(filterText.toLowerCase()))
+        });
+        setTableData(filteredData);
+    }
+
+
+
+    console.log({ tableData, items, filterText })
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowLoading(true);
@@ -51,12 +67,50 @@ const PaginatedTable = ({ props }) => {
         };
     }, []);
 
+    useEffect(() => {
+        if (showLoading) {
+            handleFilter();
+        }
+    }, [filterText, showLoading]);
     return (
         <SimpleCard>
             <Box width="100%" overflow="auto">
-                <Typography variant='h5'>
-                    {props.title || 'Datos'}
-                </Typography>
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center"
+                    }} >
+                    <Grid item xs={12} md={6}>
+                        <Typography variant='h5'>
+                            {props.title || 'Datos'}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6} alignSelf={'end'}>
+                        <TextField
+                            label="Buscar..."
+                            value={filterText}
+                            variant='outlined'
+                            onChange={(e) => setFilterText(e.target.value)}
+                            InputProps={
+                                {
+                                    endAdornment: (
+                                        <IconButton onClick={() => {
+                                            if (filterText) {
+                                                setFilterText("")
+                                            }
+                                            return
+                                        }}>
+                                            {filterText ? <ClearIcon /> : <SearchIcon />}
+                                        </IconButton>
+                                    )
+                                }
+                            }
+                        />
+                    </Grid>
+                </Grid>
                 <StyledTable>
                     <TableHead>
                         <TableRow>
@@ -74,7 +128,7 @@ const PaginatedTable = ({ props }) => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {items.length >= 1 ? items
+                        {tableData?.length ? tableData
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((item, index) => (
                                 <TableRow key={index}>
