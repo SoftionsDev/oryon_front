@@ -180,10 +180,10 @@ function Stores() {
     }
 
     const columnNames = [
-        "Código",
-        "Nombre",
-        "Ciudad",
-        "Manager"
+        { label: "Código", accessor: "code" },
+        { label: "Nombre", accessor: "name" },
+        { label: "Ciudad", accessor: "city" },
+        { label: "Manager", accessor: "manager" }
     ]
     return (
         <Container>

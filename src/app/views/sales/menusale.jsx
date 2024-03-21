@@ -232,15 +232,15 @@ function Sales() {
   }
 
   const columnNames = [
-    'Código',
-    'Nombre',
-    'Tienda',
-    'Producto',
-    'Fecha',
-    'Valor',
-    'Tipo Venta',
-    'Tipo Comisión',
-    'Comisionado'
+    { label: 'Código', accessor: 'id' },
+    { label: 'Nombre', accessor: 'name' },
+    { label: 'Tienda', accessor: 'store' },
+    { label: 'Producto', accessor: 'product' },
+    { label: 'Fecha', accessor: 'date' },
+    { label: 'Valor', accessor: 'price' },
+    { label: 'Tipo Venta', accessor: 'type' },
+    { label: 'Tipo Comisión', accessor: 'comission_type' },
+    { label: 'Comisionado', accessor: 'commissioned' }
   ];
 
   return (

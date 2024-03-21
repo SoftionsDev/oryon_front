@@ -20,10 +20,11 @@ import * as Yup from 'yup';
 import { Span } from 'app/components/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from "app/components/PaginatedTable";
-import { getFunction, deleteFunction, createFunction } from "../../utils/rest_connector"
+import { getFunction, deleteFunction, createFunction, updateFunction } from "../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../utils/utils"
 import { API_URL, ROLES, POSITIONS } from "../../../constants"
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import useAuth from "app/hooks/useAuth";
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -72,18 +73,24 @@ function Users() {
 
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState({});
+    const auth = useAuth()
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
+    const [update, setUpdate] = useState(false)
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false)
+        setUpdate(false)
+    };
 
     const transformObject = (data) => {
         const transformedData = data.map((item) => {
             return {
                 code: item.code,
-                name: item.first_name,
-                last_name: item.last_name,
+                firstName: item.first_name,
+                lastName: item.last_name,
+                email: item.email,
                 position: POSITIONS[item.position],
                 date: (() => {
                     const date = new Date(item.date_joined);
@@ -91,13 +98,14 @@ function Users() {
                     const day = String(date.getDate()).padStart(2, '0');
                     return `${date.getFullYear()}-${month}-${day}`;
                 })(),
-                role: item.groups.map((group) => Object.keys(ROLES).find(key => ROLES[key] === group))
+                roleName: item.groups.map((group) => Object.keys(ROLES).find(key => ROLES[key] === group)),
             }
         })
         return transformedData
     }
 
     useEffect(() => {
+        console.log(auth)
         setError(false)
         setRefresh(false)
         handleGetInfo(
@@ -108,6 +116,7 @@ function Users() {
 
     const handleChange = (event) => {
         event.preventDefault()
+        console.log(user)
         setUser({ ...user, [event.target.name]: event.target.value });
     }
 
@@ -116,38 +125,54 @@ function Users() {
             const data = {
                 code: user.code,
                 email: user.email,
-                first_name: user.first_name,
-                last_name: user.last_name,
+                first_name: user.firstName,
+                last_name: user.lastName,
                 password: user.password,
                 position: user.position,
-                groups: [user.role],
+                groups: [user.roleName],
                 user_permissions: []
             }
-            await createFunction(API_URL, SERVICE, data)
+            if (update) {
+                await updateFunction(API_URL, SERVICE, user.code, data)
+                setUpdate(false)
+            } else {
+                await createFunction(API_URL, SERVICE, data)
+            }
             setRefresh(true)
             setUser({})
-            setOpen(false)
+            handleClose()
         } catch (error) {
             console.log(error)
             setError(true)
+            handleClose()
         }
     }
 
     const handleError = (event) => {
+        console.log(event)
     }
 
     const performDelete = async (item) => {
-        console.log(item)
         handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
     }
 
+    const performUpdate = async (item) => {
+        let userToEdit = { ...item }
+        userToEdit.roleName = ROLES[item.roleName]
+        userToEdit.position = Object.keys(POSITIONS).find(key => POSITIONS[key] === item.position)
+        setUser(userToEdit)
+        setUpdate(true)
+        handleOpen()
+    }
+
     const columnNames = [
-        "Código",
-        "Nombre",
-        "Apellido",
-        "Cargo",
-        "Fecha de Creación",
-        "Rol"
+        { label: "Código", accessor: 'code' },
+        { label: "Nombre", accessor: 'firstName' },
+        { label: "Email", accessor: 'email', hidden: true },
+        { label: "Apellido", accessor: 'lastName' },
+        { label: "Cargo", accessor: 'position' },
+        { label: "Fecha de Creación", accessor: 'date' },
+        { label: "Rol", accessor: 'roleName' }
     ]
 
     return (
@@ -184,7 +209,11 @@ function Users() {
                                 <CloseIcon />
                             </IconButton>
                             <Typography id='modal-title' variant='h6' component='h2'>
-                                Crear Nuevo Usuario
+                                {update ?
+                                    "Actualizar Usuario"
+                                    :
+                                    "Crear Nuevo Usuario"
+                                }
                             </Typography>
                             <Divider />
                             <ValidatorForm
@@ -203,23 +232,24 @@ function Users() {
                                             errorMessages={['Este Campo es requerido']}
                                             label="Codigo de usuario"
                                             validators={['required', 'minStringLength: 4', 'maxStringLength: 10']}
+                                            disabled={update}
                                         />
 
                                         <TextField
                                             type="text"
-                                            name="first_name"
+                                            name="firstName"
                                             label="Nombre"
                                             onChange={handleChange}
-                                            value={user.first_name || ''}
+                                            value={user.firstName || ''}
                                             validators={['required']}
                                             errorMessages={['Este Campo es requerido']}
                                         />
 
                                         <TextField
                                             type="text"
-                                            name="last_name"
+                                            name="lastName"
                                             label="Apellidos"
-                                            value={user.last_name || ''}
+                                            value={user.lastName || ''}
                                             onChange={handleChange}
                                             validators={['required']}
                                             errorMessages={['Este Campo es requerido', 'email is not valid']}
@@ -262,15 +292,16 @@ function Users() {
                                             onChange={handleChange}
                                             validators={['required']}
                                             errorMessages={['Este Campo es requerido']}
+                                            disabled={update}
                                         />
 
                                         <FormControl fullWidth>
                                             <InputLabel id="demo-simple-select-label">Rol</InputLabel>
                                             <Select
                                                 type="text"
-                                                name="role"
+                                                name="roleName"
                                                 id="standart basic"
-                                                value={user.role || ''}
+                                                value={user.roleName || ''}
                                                 label="Rol"
                                                 onChange={handleChange}
                                             >
@@ -285,10 +316,18 @@ function Users() {
                                 </Grid>
                             </ValidatorForm>
                             <Grid item sx={{ display: 'flex', justifyContent: 'flex-end ' }}>
-                                <StyledButton variant='contained' color='primary' onClick={handleSubmit}>
-                                    <Icon>person_add</Icon>
-                                    <Span sx={{ pl: 1 }}>Crear</Span>
-                                </StyledButton>
+                                {
+                                    !update ?
+                                        <StyledButton variant='contained' color='primary' onClick={handleSubmit}>
+                                            <Icon>person_add</Icon>
+                                            <Span sx={{ pl: 1 }}>Crear</Span>
+                                        </StyledButton>
+                                        :
+                                        <StyledButton variant='contained' color='primary' onClick={handleSubmit}>
+                                            <Icon>edit</Icon>
+                                            <Span sx={{ pl: 1 }}>Actualizar</Span>
+                                        </StyledButton>
+                                }
                                 <StyledButton variant='contained' color='error' onClick={handleClose}>
                                     Cancelar
                                 </StyledButton>
@@ -300,10 +339,15 @@ function Users() {
             <Grid container spacing={2}>
                 <PaginatedTable props={
                     {
-                        title: 'Usurios Activos',
+                        title: 'Usuarios Activos',
                         columnNames: columnNames,
                         items: users,
                         actions: [
+                            {
+                                icon: "edit",
+                                color: "primary",
+                                click: performUpdate
+                            },
                             {
                                 icon: "delete",
                                 color: "error",

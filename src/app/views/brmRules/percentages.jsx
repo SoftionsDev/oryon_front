@@ -43,17 +43,24 @@ const SERVICE_FIELDS = process.env.REACT_APP_FIELDS_SERFVICE || 'fields'
 const CreateRules = () => {
   const [fields, setFields] = useState([])
   const [open, setOpen] = useState(false)
-  const [hasError, setError] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+  const [hasError, setError] = useState(false)
+  const [refresh, setRefresh] = useState(false)
   const [rules, setRules] = useState([])
+  const [rule, setRule] = useState({})
+  const [update, setUpdate] = useState(false)
   const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const handleClose = () => {
+    setOpen(false)
+    setRule({})
+    setUpdate(false)
+  }
 
   const ruleObject = (data) => {
     const transformedData = data.map((item) => {
       return {
         code: item.id,
         name: item.name,
+        rule: item.rule,
         manager_percentage: item.manager,
         director_percentage: item.director,
         commercial_percentage: item.commercial,
@@ -79,14 +86,27 @@ const CreateRules = () => {
     handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
   }
 
+  const performUpdate = (item) => {
+    console.log(item)
+    const itemToUpdate = { ...item }
+    itemToUpdate.manager = item.manager_percentage
+    itemToUpdate.director = item.director_percentage
+    itemToUpdate.commercial = item.commercial_percentage
+    itemToUpdate.assistant = item.assistant_percentage
+    setRule(itemToUpdate)
+    setUpdate(true)
+    handleOpen()
+  }
+
   const columnNames = [
-    "Código",
-    "Nombre",
-    "P. Gerente",
-    "P. Director",
-    "P. Comercial",
-    "P. Asistente",
-    "Activa"
+    { label: "Código", accessor: "code", hidden: true },
+    { label: "Nombre", accessor: "name" },
+    { label: "Regla", accessor: "rule", hidden: true },
+    { label: "P. Gerente", accessor: "manager_percentage" },
+    { label: "P. Director", accessor: "director_percentage" },
+    { label: "P. Comercial", accessor: "commercial_percentage" },
+    { label: "P. Asistente", accessor: "assistant_percentage" },
+    { label: "Activa", accessor: "is_active" }
   ]
 
   return (
@@ -123,6 +143,8 @@ const CreateRules = () => {
             <BrmCreator
               fields={fields}
               url={API_URL}
+              rule={rule || {}}
+              update={update}
               service={SERVICE}
               setRefresh={setRefresh}
               handleClose={handleClose}
@@ -146,6 +168,13 @@ const CreateRules = () => {
           columnNames: columnNames,
           items: rules,
           actions: [
+            /*
+            {
+              icon: "edit",
+              color: "primary",
+              click: performUpdate
+            },
+            */
             {
               icon: "delete",
               color: "error",

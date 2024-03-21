@@ -178,10 +178,10 @@ function Cities() {
     }
 
     const columnNames = [
-        "Código",
-        "Nombre",
-        "Manager",
-        "Region"
+        { label: "Código", accessor: "code" },
+        { label: "Nombre", accessor: "name" },
+        { label: "Manager", accessor: "manager" },
+        { label: "Region", accessor: "region" }
     ]
 
     return (

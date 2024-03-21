@@ -178,7 +178,7 @@ function VoucherTable({ commissionData }) {
                                             style={{
                                                 backgroundColor: '#42423F',
                                             }}
-                                            colSpan={3}
+                                            colSpan={2}
                                         >
                                         </TableCell>
                                         <TableCell

@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import {
     Box,
     Grid,
@@ -25,10 +25,15 @@ const StyledTable = styled(Table)(() => ({
         "& tr": { "& th": { paddingLeft: 0, paddingRight: 0 } },
     },
     "& tbody": {
-        "& tr": { "& td": { paddingLeft: 0, textTransform: "capitalize" } },
+        "& tr": { "& td": { paddingLeft: 0 } },
     },
 }));
 
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    width: 'auto',
+    maxWidth: '150px'
+}))
 
 const PaginatedTable = ({ props }) => {
 
@@ -54,24 +59,70 @@ const PaginatedTable = ({ props }) => {
         setTableData(filteredData);
     }
 
-
-
-    console.log({ tableData, items, filterText })
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowLoading(true);
-        }, 5000);
+        }, 500);
 
         return () => {
             clearTimeout(timer);
         };
     }, []);
 
+    const renderTableHeaders = () => {
+        let visibleIndex = 0;
+        return columnNames.map((columnObj, index) => {
+            if (columnObj.hidden) return null;
+
+            let alignment = 'center';
+            if (visibleIndex === 0) {
+                alignment = 'left';
+            } else if (visibleIndex === columnNames.filter(column => !column.hidden).length - 1) {
+                alignment = 'right';
+            }
+            visibleIndex++;
+
+            return (
+                <StyledTableCell
+                    key={index}
+                    align={alignment}
+                >
+                    {columnObj.label}
+                </StyledTableCell>
+            );
+        });
+    }
+
+    const renderTableCells = (item) => {
+        let visibleIndex = 0;
+        return columnNames.map((columnObj, cellIndex) => {
+            if (columnObj.hidden) return null;
+
+            let alignment = 'center';
+            if (visibleIndex === 0) {
+                alignment = 'left';
+            } else if (visibleIndex === columnNames.filter(column => !column.hidden).length - 1) {
+                alignment = 'right';
+            }
+            visibleIndex++;
+
+            return (
+                <TableCell
+                    key={cellIndex}
+                    align={alignment}
+                >
+                    {item[columnObj.accessor]}
+                </TableCell>
+            );
+        });
+    }
+
     useEffect(() => {
         if (showLoading) {
             handleFilter();
         }
     }, [filterText, showLoading]);
+
     return (
         <SimpleCard>
             <Box width="100%" overflow="auto">
@@ -82,13 +133,14 @@ const PaginatedTable = ({ props }) => {
                         display: "flex",
                         justifyContent: "space-between",
                         alignItems: "center"
-                    }} >
-                    <Grid item xs={12} md={6}>
+                    }}
+                >
+                    <Grid item xs={12} md={6} lg={4}>
                         <Typography variant='h5'>
                             {props.title || 'Datos'}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} md={6} alignSelf={'end'}>
+                    <Grid item xs={12} md={6} lg={4} alignSelf={'end'}>
                         <TextField
                             label="Buscar..."
                             value={filterText}
@@ -114,44 +166,26 @@ const PaginatedTable = ({ props }) => {
                 <StyledTable>
                     <TableHead>
                         <TableRow>
-                            {
-                                columnNames.map((column, index) => {
-                                    let alignment = 'center'
-                                    if (index === 0) {
-                                        alignment = 'left'
-                                    } else if (index === columnNames.length - 1) {
-                                        alignment = 'right'
-                                    }
-                                    return (<TableCell key={index} align={alignment}>{column}</TableCell>)
-                                })
-                            }
+                            {renderTableHeaders()}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {tableData?.length ? tableData
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((item, index) => (
-                                <TableRow key={index}>
-                                    {
-                                        Object.keys(item).map((key, cellIndex) => (
-                                            <TableCell
-                                                key={cellIndex}
-                                                align={cellIndex === 0 ? "left" : cellIndex === Object.keys(item).length - 1 ? "right" : "center"}
-                                                style={{ textTransform: 'none' }}
-                                            >
-                                                {item[key]}
-                                            </TableCell>
-                                        ))
+                            .map((item) => (
+                                <TableRow key={item.code}>
+                                    {renderTableCells(item)}
+                                    {actions && actions.length > 0 &&
+                                        <TableCell align="right">
+                                            {
+                                                actions.map((action, actionIndex) => (
+                                                    <IconButton key={actionIndex} onClick={() => action.click(item)}>
+                                                        <Icon color={action.color}>{action.icon}</Icon>
+                                                    </IconButton>
+                                                ))
+                                            }
+                                        </TableCell>
                                     }
-                                    <TableCell align="right">
-                                        {
-                                            actions.map((action, actionIndex) => (
-                                                <IconButton key={actionIndex} onClick={() => action.click(item)}>
-                                                    <Icon color={action.color}>{action.icon}</Icon>
-                                                </IconButton>
-                                            ))
-                                        }
-                                    </TableCell>
                                 </TableRow>
                             ))
                             :
@@ -169,7 +203,7 @@ const PaginatedTable = ({ props }) => {
                     page={page}
                     component="div"
                     rowsPerPage={rowsPerPage}
-                    count={items.length}
+                    count={tableData.length}
                     onPageChange={handleChangePage}
                     rowsPerPageOptions={[5, 10, 25]}
                     onRowsPerPageChange={handleChangeRowsPerPage}
