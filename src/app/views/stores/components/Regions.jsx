@@ -154,9 +154,9 @@ function Regions() {
     }
 
     const columnNames = [
-        "Código",
-        "Nombre",
-        "Manager"
+        { label: "Código", accessor: "code" },
+        { label: "Nombre", accessor: "name" },
+        { label: "Manager", accessor: "manager" }
     ]
 
     return (

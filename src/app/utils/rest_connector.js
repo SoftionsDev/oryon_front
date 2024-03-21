@@ -39,8 +39,8 @@ export const createFunction = async (baseUrl, service, data, contentType = 'appl
 
 
 // Use when you need to update an entity
-export const updateFunction = async (baseUrl, service, storeId, data, contentType = 'application/json') => {
-    return await apiHandler(`${baseUrl}/${service}/${storeId}/`, 'PUT', data, contentType);
+export const updateFunction = async (baseUrl, service, elementId, data, contentType = 'application/json') => {
+    return await apiHandler(`${baseUrl}/${service}/${elementId}/`, 'PATCH', data, contentType);
 };
 
 

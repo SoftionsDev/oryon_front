@@ -7,7 +7,7 @@ import { ValidatorForm } from 'react-material-ui-form-validator';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { createFunction } from 'app/utils/rest_connector';
+import { createFunction, updateFunction } from 'app/utils/rest_connector';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 
@@ -23,16 +23,16 @@ const Container = styled('div')(({ theme }) => ({
 
 
 const BrmCreator = (props) => {
-    const [rule, setRule] = useState({})
+    const [rule, setRule] = useState(props.rule)
     const [ruleGroups, setRuleGroups] = useState([
         { campo: '', operatorComp: '', valueNumber: '', binaryOperator: '' }
     ]);
     const [hasError, setHasError] = useState(false);
 
     useEffect(() => {
+        console.log(props.fields)
         concatenateValues()
     }, [ruleGroups])
-
 
     const handleChange = (event, index) => {
         const { name, value } = event.target;
@@ -77,12 +77,16 @@ const BrmCreator = (props) => {
             const body = {
                 name: rule.name,
                 rule: rule.rule,
-                manager: rule.percentageManager,
-                director: rule.percentageDirector,
-                commercial: rule.percentageCommercial,
-                assistant: rule.percentageAssistant
+                manager: rule.manager,
+                director: rule.director,
+                commercial: rule.commercial,
+                assistant: rule.assistant
             }
-            await createFunction(props.url, props.service, body)
+            if (props.update) {
+                await updateFunction(props.url, props.service, body, rule.id)
+            } else {
+                await createFunction(props.url, props.service, body)
+            }
             props.setRefresh(true)
             setRule({})
             props.handleClose()
@@ -96,16 +100,39 @@ const BrmCreator = (props) => {
     const handleError = (event) => {
         console.log(event);
         setHasError(true);
-    };
+    }
     const hasValues = () => {
         return ruleGroups.some(group => group.campo || group.operatorComp || group.valueNumber);
-    };
+    }
+
+    useEffect(() => {
+        if (props.update && rule) {
+            const ruleParts = rule.rule.split(' ')
+            const newGroups = []
+            const ruleLength = ruleParts.length === 3 ? ruleParts.length : 4
+            for (let i = 0; i < ruleParts.length; i += ruleLength) {
+                const [_field, accessor] = ruleParts[i].split('.')
+                newGroups.push({
+                    campo: accessor,
+                    operatorComp: ruleParts[i + 1],
+                    valueNumber: ruleParts[i + 2],
+                    binaryOperator: ruleParts[i + 3] ? ruleParts[i + 3] : ''
+                })
+            }
+            console.log(newGroups)
+            setRuleGroups(newGroups)
+        }
+    }, []);
+
+
     return (
-        <Container>
+        <Container style={{ maxHeight: '75vh', overflowY: 'true' }}>
             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
                 <Button color="primary" variant="contained" type="submit">
                     <Icon>border_color</Icon>
-                    <Span sx={{ pl: 1, textTransform: 'capitalize' }}>Crear</Span>
+                    <Span sx={{ pl: 1, textTransform: 'capitalize' }}>
+                        {props.update ? "Actualizar" : "Crear"}
+                    </Span>
                 </Button>
                 <p />
                 {hasError && (
@@ -118,13 +145,13 @@ const BrmCreator = (props) => {
                     component="form"
                     sx={{
                         '& .MuiTextField-root': { m: 1, width: '25ch' },
-                        '& .MuiFormControl-root': { m: 1, width: '40ch' },
+                        '& .MuiFormControl-root': { m: 1, width: '25ch' },
                     }}
                     noValidate
                     autoComplete="off"
                 >
-                    <SimpleCard title="Creacion de reglas BRM">
-                        <div style={{ maxHeight: '400px', overflowY: 'auto' }}>
+                    <SimpleCard title={props.update ? "Actualizar Regla" : "Creacion de reglas BRM"}>
+                        <div style={{ maxHeight: '200px', overflowY: 'auto' }}>
                             <TextField
                                 label="Nombre"
                                 name="name"
@@ -224,36 +251,37 @@ const BrmCreator = (props) => {
                             )}
                         </div>
                     </SimpleCard>
+                    <p></p>
                     <SimpleCard title="Porcentajes">
                         <TextField
                             label="Porcentaje Manager"
-                            name="percentageManager"
+                            name="manager"
                             type='number'
-                            value={rule.percentageManager}
+                            value={rule.manager}
                             onChange={handleChange}
                             validators={['required']}
                         />
                         <TextField
                             label="Porcentaje Director"
-                            name="percentageDirector"
+                            name="director"
                             type='number'
-                            value={rule.percentageDirector}
+                            value={rule.director}
                             onChange={handleChange}
                             validators={['required']}
                         />
                         <TextField
                             label="Porcentaje Comercial"
-                            name="percentageCommercial"
+                            name="commercial"
                             type='number'
-                            value={rule.percentageCommercial}
+                            value={rule.commercial}
                             onChange={handleChange}
                             validators={['required']}
                         />
                         <TextField
                             label="Porcentaje Asesor"
-                            name="percentageAssistant"
+                            name="assistant"
                             type='number'
-                            value={rule.percentageAssistant}
+                            value={rule.assistant}
                             onChange={handleChange}
                             validators={['required']}
                         />

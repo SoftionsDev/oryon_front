@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import MenuItem from '@mui/material/MenuItem';
 import { SimpleCard } from 'app/components';
-import { Button, Icon, styled, Alert, AlertTitle, Grid, Box } from '@mui/material';
+import { Button, Icon, styled, Alert, AlertTitle, Grid, Box, TableBody } from '@mui/material';
 import { Span } from 'app/components/Typography';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { createFunction } from 'app/utils/rest_connector';
+import { createFunction, updateFunction } from 'app/utils/rest_connector';
 import TextField from '@mui/material/TextField';
 
 
@@ -38,7 +38,7 @@ const CreateFormulas = (props) => {
         const { name, value } = event.target;
         if (Object.keys(formula).includes(name)) {
             if (name === 'percentage') {
-                const selectedRule = props.rules.find(rule => rule.code === formula.rule?.code);
+                const selectedRule = props.rules.find(rule => rule.code === (props.update ? formula.rule?.id : formula.rule?.code));
                 const percentageValue = selectedRule ? selectedRule.percentages[value] : '';
                 setFormula({ ...formula, [name]: percentageValue });
             } else {
@@ -68,9 +68,13 @@ const CreateFormulas = (props) => {
                 formula: formula.formula,
                 rule: formula.rule.code
             }
-            await createFunction(props.url, props.service, body)
-            props.handleClose()
+            if (props.update) {
+                await updateFunction(props.url, props.service, formula.code, body)
+            } else {
+                await createFunction(props.url, props.service, body)
+            }
             props.setRefresh(true)
+            props.handleClose()
         } catch (error) {
             console.log(error);
             setHasError(true);
@@ -82,12 +86,32 @@ const CreateFormulas = (props) => {
         setHasError(true);
     };
 
+    useEffect(() => {
+        if (props.update && props.formula) {
+            const formula_ = props.formula.formula.match(/([\*\/\+\-])\spercentages\.(\w+)([\*\/\+\-])(100)/);
+            setFormulaGroup({
+                operator: formula_[1],
+                percentage: formula_[2],
+                operator1: formula_[3],
+                percentage1: formula_[4]
+            })
+            setFormula({
+                code: props.formula.code,
+                formula: props.formula.formula,
+                percentage: props.formula.percentage,
+                rule: props.formula.rule
+            })
+        }
+    }, [])
+
     return (
         <Container>
             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
                 <Button color="primary" variant="contained" type="submit">
                     <Icon>border_color</Icon>
-                    <Span sx={{ pl: 1, textTransform: 'capitalize' }}>Crear</Span>
+                    <Span sx={{ pl: 1, textTransform: 'capitalize' }}>
+                        {props.update ? "Actualizar" : "Crear"}
+                    </Span>
                 </Button>
                 <p />
                 {hasError && (
@@ -106,12 +130,19 @@ const CreateFormulas = (props) => {
                                     name="rule"
                                     value={formula.rule?.rule || ''}
                                     onChange={handleChange}
+                                    disabled={props.update}
                                 >
-                                    {props.rules.filter(rule => !rule.has_formula).map((rule) => (
-                                        <MenuItem key={rule.code} value={rule.rule}>
-                                            {rule.name}
+                                    {props.update ? (
+                                        <MenuItem key={formula.rule.code} value={formula.rule.rule}>
+                                            {formula.rule.name}
                                         </MenuItem>
-                                    ))}
+                                    ) : (
+                                        props.rules.filter(rule => !rule.hasFormula).map((rule) => (
+                                            <MenuItem key={rule.code} value={rule.rule}>
+                                                {rule.name}
+                                            </MenuItem>
+                                        ))
+                                    )}
                                 </Select>
                             </FormControl>
                         </Grid>
@@ -146,7 +177,7 @@ const CreateFormulas = (props) => {
                                     value={formulaGroup.percentage || ''}
                                     onChange={handleChange}
                                 >
-                                    {props.rules.filter(rule => rule.code === formula.rule?.code).map((rule) => (
+                                    {props.rules.filter((rule) => rule.code === (props.update ? formula.rule?.id : formula.rule?.code)).map((rule) => (
                                         Object.entries(rule.percentages).map(([key, value]) => (
                                             <MenuItem key={key} value={key}>
                                                 {key} = {value}

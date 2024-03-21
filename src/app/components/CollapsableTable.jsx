@@ -11,10 +11,14 @@ import {
     TablePagination,
     Typography,
     styled,
-    Icon
+    Icon,
+    Grid,
+    TextField
 } from '@mui/material';
 import { SimpleCard } from "app/components";
 import { tableCellClasses } from '@mui/material/TableCell'
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search"
 import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardArrowDownIcon } from '@mui/icons-material';
 
 
@@ -52,7 +56,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 const CollapsableTable = ({ props }) => {
     const { columnNames, secondaryColumns, items, actions } = props
     const [openStates, setOpenStates] = useState({});
-
+    const [tableData, setFilterData] = useState([]);
+    const [filterText, setFilterText] = useState("");
     const [showLoading, setShowLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -71,41 +76,126 @@ const CollapsableTable = ({ props }) => {
         }));
     };
 
+    const handlerFilter = () => {
+        const filteredData = items.filter((elem) => {
+            return Object.values(elem).some((value) => String(value).toLowerCase().includes(filterText.toLowerCase()))
+        });
+        setFilterData(filteredData);
+    }
+
+
     useEffect(() => {
         const timer = setTimeout(() => {
             setShowLoading(true);
-        }, 5000);
+        }, 1500);
 
         return () => {
             clearTimeout(timer);
         };
     }, []);
 
+    useEffect(() => {
+        if (showLoading) {
+            handlerFilter()
+        }
+    }, [filterText, showLoading])
+
+    const renderTableHeaders = () => {
+        let visibleIndex = 0;
+        return columnNames.map((columnObj, index) => {
+            if (columnObj.hidden) return null;
+
+            let alignment = 'center';
+            if (visibleIndex === 0) {
+                alignment = 'left';
+            } else if (visibleIndex === columnNames.filter(column => !column.hidden).length - 1) {
+                alignment = 'right';
+            }
+            visibleIndex++;
+
+            return (
+                <TableCell
+                    key={index}
+                    align={alignment}
+                >
+                    {columnObj.label}
+                </TableCell>
+            );
+        });
+    }
+
+    const renderTableCells = (item, columns) => {
+        let visibleIndex = 0;
+        return columns.map((columnObj, cellIndex) => {
+            if (columnObj.hidden) return null;
+
+            let alignment = 'center';
+            if (visibleIndex === 0) {
+                alignment = 'left';
+            } else if (visibleIndex === columns.filter(column => !column.hidden).length - 1) {
+                alignment = 'right';
+            }
+            visibleIndex++;
+
+            return (
+                <TableCell
+                    key={cellIndex}
+                    align={alignment}
+                >
+                    {item[columnObj.accessor]}
+                </TableCell>
+            );
+        });
+    }
+
     return (
         <SimpleCard>
             <Box width='100%' overflow="auto">
-                <Typography variant='h5'>
-                    {props.title || 'Datos'}
-                </Typography>
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center'
+                    }}>
+                    <Grid item xs={12} md={6} lg={4}>
+                        <Typography variant='h5'>
+                            {props.title || 'Datos'}
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={12} md={6} lg={4}>
+                        <TextField
+                            label="Buscar..."
+                            value={filterText}
+                            variant='outlined'
+                            onChange={(e) => setFilterText(e.target.value)}
+                            InputProps={
+                                {
+                                    endAdornment: (
+                                        <IconButton onClick={() => {
+                                            if (filterText) {
+                                                setFilterText("")
+                                            }
+                                            return
+                                        }}>
+                                            {filterText ? <ClearIcon /> : <SearchIcon />}
+                                        </IconButton>
+                                    )
+                                }
+                            }
+                        />
+                    </Grid>
+                </Grid>
                 <StyledTable>
                     <TableHead>
                         <TableRow>
                             <TableCell />
-                            {
-                                columnNames.map((column, index) => {
-                                    let alignment = 'center'
-                                    if (index === 0) {
-                                        alignment = 'left'
-                                    } else if (index === columnNames.length - 1) {
-                                        alignment = 'right'
-                                    }
-                                    return (<TableCell key={index} align={alignment}>{column}</TableCell>)
-                                })
-                            }
+                            {renderTableHeaders()}
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {items.length >= 1 ? items
+                        {tableData?.length >= 1 ? tableData
                             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                             .map((item, index) => (
                                 <>
@@ -119,28 +209,7 @@ const CollapsableTable = ({ props }) => {
                                                 {openStates[index] ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                             </IconButton>
                                         </TableCell>
-                                        {
-                                            Object.keys(item).map((key, cellIndex) => {
-                                                if (key !== "extra") {
-                                                    let alignment = 'center'
-                                                    if (cellIndex === 0) {
-                                                        alignment = 'left'
-                                                    } else if (cellIndex === Object.keys(item).length - 2) {
-                                                        alignment = 'right'
-                                                    }
-                                                    return (
-                                                        <TableCell
-                                                            key={cellIndex}
-                                                            align={alignment}
-                                                            style={{ textTransform: 'none' }}
-                                                        >
-                                                            {item[key]}
-                                                        </TableCell>
-                                                    );
-                                                }
-                                                return null;
-                                            })
-                                        }
+                                        {renderTableCells(item, columnNames)}
                                         <TableCell align="right">
                                             {
                                                 actions.map((action, actionIndex) => (
@@ -162,19 +231,13 @@ const CollapsableTable = ({ props }) => {
                                                         <TableHead>
                                                             <StyledTableRow>
                                                                 {secondaryColumns.map((column, index) => (
-                                                                    <TableCell key={index}>{column}</TableCell>
+                                                                    <TableCell key={index}>{column.label}</TableCell>
                                                                 ))}
                                                             </StyledTableRow>
                                                         </TableHead>
                                                         <TableBody>
                                                             <TableRow>
-                                                                {Object.entries(item.extra || {}).map(([key, value], index) => {
-                                                                    return (
-                                                                        <StyledTableCell key={index}>
-                                                                            {value}
-                                                                        </StyledTableCell>
-                                                                    );
-                                                                })}
+                                                                {renderTableCells(item, secondaryColumns)}
                                                             </TableRow>
                                                         </TableBody>
                                                     </Table>
@@ -198,7 +261,7 @@ const CollapsableTable = ({ props }) => {
                     page={page}
                     component="div"
                     rowsPerPage={rowsPerPage}
-                    count={items.length}
+                    count={tableData.length}
                     onPageChange={handleChangePage}
                     rowsPerPageOptions={[5, 10, 25]}
                     onRowsPerPageChange={handleChangeRowsPerPage}

@@ -112,8 +112,6 @@ function Products() {
     setRefresh(false)
   }
 
-  const columnNames = ['Código', 'Nombre', 'Marca', 'Categoría', 'Valor'];
-
   const fileSelectHandler = async (e) => {
     if (e.target.files.length > 0) {
       console.log(e)
@@ -160,6 +158,14 @@ function Products() {
     console.log(error)
     setError(true);
   }
+
+  const columnNames = [
+    { label: 'Código', accessor: 'code' },
+    { label: 'Nombre', accessor: 'name' },
+    { label: 'Marca', accessor: 'brand' },
+    { label: 'Categoría', accessor: 'category' },
+    { label: 'Valor', accessor: 'price' },
+  ];
 
   return (
     <Container>

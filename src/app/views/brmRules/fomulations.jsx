@@ -50,24 +50,30 @@ const RULES_SERVICES = process.env.REACT_APP_RULES_SERVICE || 'rules'
 function ListFormulas() {
 
     const [formulas, setFormulas] = useState([]);
-    const [rules, setRules] = useState([]);
+    const [formula, setFormula] = useState({});
+    const [rules, setRules] = useState([{}]);
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
+    const [update, setUpdate] = useState(false)
     const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
-
+    const handleClose = () => {
+        setOpen(false)
+        setUpdate(false)
+    }
 
     const formulaObject = (data) => {
-        const transformed_data = data.map((item) => {
+        const transformedData = data.map((item) => {
             return {
                 code: item.id,
                 name: item.name,
+                rule: item.rule,
                 percentage: item.percentage,
-                created_at: item.created_at,
+                formula: item.formula,
+                createdAt: item.created_at
             }
         })
-        return transformed_data
+        return transformedData
     }
 
     const ruleObject = (data) => {
@@ -76,13 +82,14 @@ function ListFormulas() {
                 code: item.id,
                 name: item.name,
                 rule: item.rule,
-                has_formula: item.has_formula,
+                hasFormula: item.has_formula,
                 percentages: {
-                    manager: item.manager,
                     director: item.director,
+                    manager: item.manager,
                     commercial: item.commercial,
-                    assistant: item.assistant
-                }
+                    assistant: item.assistant,
+                },
+                isActive: item.is_active,
             }
         })
         return transformedData
@@ -94,19 +101,27 @@ function ListFormulas() {
         handleGetInfo(
             getFunction, API_URL, SERVICE, formulaObject, setFormulas, setError
         )
-        handleGetInfo
-            (getFunction, API_URL, RULES_SERVICES, ruleObject, setRules, setError)
+        handleGetInfo(getFunction, API_URL, RULES_SERVICES, ruleObject, setRules, setError)
+        setRules(formulas.filter(item => item.has_formula === true))
     }, [refresh])
 
     const performDelete = async (item) => {
         handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
     }
 
+    const performUpdate = (item) => {
+        setFormula(item)
+        setUpdate(true)
+        handleOpen()
+    }
+
     const columnNames = [
-        "Codigo",
-        "Nombre Regla",
-        "Porcentaje",
-        "Fecha de creacion",
+        { label: "Código", accessor: "code" },
+        { label: "Nombre Regla", accessor: "name" },
+        { label: "Regla", accessor: "rule", hidden: true },
+        { label: "Tiene formula", accessor: "hasFormula", hidden: true },
+        { label: "Porcentaje", accessor: "percentage" },
+        { label: "Fecha de creación", accessor: "createdAt" },
     ]
 
     return (
@@ -144,6 +159,8 @@ function ListFormulas() {
                             url={API_URL}
                             service={SERVICE}
                             rules={rules}
+                            formula={formula}
+                            update={update}
                             setRefresh={setRefresh}
                             handleClose={handleClose}
                         />
@@ -167,6 +184,11 @@ function ListFormulas() {
                         columnNames: columnNames,
                         items: formulas,
                         actions: [
+                            {
+                                icon: "edit",
+                                color: "primary",
+                                click: performUpdate
+                            },
                             {
                                 icon: "delete",
                                 color: "error",

@@ -18,7 +18,7 @@ import {
 } from "@mui/material";
 import PaginatedTable from "app/components/PaginatedTable";
 import CloseIcon from '@mui/icons-material/Close';
-import { getFunction, deleteFunction, createFunction } from "../../utils/rest_connector"
+import { getFunction, deleteFunction, createFunction, updateFunction } from "../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../utils/utils"
 import { API_URL, GOALS_TYPES, ROLES } from "../../../constants"
 import { ValidatorForm } from "react-material-ui-form-validator";
@@ -79,8 +79,8 @@ const COMMISSION_SERVICE = process.env.REACT_APP_USER_COMMISSIONS_SERVICE || 'co
 
 function Commercials() {
 
-    const [comercials, setComercials] = useState([]);
-    const [commercial, setComercial] = useState({});
+    const [commercials, setCommercials] = useState([]);
+    const [commercial, setCommercial] = useState({});
     const [users, setUsers] = useState([]);
     const [isVoucherOpen, setVoucherOpen] = useState(false);
     const [commissions, setCommissionData] = useState({})
@@ -88,8 +88,13 @@ function Commercials() {
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false);
+    const [update, setUpdate] = useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        setOpen(false)
+        setUpdate(false)
+        setCommercial({})
+    };
 
     const handleOpenVoucher = async (item) => {
         const commissionData = await handleCommissionClick(item);
@@ -105,8 +110,7 @@ function Commercials() {
         const transformed_data = data.map((item) => {
             return {
                 code: item.user.code,
-                firstName: item.user.first_name,
-                last_name: item.user.last_name,
+                name: `${item.user.first_name} ${item.user.last_name}`,
                 email: item.user.email,
                 manager: item.manager,
                 goal_type: (() => Object.keys(GOALS_TYPES).find(key => GOALS_TYPES[key] === item.goal_type))(),
@@ -118,8 +122,9 @@ function Commercials() {
 
     useEffect(() => {
         setError(false)
+        setRefresh(false)
         handleGetInfo(
-            getFunction, API_URL, SERVICE, transformObject, setComercials, setError
+            getFunction, API_URL, SERVICE, transformObject, setCommercials, setError
         )
         const getUsers = async () => {
             try {
@@ -139,7 +144,7 @@ function Commercials() {
 
     const handleChange = (event) => {
         event.preventDefault()
-        setComercial({ ...commercial, [event.target.name]: event.target.value });
+        setCommercial({ ...commercial, [event.target.name]: event.target.value });
     }
 
     const performDelete = async (item) => {
@@ -150,6 +155,7 @@ function Commercials() {
     const handleError = (event) => {
         console.log(event);
         setError(true);
+        setCommercial({})
     };
 
     const handleSubmit = async (event) => {
@@ -161,9 +167,15 @@ function Commercials() {
                 goal: commercial.goal,
                 goal_type: commercial.goal_type
             }
-            await createFunction(API_URL, SERVICE, data)
+            if (update) {
+                await updateFunction(API_URL, SERVICE, commercial.user, data)
+            } else {
+                await createFunction(API_URL, SERVICE, data)
+            }
             setRefresh(true)
             setOpen(false)
+            setUpdate(false)
+            setCommercial({})
         } catch (error) {
             console.log(error);
             setError(true);
@@ -197,14 +209,23 @@ function Commercials() {
         }
     };
 
+    const performUpdate = (item) => {
+        let commercialToEdit = { ...item }
+        commercialToEdit.goal = item.goal.replace(/,/g, '').replace(/\./g, '')
+        commercialToEdit.user = commercialToEdit.email
+        commercialToEdit.goal_type = GOALS_TYPES[commercialToEdit.goal_type]
+        setCommercial(commercialToEdit)
+        setUpdate(true)
+        handleOpen()
+    }
+
     const columnNames = [
-        "Código",
-        "Nombre",
-        "Apellido",
-        "Email",
-        "Manager",
-        "Meta",
-        "Meta actual"
+        { label: "Código", accessor: "code" },
+        { label: "Nombre", accessor: "name" },
+        { label: "Email", accessor: "email" },
+        { label: "Manager", accessor: "manager" },
+        { label: "Meta", accessor: "goal_type" },
+        { label: "Meta actual", accessor: "goal" }
     ]
 
 
@@ -242,7 +263,10 @@ function Commercials() {
                                 <CloseIcon />
                             </IconButton>
                             <Typography variant='h6' component='h2'>
-                                Agregar Nuevo Comercial
+                                {update ?
+                                    'Actualizar Comercial' :
+                                    'Crear Comercial'
+                                }
                             </Typography>
                             <Divider />
                             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
@@ -258,6 +282,7 @@ function Commercials() {
                                                 onChange={handleChange}
                                                 errorMessages={["Este Campo es requerido"]}
                                                 label="Seleccionar Usuario"
+                                                disabled={update}
                                             >
                                                 {users.map((user) => (
                                                     <MenuItem key={user.code} value={user.email}>
@@ -326,7 +351,7 @@ function Commercials() {
                             </ValidatorForm>
                             <Grid item sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
                                 <StyledButton variant='contained' color='primary' onClick={handleSubmit}>
-                                    Crear
+                                    {update ? 'Actualizar' : 'Crear'}
                                 </StyledButton>
                                 <StyledButton variant='contained' color='error' onClick={handleClose}>
                                     Cancelar
@@ -339,12 +364,17 @@ function Commercials() {
                     {
                         title: 'Comerciales',
                         columnNames: columnNames,
-                        items: comercials,
+                        items: commercials,
                         actions: [
                             {
                                 icon: "receipt",
                                 color: "primary",
                                 click: handleOpenVoucher
+                            },
+                            {
+                                icon: "edit",
+                                color: "primary",
+                                click: performUpdate
                             },
                             {
                                 icon: "delete",
