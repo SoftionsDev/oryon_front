@@ -37,9 +37,8 @@ const CreateFormulas = (props) => {
     const handleChange = (event) => {
         const { name, value } = event.target;
         if (Object.keys(formula).includes(name)) {
-            if (name === 'percentage') {
-                const selectedRule = props.rules.find(rule => rule.code === (props.update ? formula.rule?.id : formula.rule?.code));
-                const percentageValue = selectedRule ? selectedRule.percentages[value] : '';
+            if (name === 'percentage' && formula.rule) {
+                const percentageValue = formula.rule.percentages[value];
                 setFormula({ ...formula, [name]: percentageValue });
             } else {
                 setFormula((prevFormula) => {
@@ -177,13 +176,15 @@ const CreateFormulas = (props) => {
                                     value={formulaGroup.percentage || ''}
                                     onChange={handleChange}
                                 >
-                                    {props.rules.filter((rule) => rule.code === (props.update ? formula.rule?.id : formula.rule?.code)).map((rule) => (
-                                        Object.entries(rule.percentages).map(([key, value]) => (
+                                    {formula?.rule?.percentages ? (
+                                        Object.entries(formula.rule.percentages).map(([key, value]) => (
                                             <MenuItem key={key} value={key}>
                                                 {key} = {value}
                                             </MenuItem>
                                         ))
-                                    ))}
+                                    ) : (
+                                        <p>Sin porcentajes</p>
+                                    )}
                                 </Select>
                             </FormControl>
                             <TextField

@@ -50,7 +50,7 @@ function ListRules() {
                 city: item.store.city.name,
                 store: item.store.name,
                 base: Number(item.sale.price).toLocaleString(),
-                percentage: `${item.percentage.formula.percentage} %`
+                percentage: `${item.percentage?.percentage} %`
             }
         })
         return transformed_data

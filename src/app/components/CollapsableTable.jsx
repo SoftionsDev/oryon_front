@@ -100,7 +100,7 @@ const CollapsableTable = ({ props }) => {
         }
     }, [filterText, showLoading])
 
-    const renderTableHeaders = () => {
+    const renderTableHeaders = (columnNames) => {
         let visibleIndex = 0;
         return columnNames.map((columnObj, index) => {
             if (columnObj.hidden) return null;
@@ -191,7 +191,7 @@ const CollapsableTable = ({ props }) => {
                     <TableHead>
                         <TableRow>
                             <TableCell />
-                            {renderTableHeaders()}
+                            {renderTableHeaders(columnNames)}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -230,9 +230,7 @@ const CollapsableTable = ({ props }) => {
                                                     <Table size="small" aria-label="purchases">
                                                         <TableHead>
                                                             <StyledTableRow>
-                                                                {secondaryColumns.map((column, index) => (
-                                                                    <TableCell key={index}>{column.label}</TableCell>
-                                                                ))}
+                                                                {renderTableHeaders(secondaryColumns)}
                                                             </StyledTableRow>
                                                         </TableHead>
                                                         <TableBody>

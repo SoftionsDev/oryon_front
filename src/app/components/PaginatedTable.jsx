@@ -67,6 +67,7 @@ const PaginatedTable = ({ props }) => {
         return () => {
             clearTimeout(timer);
         };
+        console.log(items)
     }, []);
 
     const renderTableHeaders = () => {

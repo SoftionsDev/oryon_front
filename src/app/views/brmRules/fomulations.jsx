@@ -60,6 +60,7 @@ function ListFormulas() {
     const handleClose = () => {
         setOpen(false)
         setUpdate(false)
+        setFormula({})
     }
 
     const formulaObject = (data) => {
@@ -96,14 +97,21 @@ function ListFormulas() {
     }
 
     useEffect(() => {
-        setError(false)
         setRefresh(false)
-        handleGetInfo(
-            getFunction, API_URL, SERVICE, formulaObject, setFormulas, setError
-        )
-        handleGetInfo(getFunction, API_URL, RULES_SERVICES, ruleObject, setRules, setError)
-        setRules(formulas.filter(item => item.has_formula === true))
+        const fetchData = async () => {
+            console.log('refresh', refresh)
+            setError(false)
+            await handleGetInfo(
+                getFunction, API_URL, SERVICE, formulaObject, setFormulas, setError
+            )
+            await handleGetInfo(
+                getFunction, API_URL, RULES_SERVICES, ruleObject, setRules, setError
+            )
+        }
+        fetchData()
     }, [refresh])
+
+
 
     const performDelete = async (item) => {
         handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
@@ -123,7 +131,6 @@ function ListFormulas() {
         { label: "Porcentaje", accessor: "percentage" },
         { label: "Fecha de creación", accessor: "createdAt" },
     ]
-
     return (
         <Container >
             {hasError &&
