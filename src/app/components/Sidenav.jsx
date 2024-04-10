@@ -1,5 +1,5 @@
 import { styled } from '@mui/system';
-import { MatxVerticalNav } from 'app/components';
+import { VerticalNav } from 'app/components';
 import useAuth from 'app/hooks/useAuth';
 import useSettings from 'app/hooks/useSettings';
 import { navigations, navigationsCollaborator, navigationsManager } from 'app/navigations';
@@ -52,9 +52,9 @@ const Sidenav = ({ children }) => {
         {
           //! Role Dependent gave you a different navigation
         }
-        {user.groups.includes(ROLES.Admin) && <MatxVerticalNav items={navigations} />}
-        {user.groups.includes(ROLES.Manager) && <MatxVerticalNav items={navigationsManager} />}
-        {user.groups.includes(ROLES.Colaborador) && <MatxVerticalNav items={navigationsCollaborator} />}
+        {user.groups?.includes(ROLES.Admin) && <VerticalNav items={navigations} />}
+        {user.groups?.includes(ROLES.Manager) && <VerticalNav items={navigationsManager} />}
+        {user.groups?.includes(ROLES.Colaborador) && <VerticalNav items={navigationsCollaborator} />}
 
 
       </StyledScrollBar>

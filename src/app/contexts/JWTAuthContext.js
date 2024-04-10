@@ -1,7 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react'
 import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
-import { MatxLoading } from 'app/components'
+import { Loading } from 'app/components'
 import { API_URL } from '../../constants'
 
 
@@ -155,7 +155,7 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     if (!state.isInitialised) {
-        return <MatxLoading />
+        return <Loading />
     }
 
     return (

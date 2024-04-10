@@ -1,5 +1,5 @@
 import { Box, styled } from '@mui/material';
-import { MatxLogo } from 'app/components';
+import OryonLogo from 'app/components/OryonLogo';
 import useSettings from 'app/hooks/useSettings';
 import { Span } from './Typography';
 
@@ -24,7 +24,7 @@ const Brand = ({ children }) => {
   return (
     <BrandRoot>
       <Box display="flex" alignItems="center">
-        <MatxLogo />
+        <OryonLogo />
         <StyledSpan mode={mode} className="sidenavHoverShow">
           Oryon
         </StyledSpan>

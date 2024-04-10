@@ -14,9 +14,11 @@ import {
     Typography,
     Divider
 } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
 import PaginatedTable from "app/components/PaginatedTable";
-import { getFunction, deleteFunction, createFunction } from "../../../utils/rest_connector"
+import { getFunction, deleteFunction, createFunction, updateFunction } from "../../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../../utils/utils"
 import { API_URL, ROLES } from "../../../../constants"
 
@@ -70,15 +72,21 @@ function Cities() {
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
+    const [update, setUpdate] = useState(false)
     const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+    const handleClose = () => {
+        setCity({})
+        setOpen(false)
+        setUpdate(false)
+    }
 
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
+            const manager_name = `${item.manager?.first_name} ${item.manager?.last_name}`
             return {
                 code: item.code,
                 name: item.name,
-                manager: item.manager?.email || 'No asignado',
+                manager: manager_name || 'No asignado',
                 region: item.region.name
             }
         })
@@ -90,6 +98,7 @@ function Cities() {
             return {
                 code: item.code,
                 email: item.email,
+                name: `${item.first_name} ${item.last_name}`,
                 groups: item.groups
             }
         })
@@ -140,7 +149,11 @@ function Cities() {
                 manager: city.manager.code,
                 region: city.region.code
             }
-            await createFunction(API_URL, SERVICE, data)
+            if (update) {
+                await updateFunction(API_URL, SERVICE, city.code, data)
+            } else {
+                await createFunction(API_URL, SERVICE, data)
+            }
             setRefresh(true)
             setCity({})
             handleClose()
@@ -168,16 +181,25 @@ function Cities() {
         })
     }
 
+    const performUpdate = (item) => {
+        const updatedItem = { ...item }
+        updatedItem.manager = managers.find(manager => manager.name === item.manager)
+        updatedItem.region = regions.find(region => region.name === item.region)
+        setCity(updatedItem)
+        setUpdate(true)
+        handleOpen()
+    }
+
     const handleError = (event) => {
         console.log(event)
         setError(true)
     }
 
     const columnNames = [
-        "Codigo",
-        "Nombre",
-        "Manager",
-        "Region"
+        { label: "Código", accessor: "code" },
+        { label: "Nombre", accessor: "name" },
+        { label: "Manager", accessor: "manager" },
+        { label: "Region", accessor: "region" }
     ]
 
     return (
@@ -201,8 +223,20 @@ function Cities() {
                         aria-describedby="modal-modal-description"
                     >
                         <StyledBox sx={{ minWidth: 120 }}>
+                            <IconButton
+                                aria-label="close"
+                                onClick={handleClose}
+                                sx={{
+                                    position: 'absolute',
+                                    right: 8,
+                                    top: 8,
+                                    color: (theme) => theme.palette.grey[500],
+                                }}
+                            >
+                                <CloseIcon />
+                            </IconButton>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
-                                Agregar Nueva Region
+                                {update ? "Actualizar Ciudad" : "Agregar Nueva Ciudad"}
                             </Typography>
                             <Divider />
                             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
@@ -218,6 +252,7 @@ function Cities() {
                                             errorMessages={["Este Campo es requerido"]}
                                             label="Codigo de Ciudad"
                                             validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+                                            disabled={update}
                                         />
 
                                         <InputLabel id='lbl-name' sx={{ mb: 1 }}>Nombre</InputLabel>
@@ -256,7 +291,9 @@ function Cities() {
                                         >
                                             {
                                                 managers.map((item, index) => (
-                                                    <MenuItem key={index} value={item.email}>{item.email}</MenuItem>
+                                                    <MenuItem key={index} value={item.email}>
+                                                        {item.name}
+                                                    </MenuItem>
                                                 ))
                                             }
                                         </SelectStyled>
@@ -265,7 +302,15 @@ function Cities() {
                                 <StyledButton
                                     variant="contained" color="primary" onClick={handleSubmit}
                                 >
-                                    Agregar
+                                    {update ? "Actualizar" : "Agregar"}
+                                </StyledButton>
+                                <StyledButton
+                                    variant="contained"
+                                    color="error"
+                                    onClick={handleClose}
+                                    sx={{ ml: 2 }}
+                                >
+                                    Cancelar
                                 </StyledButton>
                             </ValidatorForm>
                         </StyledBox>
@@ -277,6 +322,11 @@ function Cities() {
                         columnNames: columnNames,
                         items: cities,
                         actions: [
+                            {
+                                icon: "edit",
+                                color: "primary",
+                                click: performUpdate
+                            },
                             {
                                 icon: "delete",
                                 color: "error",

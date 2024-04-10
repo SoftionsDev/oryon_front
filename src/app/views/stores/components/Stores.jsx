@@ -14,10 +14,12 @@ import {
     Typography,
     Divider
 } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from 'app/components/PaginatedTable';
 import { Span } from "app/components/Typography";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import { getFunction, deleteFunction, createFunction } from "../../../utils/rest_connector"
+import { getFunction, deleteFunction, createFunction, updateFunction } from "../../../utils/rest_connector"
 import { API_URL, ROLES } from "../../../../constants"
 import { handleDelete, handleGetInfo } from 'app/utils/utils';
 
@@ -72,16 +74,22 @@ function Stores() {
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
+    const [update, setUpdate] = useState(false)
     const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+    const handleClose = () => {
+        setStore({})
+        setOpen(false)
+        setUpdate(false)
+    }
 
     const transformData = (data) => {
         const transformed_data = data.map((item) => {
+            const manager_name = `${item.manager?.first_name} ${item.manager?.last_name}`
             return {
                 code: item.code,
                 name: item.name,
                 city: item.city.name,
-                manager: item.manager?.email || 'No asignado',
+                manager: manager_name || 'No asignado',
             }
         })
         return transformed_data
@@ -92,6 +100,7 @@ function Stores() {
             return {
                 code: item.code,
                 email: item.email,
+                name: `${item.first_name} ${item.last_name}`,
                 groups: item.groups
             }
         })
@@ -160,7 +169,11 @@ function Stores() {
                 manager: store.manager.code,
                 city: store.city.code
             }
-            await createFunction(API_URL, SERVICE, data)
+            if (update) {
+                await updateFunction(API_URL, SERVICE, store.code, data)
+            } else {
+                await createFunction(API_URL, SERVICE, data)
+            }
             setRefresh(true)
             setStore({})
             handleClose()
@@ -175,11 +188,21 @@ function Stores() {
         setError(true)
     }
 
+    const performUpdate = (item) => {
+        const updatedItem = { ...item }
+        console.log(item)
+        updatedItem.manager = managers.find(manager => manager.name === item.manager)
+        updatedItem.city = cities.find(city => city.name === item.city)
+        setStore(updatedItem)
+        setUpdate(true)
+        handleOpen()
+    }
+
     const columnNames = [
-        "Codigo",
-        "Nombre",
-        "Ciudad",
-        "Manager"
+        { label: "Código", accessor: "code" },
+        { label: "Nombre", accessor: "name" },
+        { label: "Ciudad", accessor: "city" },
+        { label: "Manager", accessor: "manager" }
     ]
     return (
         <Container>
@@ -203,8 +226,20 @@ function Stores() {
                         aria-describedby="modal-modal-description"
                     >
                         <StyledBox sx={{ minWidth: 120 }}>
+                            <IconButton
+                                aria-label="close"
+                                onClick={handleClose}
+                                sx={{
+                                    position: 'absolute',
+                                    right: 8,
+                                    top: 8,
+                                    color: (theme) => theme.palette.grey[500],
+                                }}
+                            >
+                                <CloseIcon />
+                            </IconButton>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
-                                Agregar Nueva Tienda
+                                {update ? "Actualizar Tienda" : "Agregar Nueva Tienda"}
                             </Typography>
                             <Divider />
                             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
@@ -219,6 +254,7 @@ function Stores() {
                                             errorMessages={["Este Campo es requerido"]}
                                             label="Codigo de punto de venta"
                                             validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+                                            disabled={update}
                                         />
 
                                         <TextField
@@ -256,7 +292,9 @@ function Stores() {
                                         >
                                             {
                                                 managers.map((manager) => {
-                                                    return <MenuItem value={manager.email}>{manager.email}</MenuItem>
+                                                    return <MenuItem value={manager.email}>
+                                                        {manager.name}
+                                                    </MenuItem>
                                                 })
                                             }
                                         </SelectStyled>
@@ -265,8 +303,18 @@ function Stores() {
 
                                 <Button color="primary" variant="contained" onClick={handleSubmit}>
                                     <Icon>send</Icon>
-                                    <Span sx={{ pl: 1, textTransform: "capitalize" }}>Crear</Span>
+                                    <Span sx={{ pl: 1, textTransform: "capitalize" }}>
+                                        {update ? "Actualizar" : "Crear"}
+                                    </Span>
                                 </Button>
+                                <StyledButton
+                                    variant="contained"
+                                    color="error"
+                                    onClick={handleClose}
+                                    sx={{ ml: 2 }}
+                                >
+                                    Cancelar
+                                </StyledButton>
                             </ValidatorForm>
                         </StyledBox>
                     </Modal>
@@ -277,6 +325,11 @@ function Stores() {
                         columnNames,
                         items: stores,
                         actions: [
+                            {
+                                icon: "edit",
+                                color: "primary",
+                                click: performUpdate
+                            },
                             {
                                 icon: "delete",
                                 color: "error",

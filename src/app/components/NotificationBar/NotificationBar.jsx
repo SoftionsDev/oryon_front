@@ -6,7 +6,7 @@ import { sideNavWidth, topBarHeight } from 'app/utils/constant';
 import { getTimeDifference } from 'app/utils/utils.js';
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { themeShadows } from '../MatxTheme/themeColors';
+import { themeShadows } from '../Theme/themeColors';
 import { Paragraph, Small } from '../Typography';
 
 const Notification = styled('div')(() => ({
@@ -78,11 +78,11 @@ const NotificationBar = ({ container }) => {
   const handleDrawerToggle = () => {
     setPanelOpen(!panelOpen);
   };
-  
+
 
   return (
     <Fragment>
-      
+
 
       <ThemeProvider theme={settings.themes[settings.activeTheme]}>
         <Drawer

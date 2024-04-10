@@ -183,10 +183,13 @@ export const handleGetInfo = async (getFunction, API_URL, SERVICE, transformObje
   }
 }
 
-export const handleDelete = async (deleteFunction, API_URL, SERVICE, id, setRefresh, setError) => {
+export const handleDelete = async (deleteFunction, API_URL, SERVICE, id, setError) => {
   try {
-      await deleteFunction(API_URL, SERVICE, id)
-      setRefresh(true)
+      const response = await deleteFunction(API_URL, SERVICE, id)
+      if (response.error) {
+          setError(true)
+          console.log(response.error)
+      }
   } catch (error) {
       setError(true)
       console.log(error)

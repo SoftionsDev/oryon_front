@@ -24,15 +24,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 20.x
-      
-      - name: Run install
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: install
-      - name: Build production bundle
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: build
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -40,6 +31,23 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ vars.AWS_REGION }}
+      
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Download configurations
+        env:
+          S3_BUCKET: ${{ vars.S3_BUCKET || 'oryon-front-dev-envs' }}
+        run: |
+          echo "Downloading configurations..."
+          aws s3 cp s3://${{ env.S3_BUCKET }}/env_front .env
+
+      - name: Build production bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
 
       - name: Check EC2 Instance
         id: check-ec2-instance
@@ -92,6 +100,6 @@ jobs:
             sudo chmod o+x ${{ env.REMOTE_DIR }}
             sudo chown -R www-data:www-data ${{ env.REMOTE_DIR }}
             sudo service nginx restart
-            echo ${{ steps.check-ec2-instance.outputs.public_dns}}
+            echo -e "\033[0;32m${{ env.public_dns}}\033[0m"
             echo "Deployed successfully!"
             

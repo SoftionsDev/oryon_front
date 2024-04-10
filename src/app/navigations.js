@@ -17,11 +17,6 @@ export const navigations = [
     path: "/dashboard/comercial",
     children: [
       {
-        name: "Registrar Colaborador",
-        path: "/dashboard/comercial",
-        icon: "keyboard_arrow_right"
-      },
-      {
         name: "Colaboradores",
         path: '/dashboard/userComercial',
         icon: "keyboard_arrow_right",
@@ -80,50 +75,23 @@ export const navigations = [
     icon: "shop",
     path: '/dashboard/menuSale'
   },
-  {
-    name: "Indicadores",
-    icon: "light",
-    path: '/dashboard/indicatorSale',
-  },
+  // {
+  //   name: "Indicadores",
+  //   icon: "light",
+  //   path: '/dashboard/indicatorSale',
+  // },
 
   { label: 'Seguridad', type: 'label' },
-  /*{
-    name: 'Components',
-    icon: 'favorite',
-    badge: { value: '30+', color: 'secondary' },
-    children: [
-      { name: 'Auto Complete', path: '/material/autocomplete', iconText: 'A' },
-      { name: 'Buttons', path: '/material/buttons', iconText: 'B' },
-      { name: 'Checkbox', path: '/material/checkbox', iconText: 'C' },
-      { name: 'Dialog', path: '/material/dialog', iconText: 'D' },
-      { name: 'Expansion Panel', path: '/material/expansion-panel', iconText: 'E' },
-      { name: 'Form', path: '/material/form', iconText: 'F' },
-      { name: 'Icons', path: '/material/icons', iconText: 'I' },
-      { name: 'Menu', path: '/material/menu', iconText: 'M' },
-      { name: 'Progress', path: '/material/progress', iconText: 'P' },
-      { name: 'Radio', path: '/material/radio', iconText: 'R' },
-      { name: 'Switch', path: '/material/switch', iconText: 'S' },
-      { name: 'Slider', path: '/material/slider', iconText: 'S' },
-      { name: 'Snackbar', path: '/material/snackbar', iconText: 'S' },
-      { name: 'Table', path: '/material/table', iconText: 'T' },
-    ],
-  },*/
   {
-    name: 'Sesion/autenticacion',
+    name: 'Gestion Usuarios',
     icon: 'security',
     path: '/dashboard/default',
     children: [
-      {
-        name: 'Registrar usuario',
-        icon: 'person_add',
-        path: '/dashboard/createUser'
-      },
       {
         name: 'Usuarios',
         icon: 'person',
         path: '/dashboard/listUser'
       }
-
     ]
   }
 

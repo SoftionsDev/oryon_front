@@ -8,6 +8,8 @@ import {
     Modal,
     Box
 } from "@mui/material";
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, deleteFunction } from 'app/utils/rest_connector'
 import { handleGetInfo, handleDelete } from "../../utils/utils"
@@ -48,24 +50,31 @@ const RULES_SERVICES = process.env.REACT_APP_RULES_SERVICE || 'rules'
 function ListFormulas() {
 
     const [formulas, setFormulas] = useState([]);
-    const [rules, setRules] = useState([]);
+    const [formula, setFormula] = useState({});
+    const [rules, setRules] = useState([{}]);
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
+    const [update, setUpdate] = useState(false)
     const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
-
+    const handleClose = () => {
+        setOpen(false)
+        setUpdate(false)
+        setFormula({})
+    }
 
     const formulaObject = (data) => {
-        const transformed_data = data.map((item) => {
+        const transformedData = data.map((item) => {
             return {
                 code: item.id,
                 name: item.name,
+                rule: item.rule,
                 percentage: item.percentage,
-                created_at: item.created_at,
+                formula: item.formula,
+                createdAt: item.created_at
             }
         })
-        return transformed_data
+        return transformedData
     }
 
     const ruleObject = (data) => {
@@ -74,39 +83,49 @@ function ListFormulas() {
                 code: item.id,
                 name: item.name,
                 rule: item.rule,
-                has_formula: item.has_formula,
-                percentages: {
-                    manager: item.manager,
-                    director: item.director,
-                    commercial: item.commercial,
-                    assistant: item.assistant
-                }
+                hasFormula: item.has_formula,
+                percentages: item.percentages,
+                isActive: item.is_active,
             }
         })
         return transformedData
     }
 
     useEffect(() => {
-        setError(false)
         setRefresh(false)
-        handleGetInfo(
-            getFunction, API_URL, SERVICE, formulaObject, setFormulas, setError
-        )
-        handleGetInfo
-            (getFunction, API_URL, RULES_SERVICES, ruleObject, setRules, setError)
+        const fetchData = async () => {
+            setError(false)
+            await handleGetInfo(
+                getFunction, API_URL, SERVICE, formulaObject, setFormulas, setError
+            )
+            await handleGetInfo(
+                getFunction, API_URL, RULES_SERVICES, ruleObject, setRules, setError
+            )
+        }
+        fetchData()
     }, [refresh])
 
+
+
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setError)
+        setRefresh(true)
+    }
+
+    const performUpdate = (item) => {
+        setFormula(item)
+        setUpdate(true)
+        handleOpen()
     }
 
     const columnNames = [
-        "Codigo",
-        "Nombre Regla",
-        "Porcentaje",
-        "Fecha de creacion",
+        { label: "Código", accessor: "code" },
+        { label: "Nombre Regla", accessor: "name" },
+        { label: "Regla", accessor: "rule", hidden: true },
+        { label: "Tiene formula", accessor: "hasFormula", hidden: true },
+        { label: "Porcentaje", accessor: "percentage" },
+        { label: "Fecha de creación", accessor: "createdAt" },
     ]
-
     return (
         <Container >
             {hasError &&
@@ -126,13 +145,37 @@ function ListFormulas() {
                     aria-describedby="modal-modal-description"
                 >
                     <StyledBox>
+                        <IconButton
+                            aria-label="close"
+                            onClick={handleClose}
+                            sx={{
+                                position: 'absolute',
+                                right: 8,
+                                top: 8,
+                                color: (theme) => theme.palette.grey[500],
+                            }}
+                        >
+                            <CloseIcon />
+                        </IconButton>
                         <CreateFormulas
                             url={API_URL}
                             service={SERVICE}
                             rules={rules}
+                            formula={formula}
+                            update={update}
                             setRefresh={setRefresh}
                             handleClose={handleClose}
                         />
+                        <Box style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                            <StyledButton
+                                variant="contained"
+                                color="error"
+                                onClick={handleClose}
+                                sx={{ ml: 2 }}
+                            >
+                                Cancelar
+                            </StyledButton>
+                        </Box>
                     </StyledBox>
                 </Modal>
             </Grid >
@@ -143,6 +186,11 @@ function ListFormulas() {
                         columnNames: columnNames,
                         items: formulas,
                         actions: [
+                            {
+                                icon: "edit",
+                                color: "primary",
+                                click: performUpdate
+                            },
                             {
                                 icon: "delete",
                                 color: "error",

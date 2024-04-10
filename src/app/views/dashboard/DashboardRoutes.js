@@ -1,17 +1,14 @@
 import Loadable from 'app/components/Loadable';
 import { lazy } from 'react';
-import { authRoles } from '../../auth/authRoles';
 
 const Analytics = Loadable(lazy(() => import('./Analytics')));
 const Stores = Loadable(lazy(() => import('../stores/components/Stores')));
 const Regions = Loadable(lazy(() => import('../stores/components/Regions')));
 const Cities = Loadable(lazy(() => import('../stores/components/Cities')));
-const CreateComercial = Loadable(lazy(() => import('../comercial/comercialComponents/registerComercial')));
-const UserComercial = Loadable(lazy(() => import('../comercial/comercialComponents/userComercial')));
-const CreateUser = Loadable(lazy(() => import('../users/componentsUser/CreateUsers')));
-const ListUser = Loadable(lazy(() => import('../users/componentsUser/ListUser')));
-const MenuSale = Loadable(lazy(() => import('../menuSale/componentsSale/menusale')));
-const ListProducts = Loadable(lazy(() => import('../poducts/components/ListProducts')));
+const UserCommercial = Loadable(lazy(() => import('../commercials/commercials')));
+const ListUser = Loadable(lazy(() => import('../users/ListUser')));
+const MenuSale = Loadable(lazy(() => import('../sales/menusale')));
+const ListProducts = Loadable(lazy(() => import('../products/ListProducts')));
 const SaleIndicator = Loadable(lazy(() => import('../indicators/SaleIndicator')));
 const CreateRules = Loadable(lazy(() => import('../brmRules/percentages')));
 const ListFormulas = Loadable(lazy(() => import('../brmRules/fomulations')));
@@ -19,27 +16,19 @@ const ListCommissions = Loadable(lazy(() => import('../commissions/listCommissio
 
 
 
-
-
 const dashboardRoutes = [
-  { path: '/dashboard/default', element: <Analytics />, auth: authRoles.admin },
-  { path: '/dashboard/stores', element: <Stores />, auth: authRoles.admin },
-  { path: '/dashboard/stores/regions', element: <Regions />, auth: authRoles.admin },
-  { path: '/dashboard/stores/cities', element: <Cities />, auth: authRoles.admin },
-  { path: '/dashboard/createUser', element: <CreateUser />, auth: authRoles.admin },
-  { path: '/dashboard/listUser', element: <ListUser />, auth: authRoles.admin },
-  { path: '/dashboard/comercial', element: <CreateComercial />, auth: authRoles.admin },
-  { path: '/dashboard/userComercial', element: <UserComercial />, auth: authRoles.admin },
-  { path: '/dashboard/menuSale', element: <MenuSale />, auth: authRoles.admin },
-  { path: '/dashboard/listProducts', element: <ListProducts />, auth: authRoles.admin },
-  { path: '/dashboard/indicatorSale', element: <SaleIndicator />, auth: authRoles.admin },
-  { path: '/dashboard/rulesCreate', element: <CreateRules />, auth: authRoles.admin },
-  { path: '/dashboard/rulesList', element: <ListFormulas />, auth: authRoles.admin },
-  { path: '/dashboard/commissionsList', element: <ListCommissions />, auth: authRoles.admin },
-  
-  
-  
-
+  { path: '/dashboard/default', element: <Analytics /> },
+  { path: '/dashboard/stores', element: <Stores /> },
+  { path: '/dashboard/stores/regions', element: <Regions /> },
+  { path: '/dashboard/stores/cities', element: <Cities /> },
+  { path: '/dashboard/listUser', element: <ListUser /> },
+  { path: '/dashboard/userComercial', element: <UserCommercial /> },
+  { path: '/dashboard/menuSale', element: <MenuSale /> },
+  { path: '/dashboard/listProducts', element: <ListProducts /> },
+  { path: '/dashboard/indicatorSale', element: <SaleIndicator /> },
+  { path: '/dashboard/rulesCreate', element: <CreateRules /> },
+  { path: '/dashboard/rulesList', element: <ListFormulas /> },
+  { path: '/dashboard/commissionsList', element: <ListCommissions /> },
 ];
 
 export default dashboardRoutes;

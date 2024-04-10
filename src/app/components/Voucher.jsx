@@ -12,7 +12,6 @@ import {
     Grid
 } from '@mui/material';
 
-
 const Container = styled("div")(({ theme }) => ({
     margin: "30px",
     [theme.breakpoints.down("sm")]: { margin: "16px" },
@@ -66,7 +65,7 @@ function VoucherTable({ commissionData }) {
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    <TableRow>
+                                    <TableRow style={{ gap: '8px' }}>
                                         <TableCell component="th" scope="row" style={{ paddingLeft: '5px' }}>
                                             {data.code}
                                         </TableCell>
@@ -179,7 +178,7 @@ function VoucherTable({ commissionData }) {
                                             style={{
                                                 backgroundColor: '#42423F',
                                             }}
-                                            colSpan={3}
+                                            colSpan={2}
                                         >
                                         </TableCell>
                                         <TableCell
@@ -209,7 +208,7 @@ function VoucherTable({ commissionData }) {
                     </Grid>
                 </Grid>
             </Grid>
-        </Container>
+        </Container >
     );
 }
 
