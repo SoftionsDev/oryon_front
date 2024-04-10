@@ -25,19 +25,15 @@ import { KeyboardArrowUp as KeyboardArrowUpIcon, KeyboardArrowDown as KeyboardAr
 const StyledTable = styled(Table)(() => ({
     whiteSpace: "pre",
     "& thead": {
-        "& tr": { "& th": { paddingLeft: 0, paddingRight: 0 } },
+        "& tr": { "& th": { paddingLeft: 12, paddingRight: 12 } },
     },
     "& tbody": {
-        "& tr": { "& td": { paddingLeft: 0 } },
+        "& tr": { "& td": { paddingLeft: 12 } },
     },
 }));
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
     [`&.${tableCellClasses.body}`]: {
         fontSize: 14,
     },
@@ -114,12 +110,12 @@ const CollapsableTable = ({ props }) => {
             visibleIndex++;
 
             return (
-                <TableCell
+                <StyledTableCell
                     key={index}
                     align={alignment}
                 >
                     {columnObj.label}
-                </TableCell>
+                </StyledTableCell>
             );
         });
     }
@@ -138,12 +134,12 @@ const CollapsableTable = ({ props }) => {
             visibleIndex++;
 
             return (
-                <TableCell
+                <StyledTableCell
                     key={cellIndex}
                     align={alignment}
                 >
-                    {item[columnObj.accessor]}
-                </TableCell>
+                    {item[columnObj.accessor] || '-'}
+                </StyledTableCell>
             );
         });
     }
@@ -221,7 +217,7 @@ const CollapsableTable = ({ props }) => {
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
+                                        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={columnNames.length + 2}>
                                             <Collapse in={openStates[index]} timeout="auto" unmountOnExit>
                                                 <Box sx={{ margin: 1 }}>
                                                     <Typography variant="h6" gutterBottom component="div">

@@ -17,9 +17,10 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import PaginatedTable from "app/components/PaginatedTable";
-import { getFunction, createFunction, deleteFunction } from "../../../utils/rest_connector"
+import { getFunction, createFunction, deleteFunction, updateFunction } from "../../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../../utils/utils"
 import { API_URL, ROLES } from "../../../../constants"
+import { set } from "lodash";
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -71,8 +72,13 @@ function Regions() {
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
+    const [update, setUpdate] = useState(false)
     const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+    const handleClose = () => {
+        setRegion({})
+        setUpdate(false)
+        setOpen(false)
+    }
 
     const transformObject = (data) => {
         const transformed_data = data.map((item) => {
@@ -124,7 +130,11 @@ function Regions() {
                 name: region.name,
                 manager: region.manager.code
             }
-            await createFunction(API_URL, SERVICE, data)
+            if (update) {
+                await updateFunction(API_URL, SERVICE, region.code, data)
+            } else {
+                await createFunction(API_URL, SERVICE, data)
+            }
             setRefresh(true)
             setRegion({})
             handleClose()
@@ -151,6 +161,14 @@ function Regions() {
     const handleError = (event) => {
         console.log(event)
         setError(true)
+    }
+
+    const performUpdate = (item) => {
+        const updatedItem = { ...item }
+        updatedItem.manager = managers.find(manager => manager.name === item.manager)
+        setRegion(updatedItem)
+        setUpdate(true)
+        handleOpen()
     }
 
     const columnNames = [
@@ -193,7 +211,7 @@ function Regions() {
                                 <CloseIcon />
                             </IconButton>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
-                                Agregar Nueva Region
+                                {update ? "Actualizar Region" : "Agregar Nueva Region"}
                             </Typography>
                             <Divider />
                             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
@@ -209,6 +227,7 @@ function Regions() {
                                             errorMessages={["Este Campo es requerido"]}
                                             label="Codigo de region"
                                             validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+                                            disabled={update}
                                         />
 
                                         <InputLabel id='lbl-name' sx={{ mb: 1 }}>Nombre</InputLabel>
@@ -243,7 +262,7 @@ function Regions() {
                                 <StyledButton
                                     variant="contained" color="primary" onClick={handleSubmit}
                                 >
-                                    Agregar
+                                    {update ? "Actualizar" : "Agregar"}
                                 </StyledButton>
                                 <StyledButton
                                     variant="contained"
@@ -263,6 +282,11 @@ function Regions() {
                         columnNames: columnNames,
                         items: regions,
                         actions: [
+                            {
+                                icon: "edit",
+                                color: "primary",
+                                click: performUpdate
+                            },
                             {
                                 icon: "delete",
                                 color: "error",

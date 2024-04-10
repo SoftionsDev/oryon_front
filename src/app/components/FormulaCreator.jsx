@@ -36,20 +36,18 @@ const CreateFormulas = (props) => {
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        if (Object.keys(formula).includes(name)) {
-            if (name === 'percentage' && formula.rule) {
-                const percentageValue = formula.rule.percentages[value];
-                setFormula({ ...formula, [name]: percentageValue });
-            } else {
-                setFormula((prevFormula) => {
-                    const updatedFormula = { ...prevFormula, [name]: value }
-                    if (name === 'rule') {
-                        const selectedRule = props.rules.find(rule => rule.rule === value)
-                        updatedFormula.rule = selectedRule || null
-                    }
-                    return updatedFormula
-                });
-            }
+        if (name === 'percentage' && formula.rule) {
+            const percentageValue = formula.rule.percentages[value];
+            setFormula({ ...formula, [name]: percentageValue });
+        } else {
+            setFormula((prevFormula) => {
+                const updatedFormula = { ...prevFormula, [name]: value }
+                if (name === 'rule') {
+                    const selectedRule = props.rules.find(rule => rule.rule === value)
+                    updatedFormula.rule = selectedRule || null
+                }
+                return updatedFormula
+            });
         }
         setFormulaGroup({ ...formulaGroup, [name]: value });
     }
@@ -183,7 +181,7 @@ const CreateFormulas = (props) => {
                                             </MenuItem>
                                         ))
                                     ) : (
-                                        <p>Sin porcentajes</p>
+                                        <MenuItem> </MenuItem>
                                     )}
                                 </Select>
                             </FormControl>

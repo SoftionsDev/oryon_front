@@ -60,11 +60,12 @@ const CreateRules = () => {
       return {
         code: item.id,
         name: item.name,
+        hasFormula: item.has_formula,
         rule: item.rule,
-        manager_percentage: item.manager,
-        director_percentage: item.director,
-        commercial_percentage: item.commercial,
-        assistant_percentage: item.assistant,
+        managerPercentage: item.percentages.manager,
+        directorPercentage: item.percentages.director,
+        commercialPercentage: item.percentages.commercial,
+        assistantPercentage: item.percentages.assistant,
         is_active: item.is_active ? 'Si' : 'No'
       }
     })
@@ -102,10 +103,10 @@ const CreateRules = () => {
     { label: "Código", accessor: "code", hidden: true },
     { label: "Nombre", accessor: "name" },
     { label: "Regla", accessor: "rule", hidden: true },
-    { label: "P. Gerente", accessor: "manager_percentage" },
-    { label: "P. Director", accessor: "director_percentage" },
-    { label: "P. Comercial", accessor: "commercial_percentage" },
-    { label: "P. Asistente", accessor: "assistant_percentage" },
+    { label: "P. Gerente", accessor: "managerPercentage" },
+    { label: "P. Director", accessor: "directorPercentage" },
+    { label: "P. Comercial", accessor: "commercialPercentage" },
+    { label: "P. Asistente", accessor: "assistantPercentage" },
     { label: "Activa", accessor: "is_active" }
   ]
 

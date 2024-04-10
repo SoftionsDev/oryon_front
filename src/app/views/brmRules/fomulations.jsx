@@ -84,12 +84,7 @@ function ListFormulas() {
                 name: item.name,
                 rule: item.rule,
                 hasFormula: item.has_formula,
-                percentages: {
-                    director: item.director,
-                    manager: item.manager,
-                    commercial: item.commercial,
-                    assistant: item.assistant,
-                },
+                percentages: item.percentages,
                 isActive: item.is_active,
             }
         })
@@ -99,7 +94,6 @@ function ListFormulas() {
     useEffect(() => {
         setRefresh(false)
         const fetchData = async () => {
-            console.log('refresh', refresh)
             setError(false)
             await handleGetInfo(
                 getFunction, API_URL, SERVICE, formulaObject, setFormulas, setError
@@ -114,7 +108,8 @@ function ListFormulas() {
 
 
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setError)
+        setRefresh(true)
     }
 
     const performUpdate = (item) => {
