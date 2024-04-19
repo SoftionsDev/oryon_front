@@ -5,7 +5,11 @@ export const navigations = [
 
   { label: 'Administración', type: 'label' },
 
-
+  {
+    name: "Maestro de ventas",
+    icon: "shop",
+    path: '/dashboard/menuSale'
+  },
   {
     name: "Comisiones",
     icon: "wallet",
@@ -70,11 +74,6 @@ export const navigations = [
     ]
   },
 
-  {
-    name: "Maestro de ventas",
-    icon: "shop",
-    path: '/dashboard/menuSale'
-  },
   // {
   //   name: "Indicadores",
   //   icon: "light",
