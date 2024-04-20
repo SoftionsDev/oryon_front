@@ -32,7 +32,7 @@ const StyledTable = styled(Table)(() => ({
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     width: 'auto',
-    maxWidth: '150px'
+    maxWidth: '150px',
 }))
 
 const PaginatedTable = ({ props }) => {
@@ -42,7 +42,7 @@ const PaginatedTable = ({ props }) => {
     const [showLoading, setShowLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [filterText, setFilterText] = useState("");
-    const [tableData, setTableData] = useState("");
+    const [tableData, setTableData] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -107,12 +107,12 @@ const PaginatedTable = ({ props }) => {
             visibleIndex++;
 
             return (
-                <TableCell
+                <StyledTableCell
                     key={cellIndex}
                     align={alignment}
                 >
                     {item[columnObj.accessor]}
-                </TableCell>
+                </StyledTableCell>
             );
         });
     }
@@ -121,7 +121,7 @@ const PaginatedTable = ({ props }) => {
         if (showLoading) {
             handleFilter();
         }
-    }, [filterText, showLoading]);
+    }, [filterText, showLoading, items]);
 
     return (
         <SimpleCard>

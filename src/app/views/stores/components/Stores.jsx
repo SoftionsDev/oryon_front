@@ -19,7 +19,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from 'app/components/PaginatedTable';
 import { Span } from "app/components/Typography";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import { getFunction, deleteFunction, createFunction } from "../../../utils/rest_connector"
+import { getFunction, deleteFunction, createFunction, updateFunction } from "../../../utils/rest_connector"
 import { API_URL, ROLES } from "../../../../constants"
 import { handleDelete, handleGetInfo } from 'app/utils/utils';
 
@@ -74,8 +74,13 @@ function Stores() {
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [open, setOpen] = useState(false)
+    const [update, setUpdate] = useState(false)
     const handleOpen = () => setOpen(true)
-    const handleClose = () => setOpen(false)
+    const handleClose = () => {
+        setStore({})
+        setOpen(false)
+        setUpdate(false)
+    }
 
     const transformData = (data) => {
         const transformed_data = data.map((item) => {
@@ -164,7 +169,11 @@ function Stores() {
                 manager: store.manager.code,
                 city: store.city.code
             }
-            await createFunction(API_URL, SERVICE, data)
+            if (update) {
+                await updateFunction(API_URL, SERVICE, store.code, data)
+            } else {
+                await createFunction(API_URL, SERVICE, data)
+            }
             setRefresh(true)
             setStore({})
             handleClose()
@@ -177,6 +186,16 @@ function Stores() {
     const handleError = (event) => {
         console.log(event)
         setError(true)
+    }
+
+    const performUpdate = (item) => {
+        const updatedItem = { ...item }
+        console.log(item)
+        updatedItem.manager = managers.find(manager => manager.name === item.manager)
+        updatedItem.city = cities.find(city => city.name === item.city)
+        setStore(updatedItem)
+        setUpdate(true)
+        handleOpen()
     }
 
     const columnNames = [
@@ -220,7 +239,7 @@ function Stores() {
                                 <CloseIcon />
                             </IconButton>
                             <Typography id="modal-modal-title" variant="h6" component="h2" align="center">
-                                Agregar Nueva Tienda
+                                {update ? "Actualizar Tienda" : "Agregar Nueva Tienda"}
                             </Typography>
                             <Divider />
                             <ValidatorForm onSubmit={handleSubmit} onError={handleError}>
@@ -235,6 +254,7 @@ function Stores() {
                                             errorMessages={["Este Campo es requerido"]}
                                             label="Codigo de punto de venta"
                                             validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+                                            disabled={update}
                                         />
 
                                         <TextField
@@ -283,7 +303,9 @@ function Stores() {
 
                                 <Button color="primary" variant="contained" onClick={handleSubmit}>
                                     <Icon>send</Icon>
-                                    <Span sx={{ pl: 1, textTransform: "capitalize" }}>Crear</Span>
+                                    <Span sx={{ pl: 1, textTransform: "capitalize" }}>
+                                        {update ? "Actualizar" : "Crear"}
+                                    </Span>
                                 </Button>
                                 <StyledButton
                                     variant="contained"
@@ -303,6 +325,11 @@ function Stores() {
                         columnNames,
                         items: stores,
                         actions: [
+                            {
+                                icon: "edit",
+                                color: "primary",
+                                click: performUpdate
+                            },
                             {
                                 icon: "delete",
                                 color: "error",

@@ -42,7 +42,7 @@ jobs:
           S3_BUCKET: ${{ vars.S3_BUCKET || 'oryon-front-dev-envs' }}
         run: |
           echo "Downloading configurations..."
-          aws s3 cp s3://${{ env.S3_BUCKET }}/.env .env
+          aws s3 cp s3://${{ env.S3_BUCKET }}/env_front .env
 
       - name: Build production bundle
         uses: borales/actions-yarn@v4

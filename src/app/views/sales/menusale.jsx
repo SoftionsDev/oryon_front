@@ -232,7 +232,7 @@ function Sales() {
   }
 
   const columnNames = [
-    { label: 'Código', accessor: 'id' },
+    { label: 'Código', accessor: 'id', hidden: true },
     { label: 'Nombre', accessor: 'name' },
     { label: 'Tienda', accessor: 'store' },
     { label: 'Producto', accessor: 'product' },

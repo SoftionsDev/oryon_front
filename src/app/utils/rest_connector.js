@@ -19,17 +19,21 @@ const apiHandler = async (url, method, body = null, contentType = 'application/j
         config.body = JSON.stringify(body);
     }
 
-    const response = await fetch(url, config);
-
-    if (method === 'DELETE' && response.status === 204) {
-        return response.status
+    try {
+        const response = await fetch(url, config);
+        if (method === 'DELETE' && response.status === 204) {
+            return response.status
+        }
+    
+        const data = await response.json();
+        if (response.status < 200 || response.status >= 300) {
+            throw new Error(data.body || ERROR_MESSAGE);
+        }
+        return data;
+    } catch (error) {
+        console.log(error)
+        return { error: error.message || ERROR_MESSAGE };
     }
-
-    const data = await response.json();
-    if (response.status < 200 || response.status >= 300) {
-        throw new Error(data.body || ERROR_MESSAGE);
-    }
-    return data;
 };
 
 // Use when you need to create an entity
@@ -53,7 +57,6 @@ export const deleteFunction = async (baseUrl, service, elementId, contentType = 
 // Use when you need to get an entity
 export const getFunction = async (baseUrl, service, elementId = '', contentType = 'application/json') => {
     const url = elementId ? `${baseUrl}/${service}/${elementId}` : `${baseUrl}/${service}`;
-    console.log(url)
     return await apiHandler(url, 'GET', null, contentType);
 };
 

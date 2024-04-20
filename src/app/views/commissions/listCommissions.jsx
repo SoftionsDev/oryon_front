@@ -50,7 +50,10 @@ function ListRules() {
                 city: item.store.city.name,
                 store: item.store.name,
                 base: Number(item.sale.price).toLocaleString(),
-                percentage: `${item.percentage.formula.percentage} %`
+                percentage: `${item.percentage?.percentage} %`,
+                paymentDate: item.payment_date,
+                send: item.send ? 'Si' : 'No',
+                sendDate: item.send_date
             }
         })
         return transformed_data
@@ -76,20 +79,23 @@ function ListRules() {
     }
 
     const columnNames = [
-        { label: "Venta", accessor: "sale" },
+        { label: "Código Usuario", accessor: "userCode" },
+        { label: "Usuario", accessor: "userName" },
         { label: "Valor", accessor: "amount" },
-        { label: "Regla", accessor: "rule" },
-        { label: "Usuario", accessor: "userName" }
+        { label: "Base Comisión", accessor: "base" },
+        { label: "Fecha de Pago", accessor: "paymentDate" },
     ]
 
     const secondaryColumnsNames = [
-        { label: "Código Usuario", accessor: "userCode" },
         { label: "Producto", accessor: "product" },
         { label: "Regional", accessor: "region" },
         { label: "Ciudad", accessor: "city" },
         { label: "Punto de Venta", accessor: "store" },
-        { label: "Base Comisión", accessor: "base" },
-        { label: "Porcentaje", accessor: "percentage" }
+        { label: "Porcentaje", accessor: "percentage" },
+        { label: "Regla", accessor: "rule" },
+        { label: "Envio Novedad", accessor: "send" },
+        { label: "Fecha Envio Novedad", accessor: "sendDate" },
+        { label: "Venta", accessor: "sale", hidden: true },
     ]
 
     return (

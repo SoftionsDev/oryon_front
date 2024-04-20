@@ -140,6 +140,7 @@ function Commercials() {
             }
         }
         getUsers();
+        console.log(commercials)
     }, [refresh])
 
     const handleChange = (event) => {
@@ -148,8 +149,8 @@ function Commercials() {
     }
 
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.email, setRefresh, setError)
-        setRefresh(false)
+        handleDelete(deleteFunction, API_URL, SERVICE, item.email, setError)
+        setRefresh(prev => prev + 1)
     }
 
     const handleError = (event) => {
