@@ -134,13 +134,14 @@ function Commercials() {
                 ))
                 setUsers(data.filter(
                     item => item.groups.includes(ROLES.Colaborador)
+                ).filter(
+                    item => !item.is_commercial
                 ));
             } catch (error) {
                 console.log(error);
             }
         }
         getUsers();
-        console.log(commercials)
     }, [refresh])
 
     const handleChange = (event) => {
@@ -212,6 +213,7 @@ function Commercials() {
 
     const performUpdate = (item) => {
         let commercialToEdit = { ...item }
+        console.log(commercialToEdit)
         commercialToEdit.goal = item.goal.replace(/,/g, '').replace(/\./g, '')
         commercialToEdit.user = commercialToEdit.email
         commercialToEdit.goal_type = GOALS_TYPES[commercialToEdit.goal_type]
@@ -227,6 +229,11 @@ function Commercials() {
         { label: "Manager", accessor: "manager" },
         { label: "Meta", accessor: "goal_type" },
         { label: "Meta actual", accessor: "goal" }
+    ]
+
+    const filters = [
+        { label: "Código", column: "code" },
+        { label: "Nombre", column: "name" }
     ]
 
 
@@ -285,11 +292,18 @@ function Commercials() {
                                                 label="Seleccionar Usuario"
                                                 disabled={update}
                                             >
-                                                {users.map((user) => (
-                                                    <MenuItem key={user.code} value={user.email}>
-                                                        {user.email}
-                                                    </MenuItem>
-                                                ))}
+                                                {
+                                                    update ?
+                                                        <MenuItem value={commercial.user}>
+                                                            {commercial.user}
+                                                        </MenuItem>
+                                                        :
+                                                        users.map((user) => (
+                                                            <MenuItem key={user.code} value={user.email}>
+                                                                {user.email}
+                                                            </MenuItem>
+                                                        ))
+                                                }
                                             </Select>
                                         </FormControl>
                                     </Grid>
@@ -366,6 +380,7 @@ function Commercials() {
                         title: 'Comerciales',
                         columnNames: columnNames,
                         items: commercials,
+                        filters: filters,
                         actions: [
                             {
                                 icon: "receipt",

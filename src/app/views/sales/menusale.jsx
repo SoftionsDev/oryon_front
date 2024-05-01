@@ -96,7 +96,7 @@ function Sales() {
     const transformed_data = data.map((item) => {
       return {
         id: item.id,
-        name: `${item.user.first_name} ${item.user.last_name}`,
+        name: `${item.user?.first_name || '-'} ${item.user?.last_name || '-'}`,
         store: item.store.name,
         product: item.product.name,
         date: item.date,
@@ -243,6 +243,12 @@ function Sales() {
     { label: 'Comisionado', accessor: 'commissioned' }
   ];
 
+  const filters = [
+    { label: 'Nombre', column: 'name' },
+    { label: 'Tienda', column: 'store' },
+    { label: 'Fecha', column: 'date' },
+  ]
+
   return (
     <Container>
       {hasError && (
@@ -284,13 +290,8 @@ function Sales() {
             title: 'Ventas',
             columnNames: columnNames,
             items: sales,
-            actions: [
-              {
-                icon: 'delete',
-                color: 'error',
-                click: performDelete,
-              },
-            ],
+            filters: filters,
+            actions: [],
           }}
         />
       </Grid>

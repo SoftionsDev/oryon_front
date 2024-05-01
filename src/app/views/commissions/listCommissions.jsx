@@ -42,7 +42,7 @@ function ListRules() {
             return {
                 sale: item.sale.id,
                 amount: Number(item.amount).toLocaleString(),
-                rule: item.percentage?.name,
+                rule: item.rule?.percentage.name,
                 userName: `${item.user.first_name} ${item.user.last_name}`,
                 userCode: item.user.code,
                 product: item.product.name,
@@ -50,7 +50,7 @@ function ListRules() {
                 city: item.store.city.name,
                 store: item.store.name,
                 base: Number(item.sale.price).toLocaleString(),
-                percentage: `${item.percentage?.percentage} %`,
+                percentage: `${item.rule?.formula.percentage || '-'} %`,
                 paymentDate: item.payment_date,
                 send: item.send ? 'Si' : 'No',
                 sendDate: item.send_date
@@ -98,6 +98,11 @@ function ListRules() {
         { label: "Venta", accessor: "sale", hidden: true },
     ]
 
+    const filters = [
+        { column: 'userName', label: 'Usuario' },
+        { column: 'paymentDate', label: 'Fecha de Pago' },
+    ]
+
     return (
         <Container>
             <div>
@@ -126,6 +131,7 @@ function ListRules() {
                                 columnNames: columnNames,
                                 secondaryColumns: secondaryColumnsNames,
                                 items: commission,
+                                filters: filters,
                                 actions: []
                             }
                         }
