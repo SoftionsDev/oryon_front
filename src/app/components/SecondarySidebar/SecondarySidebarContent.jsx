@@ -35,8 +35,6 @@ const SidebarRoot = styled('div')(({ theme, width }) => ({
 }));
 
 const SecondarySidebarContent = () => {
-  const { palette } = useTheme();
-  const textColor = palette.primary.contrastText;
   return (
     <SidebarRoot width={'50px'} className="secondary-sidebar">
       <Span sx={{ m: 'auto' }}></Span>

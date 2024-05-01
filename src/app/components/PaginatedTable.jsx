@@ -37,12 +37,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const PaginatedTable = ({ props }) => {
 
-    const { columnNames, items, actions } = props
+    const { columnNames, items, filters, actions } = props
 
     const [showLoading, setShowLoading] = useState(false);
     const [page, setPage] = useState(0);
-    const [filterText, setFilterText] = useState("");
-    const [tableData, setTableData] = useState([]);
+    const [filterText, setFilterText] = useState({});
+    const [tableData, setFilterData] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -52,11 +52,17 @@ const PaginatedTable = ({ props }) => {
         setPage(newPage);
     };
 
-    const handleFilter = () => {
-        const filteredData = items.filter((elem) => {
-            return Object.values(elem).some((value) => String(value).toLowerCase().includes(filterText.toLowerCase()))
-        });
-        setTableData(filteredData);
+    const handlerFilter = () => {
+        if (Object.keys(filterText).length === 0) {
+            setFilterData(items);
+        } else {
+            const filteredData = items.filter((elem) => {
+                return Object.keys(filterText).every((key) => {
+                    return Object.values(elem).some((value) => String(value).toLowerCase().includes(filterText[key].toLowerCase()))
+                });
+            });
+            setFilterData(filteredData);
+        }
     }
 
     useEffect(() => {
@@ -119,49 +125,56 @@ const PaginatedTable = ({ props }) => {
 
     useEffect(() => {
         if (showLoading) {
-            handleFilter();
+            handlerFilter();
         }
-    }, [filterText, showLoading, items]);
+    }, [filterText, showLoading]);
 
     return (
         <SimpleCard>
             <Box width="100%" overflow="auto">
-                <Grid
-                    container
-                    spacing={2}
-                    sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center"
-                    }}
-                >
-                    <Grid item xs={12} md={6} lg={4}>
-                        <Typography variant='h5'>
+                <Grid container spacing={2} sx={{ marginBottom: '30px' }}>
+                    <Grid item xs={12}>
+                        <Typography variant='h4'>
                             {props.title || 'Datos'}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={4} alignSelf={'end'}>
-                        <TextField
-                            label="Buscar..."
-                            value={filterText}
-                            variant='outlined'
-                            onChange={(e) => setFilterText(e.target.value)}
-                            InputProps={
+                    {filters.length > 0 &&
+                        <Grid item xs={12}>
+                            <Typography variant='h5' sx={{ paddingBottom: '10px' }}>
+                                Filtros
+                            </Typography>
+                            <Grid container item spacing={3}>
                                 {
-                                    endAdornment: (
-                                        <IconButton onClick={() => {
-                                            if (filterText) {
-                                                setFilterText("")
-                                            }
-                                            return
-                                        }}>
-                                            {filterText ? <ClearIcon /> : <SearchIcon />}
-                                        </IconButton>
-                                    )
+                                    filters.map((filter, index) => (
+                                        <Grid item xs={2} container direction="column">
+                                            <Typography variant='buttom' sx={{ fontWeight: 'bold' }}>{filter.label}</Typography>
+                                            <TextField
+                                                label="Buscar..."
+                                                name={filter.column}
+                                                value={filterText[filter.column] || ''}
+                                                variant='outlined'
+                                                onChange={(e) => setFilterText(prevState => ({ ...prevState, [e.target.name]: e.target.value }))}
+                                                InputProps={
+                                                    {
+                                                        endAdornment: (
+                                                            <IconButton onClick={() => {
+                                                                if (filterText[filter.column]) {
+                                                                    setFilterText(prevState => ({ ...prevState, [filter.column]: "" }))
+                                                                }
+                                                                return
+                                                            }}>
+                                                                {filterText[filter.column] ? <ClearIcon /> : <SearchIcon />}
+                                                            </IconButton>
+                                                        )
+                                                    }
+                                                }
+                                            />
+                                        </Grid>
+                                    ))
                                 }
-                            }
-                        />
-                    </Grid>
+                            </Grid>
+                        </Grid>
+                    }
                 </Grid>
                 <StyledTable>
                     <TableHead>

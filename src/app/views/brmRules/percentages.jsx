@@ -168,6 +168,7 @@ const CreateRules = () => {
           title: 'Porcentajes Y Equivalencias',
           columnNames: columnNames,
           items: rules,
+          filters: [],
           actions: [
             /*
             {

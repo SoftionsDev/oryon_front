@@ -126,6 +126,7 @@ function ListFormulas() {
         { label: "Porcentaje", accessor: "percentage" },
         { label: "Fecha de creación", accessor: "createdAt" },
     ]
+
     return (
         <Container >
             {hasError &&
@@ -185,17 +186,13 @@ function ListFormulas() {
                         title: "Formulaciones",
                         columnNames: columnNames,
                         items: formulas,
+                        filters: [],
                         actions: [
                             {
                                 icon: "edit",
                                 color: "primary",
                                 click: performUpdate
                             },
-                            {
-                                icon: "delete",
-                                color: "error",
-                                click: performDelete
-                            }
                         ]
                     }
                 }

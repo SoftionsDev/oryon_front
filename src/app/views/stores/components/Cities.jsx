@@ -202,6 +202,11 @@ function Cities() {
         { label: "Region", accessor: "region" }
     ]
 
+    const filters = [
+        { label: "Código", column: "code" },
+        { label: "Nombre", column: "name" },
+    ]
+
     return (
         <Container>
             {hasError &&
@@ -321,6 +326,7 @@ function Cities() {
                         title: 'Ciudades',
                         columnNames: columnNames,
                         items: cities,
+                        filters: filters,
                         actions: [
                             {
                                 icon: "edit",
