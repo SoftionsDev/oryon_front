@@ -19,7 +19,7 @@ import {
 import PaginatedTable from "app/components/PaginatedTable";
 import CloseIcon from '@mui/icons-material/Close';
 import { getFunction, deleteFunction, createFunction, updateFunction } from "../../utils/rest_connector"
-import { handleGetInfo, handleDelete } from "../../utils/utils"
+import { handleGetInfo, handleDelete, getBackendRoutes } from "../../utils/utils"
 import { API_URL, GOALS_TYPES, ROLES } from "../../../constants"
 import { ValidatorForm } from "react-material-ui-form-validator";
 import VoucherTable from "../../components/Voucher";
@@ -72,10 +72,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
     margin: theme.spacing(1),
 }));
 
-const SERVICE = process.env.REACT_APP_COMERCIALS_SERVICE || 'comercials'
-const USER_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
-const COMMISSION_SERVICE = process.env.REACT_APP_USER_COMMISSIONS_SERVICE || 'commissions'
-
+const ROUTES = getBackendRoutes()
 
 function Commercials() {
 
@@ -124,11 +121,11 @@ function Commercials() {
         setError(false)
         setRefresh(false)
         handleGetInfo(
-            getFunction, API_URL, SERVICE, transformObject, setCommercials, setError
+            getFunction, API_URL, ROUTES.commercials, transformObject, setCommercials, setError
         )
         const getUsers = async () => {
             try {
-                const data = await getFunction(API_URL, USER_SERVICE);
+                const data = await getFunction(API_URL, ROUTES.users);
                 setManagers(data.filter(
                     item => item.groups.includes(ROLES.Admin) || item.groups.includes('manager')
                 ))
@@ -150,7 +147,7 @@ function Commercials() {
     }
 
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.email, setError)
+        handleDelete(deleteFunction, API_URL, ROUTES.commercials, item.email, setError)
         setRefresh(prev => prev + 1)
     }
 
@@ -170,9 +167,9 @@ function Commercials() {
                 goal_type: commercial.goal_type
             }
             if (update) {
-                await updateFunction(API_URL, SERVICE, commercial.user, data)
+                await updateFunction(API_URL, ROUTES.commercials, commercial.user, data)
             } else {
-                await createFunction(API_URL, SERVICE, data)
+                await createFunction(API_URL, ROUTES.commercials, data)
             }
             setRefresh(true)
             setOpen(false)
@@ -186,7 +183,7 @@ function Commercials() {
 
     const handleCommissionClick = async (item) => {
         const token = localStorage.getItem('accessToken');
-        let path = COMMISSION_SERVICE.split('/');
+        let path = ROUTES.userCommissions.split('/');
         path.splice(2, 0, item.code);
         let UPDATED_COMMISSIONS_SERVICE = path.join('/');
         try {

@@ -21,7 +21,7 @@ import { Span } from "app/components/Typography";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { getFunction, deleteFunction, createFunction, updateFunction } from "../../../utils/rest_connector"
 import { API_URL, ROLES } from "../../../../constants"
-import { handleDelete, handleGetInfo } from 'app/utils/utils';
+import { getBackendRoutes, handleDelete, handleGetInfo } from 'app/utils/utils';
 
 const Container = styled("div")(({ theme }) => ({
     margin: "30px",
@@ -60,10 +60,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     borderRadius: '5px',
 }));
 
-
-const SERVICE = process.env.REACT_APP_STORES_SERVICE || 'stores'
-const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
-const CITIES_SERVICE = process.env.REACT_APP_CITIES_SERVICE || 'cities'
+const ROUTES = getBackendRoutes()
 
 function Stores() {
 
@@ -120,9 +117,9 @@ function Stores() {
 
     useEffect(() => {
         setRefresh(false)
-        handleGetInfo(getFunction, API_URL, SERVICE, transformData, setStores, setError)
+        handleGetInfo(getFunction, API_URL, ROUTES.stores, transformData, setStores, setError)
         const getManagers = async () => {
-            const data = await getFunction(API_URL, USERS_SERVICE)
+            const data = await getFunction(API_URL, ROUTES.users)
             const transformed_data = managerObject(data)
             const users = transformed_data.filter(
                 item => item.groups.includes(ROLES.Admin) || item.groups.includes(ROLES.Manager)
@@ -130,7 +127,7 @@ function Stores() {
             setManagers(users)
         }
         const getCities = async () => {
-            const data = await getFunction(API_URL, CITIES_SERVICE)
+            const data = await getFunction(API_URL, ROUTES.cities)
             const transformed_data = cityObject(data)
             setCities(transformed_data)
         }
@@ -139,7 +136,7 @@ function Stores() {
     }, [refresh])
 
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+        handleDelete(deleteFunction, API_URL, ROUTES.stores, item.code, setRefresh, setError)
     }
 
     const handleChange = (event) => {
@@ -170,9 +167,9 @@ function Stores() {
                 city: store.city.code
             }
             if (update) {
-                await updateFunction(API_URL, SERVICE, store.code, data)
+                await updateFunction(API_URL, ROUTES.stores, store.code, data)
             } else {
-                await createFunction(API_URL, SERVICE, data)
+                await createFunction(API_URL, ROUTES.stores, data)
             }
             setRefresh(true)
             setStore({})

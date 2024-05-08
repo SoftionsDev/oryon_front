@@ -3,10 +3,10 @@ import jwtDecode from 'jwt-decode'
 import axios from 'axios.js'
 import { Loading } from 'app/components'
 import { API_URL } from '../../constants'
+import { getBackendRoutes } from 'app/utils/utils'
 
 
-const LOGIN_SERVICE = process.env.REACT_APP_LOGIN_SERVICE ? `${API_URL}${process.env.REACT_APP_LOGIN_SERVICE}` : '/api/auth/login'
-
+const ROUTES = getBackendRoutes()
 
 const initialState = {
     isAuthenticated: false,
@@ -97,7 +97,8 @@ export const AuthProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     const login = async (email, password) => {
-        const response = await axios.post(`${LOGIN_SERVICE}`, {
+        console.log(`${API_URL}${ROUTES.login}`)
+        const response = await axios.post(`${API_URL}/${ROUTES.login}`, {
             email,
             password,
         })

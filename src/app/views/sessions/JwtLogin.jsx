@@ -62,6 +62,7 @@ const JwtLogin = () => {
       await login(values.email, values.password);
       navigate('/');
     } catch (e) {
+      console.log(e)
       setLoading(false);
       setLoginError(true);
     }

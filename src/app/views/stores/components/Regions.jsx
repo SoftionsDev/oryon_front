@@ -18,7 +18,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, createFunction, deleteFunction, updateFunction } from "../../../utils/rest_connector"
-import { handleGetInfo, handleDelete } from "../../../utils/utils"
+import { handleGetInfo, handleDelete, getBackendRoutes } from "../../../utils/utils"
 import { API_URL, ROLES } from "../../../../constants"
 
 
@@ -58,9 +58,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     borderRadius: '5px',
 }));
 
-
-const SERVICE = process.env.REACT_APP_REGIONS_SERVICE || 'regions'
-const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
+const ROUTES = getBackendRoutes()
 
 
 function Regions() {
@@ -106,9 +104,9 @@ function Regions() {
     useEffect(() => {
         setError(false)
         setRefresh(false)
-        handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setRegions, setError)
+        handleGetInfo(getFunction, API_URL, ROUTES.regions, transformObject, setRegions, setError)
         const getManagers = async () => {
-            const data = await getFunction(API_URL, USERS_SERVICE)
+            const data = await getFunction(API_URL, ROUTES.users)
             const users = managerObject(data)
             setManagers(() => users.filter(
                 item => item.groups.includes(ROLES.Manager) || item.groups.includes(ROLES.Admin))
@@ -118,7 +116,7 @@ function Regions() {
     }, [refresh])
 
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+        handleDelete(deleteFunction, API_URL, ROUTES.regions, item.code, setRefresh, setError)
     }
 
     const handleSubmit = async (event) => {
@@ -130,9 +128,9 @@ function Regions() {
                 manager: region.manager.code
             }
             if (update) {
-                await updateFunction(API_URL, SERVICE, region.code, data)
+                await updateFunction(API_URL, ROUTES.regions, region.code, data)
             } else {
-                await createFunction(API_URL, SERVICE, data)
+                await createFunction(API_URL, ROUTES.regions, data)
             }
             setRefresh(true)
             setRegion({})

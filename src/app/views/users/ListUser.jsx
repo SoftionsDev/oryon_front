@@ -21,10 +21,9 @@ import { Span } from 'app/components/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, deleteFunction, createFunction, updateFunction } from "../../utils/rest_connector"
-import { handleGetInfo, handleDelete } from "../../utils/utils"
+import { handleGetInfo, handleDelete, getBackendRoutes } from "../../utils/utils"
 import { API_URL, ROLES, POSITIONS } from "../../../constants"
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import useAuth from "app/hooks/useAuth";
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -66,14 +65,13 @@ const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid Email address').required('Email is required!'),
 });
 
-const SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
+const ROUTES = getBackendRoutes()
 
 
 function Users() {
 
     const [users, setUsers] = useState([]);
     const [user, setUser] = useState({});
-    const auth = useAuth()
     const [hasError, setError] = useState(false);
     const [refresh, setRefresh] = useState(false)
     const [update, setUpdate] = useState(false)
@@ -109,7 +107,7 @@ function Users() {
         setError(false)
         setRefresh(false)
         handleGetInfo(
-            getFunction, API_URL, SERVICE, transformObject, setUsers, setError
+            getFunction, API_URL, ROUTES.users, transformObject, setUsers, setError
         )
     }, [refresh])
 
@@ -132,10 +130,10 @@ function Users() {
                 user_permissions: []
             }
             if (update) {
-                await updateFunction(API_URL, SERVICE, user.code, data)
+                await updateFunction(API_URL, ROUTES.users, user.code, data)
                 setUpdate(false)
             } else {
-                await createFunction(API_URL, SERVICE, data)
+                await createFunction(API_URL, ROUTES.users, data)
             }
             setRefresh(true)
             setUser({})
@@ -152,7 +150,7 @@ function Users() {
     }
 
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+        handleDelete(deleteFunction, API_URL, ROUTES.users, item.code, setRefresh, setError)
     }
 
     const performUpdate = async (item) => {
