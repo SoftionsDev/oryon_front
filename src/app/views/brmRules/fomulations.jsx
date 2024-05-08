@@ -12,7 +12,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, deleteFunction } from 'app/utils/rest_connector'
-import { handleGetInfo, handleDelete } from "../../utils/utils"
+import { handleGetInfo, handleDelete, getBackendRoutes } from "../../utils/utils"
 import { API_URL } from "../../../constants"
 import CreateFormulas from '../../components/FormulaCreator';
 
@@ -43,8 +43,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
     borderRadius: '5px',
 }));
 
-const SERVICE = process.env.REACT_APP_FORMULA_SERVICE || 'rules'
-const RULES_SERVICES = process.env.REACT_APP_RULES_SERVICE || 'rules'
+const ROUTES = getBackendRoutes()
 
 
 function ListFormulas() {
@@ -96,10 +95,10 @@ function ListFormulas() {
         const fetchData = async () => {
             setError(false)
             await handleGetInfo(
-                getFunction, API_URL, SERVICE, formulaObject, setFormulas, setError
+                getFunction, API_URL, ROUTES.formulas, formulaObject, setFormulas, setError
             )
             await handleGetInfo(
-                getFunction, API_URL, RULES_SERVICES, ruleObject, setRules, setError
+                getFunction, API_URL, ROUTES.rules, ruleObject, setRules, setError
             )
         }
         fetchData()
@@ -108,7 +107,7 @@ function ListFormulas() {
 
 
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setError)
+        handleDelete(deleteFunction, API_URL, ROUTES.formulas, item.code, setError)
         setRefresh(true)
     }
 
@@ -160,7 +159,7 @@ function ListFormulas() {
                         </IconButton>
                         <CreateFormulas
                             url={API_URL}
-                            service={SERVICE}
+                            service={ROUTES.formulas}
                             rules={rules}
                             formula={formula}
                             update={update}

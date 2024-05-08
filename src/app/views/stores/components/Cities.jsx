@@ -19,12 +19,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
 import PaginatedTable from "app/components/PaginatedTable";
 import { getFunction, deleteFunction, createFunction, updateFunction } from "../../../utils/rest_connector"
-import { handleGetInfo, handleDelete } from "../../../utils/utils"
+import { handleGetInfo, handleDelete, getBackendRoutes } from "../../../utils/utils"
 import { API_URL, ROLES } from "../../../../constants"
-
-const SERVICE = process.env.REACT_APP_CITIES_SERVICE || 'cities'
-const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
-const REGIONS_SERVICE = process.env.REACT_APP_REGIONS_SERVICE || 'regions'
 
 const Container = styled("div")(({ theme }) => ({
     margin: "30px",
@@ -61,6 +57,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
     boxShadow: theme.shadows[5],
     borderRadius: '5px',
 }));
+
+
+const ROUTES = getBackendRoutes()
 
 
 function Cities() {
@@ -118,9 +117,9 @@ function Cities() {
     useEffect(() => {
         setRefresh(false)
         setError(false)
-        handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setCities, setError)
+        handleGetInfo(getFunction, API_URL, ROUTES.cities, transformObject, setCities, setError)
         const getManagers = async () => {
-            const data = await getFunction(API_URL, USERS_SERVICE)
+            const data = await getFunction(API_URL, ROUTES.users)
             const transformed_data = managerObject(data)
             const users = transformed_data.filter(
                 item => item.groups.includes(ROLES.Admin) || item.groups.includes(ROLES.Manager)
@@ -128,7 +127,7 @@ function Cities() {
             setManagers(users)
         }
         const getRegions = async () => {
-            const data = await getFunction(API_URL, REGIONS_SERVICE)
+            const data = await getFunction(API_URL, ROUTES.regions)
             const regions_data = regionObject(data)
             setRegions(regions_data)
         }
@@ -137,7 +136,7 @@ function Cities() {
     }, [refresh])
 
     const performDelete = async (item) => {
-        handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+        handleDelete(deleteFunction, API_URL, ROUTES.cities, item.code, setRefresh, setError)
     }
 
     const handleSubmit = async (event) => {
@@ -150,9 +149,9 @@ function Cities() {
                 region: city.region.code
             }
             if (update) {
-                await updateFunction(API_URL, SERVICE, city.code, data)
+                await updateFunction(API_URL, ROUTES.cities, city.code, data)
             } else {
-                await createFunction(API_URL, SERVICE, data)
+                await createFunction(API_URL, ROUTES.cities, data)
             }
             setRefresh(true)
             setCity({})

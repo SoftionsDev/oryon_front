@@ -22,7 +22,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import PaginatedTable from 'app/components/PaginatedTable';
 import { ValidatorForm } from "react-material-ui-form-validator";
 import { getFunction, deleteFunction, createFunction } from '../../utils/rest_connector';
-import { handleGetInfo, handleDelete } from '../../utils/utils';
+import { handleGetInfo, handleDelete, getBackendRoutes } from '../../utils/utils';
 import { API_URL, COMMISSIONS_TYPES, SALES_TYPES } from '../../../constants';
 import axios from 'axios'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -72,10 +72,7 @@ const initialValues = {
   archiveUrl: '',
 };
 
-const SERVICE = process.env.REACT_APP_SALES_SERVICE || 'sales';
-const PRODUCTS_SERVICE = process.env.REACT_APP_PRODUCTS_SERVICE || 'products';
-const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users';
-const STORE_SERVICE = process.env.REACT_APP_STORES_SERVICE || 'stores';
+const ROUTES = getBackendRoutes()
 
 function Sales() {
   const [sales, setSales] = useState([]);
@@ -145,17 +142,17 @@ function Sales() {
   useEffect(() => {
     setError(false);
     setRefresh(false)
-    handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setSales, setError);
+    handleGetInfo(getFunction, API_URL, ROUTES.sales, transformObject, setSales, setError);
     if (archive.archive && archive.archiveName) {
       onSubmit();
     }
-    handleGetInfo(getFunction, API_URL, PRODUCTS_SERVICE, transformProduct, setProduct, setError)
-    handleGetInfo(getFunction, API_URL, USERS_SERVICE, transformUsers, setUsers, setError)
-    handleGetInfo(getFunction, API_URL, STORE_SERVICE, transformStores, setStore, setError)
+    handleGetInfo(getFunction, API_URL, ROUTES.products, transformProduct, setProduct, setError)
+    handleGetInfo(getFunction, API_URL, ROUTES.users, transformUsers, setUsers, setError)
+    handleGetInfo(getFunction, API_URL, ROUTES.stores, transformStores, setStore, setError)
   }, [refresh, archive]);
 
   const performDelete = async (item) => {
-    handleDelete(deleteFunction, API_URL, SERVICE, item.id, setRefresh, setError);
+    handleDelete(deleteFunction, API_URL, ROUTES.sales, item.id, setRefresh, setError);
     setRefresh(false);
   };
 
@@ -192,7 +189,7 @@ function Sales() {
     const fd = new FormData();
     fd.append('file', archive.archive, archive.archiveName);
     try {
-      await axios.post(`${API_URL}/${SERVICE}/upload/`, fd, {
+      await axios.post(`${API_URL}/${ROUTES.sales}/upload/`, fd, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
         }
@@ -216,7 +213,7 @@ function Sales() {
         commission_type: sale.commission_type,
         date: sale.date.format('DD/MM/YYYY')
       }
-      createFunction(API_URL, SERVICE, sale_)
+      createFunction(API_URL, ROUTES.sales, sale_)
       setRefresh(true)
       setSale({})
       handleClose()

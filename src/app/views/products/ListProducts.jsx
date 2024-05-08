@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import PaginatedTable from 'app/components/PaginatedTable';
 import { getFunction, deleteFunction, createFunction } from '../../utils/rest_connector';
-import { handleGetInfo, handleDelete } from '../../utils/utils';
+import { handleGetInfo, handleDelete, getBackendRoutes } from '../../utils/utils';
 import { API_URL } from '../../../constants';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
@@ -65,7 +65,7 @@ const initialValues = {
   archiveUrl: '',
 };
 
-const SERVICE = process.env.REACT_APP_PRODUCTS_SERVICE || 'products';
+const ROUTES = getBackendRoutes()
 
 function Products() {
   const [products, setProducts] = useState([]);
@@ -93,7 +93,7 @@ function Products() {
   useEffect(() => {
     setError(false);
     setRefresh(false);
-    handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setProducts, setError);
+    handleGetInfo(getFunction, API_URL, ROUTES.products, transformObject, setProducts, setError);
     if (archive.archive && archive.archiveName) {
       onSubmit();
     }
@@ -108,7 +108,7 @@ function Products() {
   }
 
   const performDelete = async (item) => {
-    handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+    handleDelete(deleteFunction, API_URL, ROUTES.products, item.code, setRefresh, setError)
     setRefresh(false)
   }
 
@@ -130,7 +130,7 @@ function Products() {
     console.log(archive)
     fd.append('file', archive.archive, archive.archiveName);
     try {
-      await axios.post(`${API_URL}/${SERVICE}/upload/`, fd, {
+      await axios.post(`${API_URL}/${ROUTES.products}/upload/`, fd, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('accessToken')}`,
         }
@@ -144,7 +144,7 @@ function Products() {
 
   const handleSubmit = (event) => {
     try {
-      createFunction(API_URL, SERVICE, product);
+      createFunction(API_URL, ROUTES.products, product);
       setRefresh(true);
       setProduct({});
       handleClose();

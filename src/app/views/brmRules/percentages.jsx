@@ -3,7 +3,7 @@ import { Button, styled, Alert, AlertTitle, Grid, Modal, Box } from '@mui/materi
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { getFunction, deleteFunction } from 'app/utils/rest_connector';
-import { handleGetInfo, handleDelete } from "../../utils/utils"
+import { handleGetInfo, handleDelete, getBackendRoutes } from "../../utils/utils"
 import { API_URL } from "../../../constants"
 import PaginatedTable from '../../components/PaginatedTable';
 import BrmCreator from '../../components/brmCreator';
@@ -36,9 +36,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
   borderRadius: '5px',
 }));
 
-
-const SERVICE = process.env.REACT_APP_RULES_SERVICE || 'rules'
-const SERVICE_FIELDS = process.env.REACT_APP_FIELDS_SERFVICE || 'fields'
+const ROUTES = getBackendRoutes()
 
 const CreateRules = () => {
   const [fields, setFields] = useState([])
@@ -76,15 +74,15 @@ const CreateRules = () => {
     setError(false)
     setRefresh(false)
     const getFields = async () => {
-      const fields = await getFunction(API_URL, SERVICE_FIELDS)
+      const fields = await getFunction(API_URL, ROUTES.fields)
       setFields(fields)
     }
-    handleGetInfo(getFunction, API_URL, SERVICE, ruleObject, setRules, setError)
+    handleGetInfo(getFunction, API_URL, ROUTES.rules, ruleObject, setRules, setError)
     getFields()
   }, [refresh]);
 
   const performDelete = async (item) => {
-    handleDelete(deleteFunction, API_URL, SERVICE, item.code, setRefresh, setError)
+    handleDelete(deleteFunction, API_URL, ROUTES.rules, item.code, setRefresh, setError)
   }
 
   const performUpdate = (item) => {
@@ -146,7 +144,7 @@ const CreateRules = () => {
               url={API_URL}
               rule={rule || {}}
               update={update}
-              service={SERVICE}
+              service={ROUTES.rules}
               setRefresh={setRefresh}
               handleClose={handleClose}
             />

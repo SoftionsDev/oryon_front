@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { Span } from 'app/components/Typography';
 import { createFunction, getFunction } from 'app/utils/rest_connector'
-import { handleGetInfo } from "../../utils/utils"
+import { handleGetInfo, getBackendRoutes } from "../../utils/utils"
 import { API_URL } from "../../../constants"
 import CollapsableTable from "app/components/CollapsableTable";
 
@@ -28,6 +28,7 @@ const Container = styled("div")(({ theme }) => ({
 }));
 
 const SERVICE = process.env.REACT_APP_COMMISSIONS_SERVICE || 'commissions'
+const ROUTES = getBackendRoutes()
 
 
 function ListRules() {
@@ -61,13 +62,13 @@ function ListRules() {
 
     useEffect(() => {
         setRefresh(false)
-        handleGetInfo(getFunction, API_URL, SERVICE, transformObject, setCommission, setError)
+        handleGetInfo(getFunction, API_URL, ROUTES.commissions, transformObject, setCommission, setError)
     }, [refresh])
 
     const getCommissions = async () => {
         setNoCommission(false)
         try {
-            const response = await createFunction(API_URL, `${SERVICE}/generate`, {})
+            const response = await createFunction(API_URL, `${ROUTES.commissions}/generate`, {})
             if (response.commissions.length === 0) {
                 setNoCommission(true)
             }
