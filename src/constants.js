@@ -1,4 +1,4 @@
-export const API_URL = "http://ec2-3-136-25-237.us-east-2.compute.amazonaws.com:8001"
+export const API_URL = "http://ec2-3-136-25-237.us-east-2.compute.amazonaws.com"
 
 export const ROLES = {
     Admin: 1,
