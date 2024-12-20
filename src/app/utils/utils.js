@@ -171,3 +171,27 @@ export const flat = (array) => {
   });
   return result;
 };
+
+export const handleGetInfo = async (getFunction, API_URL, SERVICE, transformObject, setState, setError) => {
+  try {
+      const initial_data = await getFunction(API_URL, SERVICE)
+      const data = transformObject(initial_data)
+      setState(data)
+  } catch (error) {
+      setError(true)
+      console.log(error)
+  }
+}
+
+export const handleDelete = async (deleteFunction, API_URL, SERVICE, id, setError) => {
+  try {
+      const response = await deleteFunction(API_URL, SERVICE, id)
+      if (response.error) {
+          setError(true)
+          console.log(response.error)
+      }
+  } catch (error) {
+      setError(true)
+      console.log(error)
+  }
+}

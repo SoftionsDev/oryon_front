@@ -5,9 +5,12 @@
 /docs/node_modules
 /.pnp
 .pnp.js
+package-lock.json
+yarn.lock
 
 # testing
 /coverage
+src/fake_db/
 
 # production
 /build
@@ -19,7 +22,13 @@
 .env.development.local
 .env.test.local
 .env.production.local
+.env
 
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+*.pem
+.env
+
+.vscode

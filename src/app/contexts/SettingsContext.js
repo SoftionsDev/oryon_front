@@ -2,7 +2,7 @@ import React, { createContext, useState } from 'react'
 
 import { merge } from 'lodash'
 
-import { MatxLayoutSettings } from 'app/components/MatxLayout/settings'
+import { MatxLayoutSettings } from 'app/components/Layout/settings'
 
 const SettingsContext = createContext({
     settings: MatxLayoutSettings,

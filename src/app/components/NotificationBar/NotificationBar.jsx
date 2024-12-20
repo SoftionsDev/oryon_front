@@ -1,4 +1,4 @@
-import { Badge, Button, Card, Drawer, Icon, IconButton, ThemeProvider } from '@mui/material';
+import { Button, Card, Drawer, Icon, IconButton, ThemeProvider } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
 import useNotification from 'app/hooks/useNotification';
 import useSettings from 'app/hooks/useSettings';
@@ -6,7 +6,7 @@ import { sideNavWidth, topBarHeight } from 'app/utils/constant';
 import { getTimeDifference } from 'app/utils/utils.js';
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
-import { themeShadows } from '../MatxTheme/themeColors';
+import { themeShadows } from '../Theme/themeColors';
 import { Paragraph, Small } from '../Typography';
 
 const Notification = styled('div')(() => ({
@@ -79,16 +79,10 @@ const NotificationBar = ({ container }) => {
     setPanelOpen(!panelOpen);
   };
 
-  const { palette } = useTheme();
-  const textColor = palette.text.primary;
 
   return (
     <Fragment>
-      <IconButton onClick={handleDrawerToggle}>
-        <Badge color="secondary" badgeContent={notifications?.length}>
-          <Icon sx={{ color: textColor }}>notifications</Icon>
-        </Badge>
-      </IconButton>
+
 
       <ThemeProvider theme={settings.themes[settings.activeTheme]}>
         <Drawer

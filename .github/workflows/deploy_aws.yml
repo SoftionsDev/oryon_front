@@ -1,0 +1,105 @@
+name: deploy front on ec2
+run-name: deploy front on ec2
+
+
+env:
+  CI: false
+
+on:
+  push:
+    branches: [ "dev" ]
+
+permissions:
+  contents: read
+
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: set Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+      
+      - name: Run install
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: install
+
+      - name: Download configurations
+        env:
+          S3_BUCKET: ${{ vars.S3_BUCKET || 'oryon-front-dev-envs' }}
+        run: |
+          echo "Downloading configurations..."
+          aws s3 cp s3://${{ env.S3_BUCKET }}/env_front .env
+
+      - name: Build production bundle
+        uses: borales/actions-yarn@v4
+        with:
+          cmd: build
+
+      - name: Check EC2 Instance
+        id: check-ec2-instance
+        env:
+          INSTANCE_RUNNING: "running"
+          INSTANCE_STOPPED: "stopped"
+        run: |
+          INSTANCE_NAME=${{ vars.INSTANCE_NAME }}
+          INSTANCES_INFO=$(aws ec2 describe-instances \
+                        --filters "Name=tag:Name,Values=$INSTANCE_NAME" \
+                        --query 'Reservations[].Instances[].{PublicDnsName:PublicDnsName, PublicIpAddress:PublicIpAddress, Name:Tags[?Key==`Name`].Value | [0], State:State.Name}' \
+                        --output json
+                    )
+          INSTANCE_STATE=$(echo $INSTANCES_INFO | jq -r '.[0].State')
+          if [ "$INSTANCE_STATE" == "running" ]; then
+            echo "Instance is running."
+            echo "instance_running=true" >> $GITHUB_ENV
+            echo "public_dns=$(echo $INSTANCES_INFO | jq -r '.[0].PublicDnsName')" >> $GITHUB_ENV
+          else
+            echo "Instance is not running. Starting the instance..."
+            INSTANCE_ID=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=$INSTANCE_NAME" --query "Reservations[*].Instances[*].InstanceId" --output text)
+            aws ec2 start-instances --instance-ids $INSTANCE_ID
+            echo "instance_running=true" >> $GITHUB_ENV
+            echo "public_dns=$(echo $INSTANCES_INFO | jq -r '.[0].PublicDnsName')" >> $GITHUB_ENV
+          fi
+
+      - name: Create EC2 Instance (if not exists)
+        if: ${{ steps.check-ec2-instance.outputs.instance-exists }} != 'true'
+        run: |
+          # Use AWS CLI or SDK to create an EC2 instance
+          # Set environment variables or outputs for later steps
+
+      - name: Deploy to EC2 to SCP
+        env:
+          REMOTE_DIR: "/home/ubuntu/build"
+        uses: easingthemes/ssh-deploy@main
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ env.public_dns }}
+          REMOTE_USER: "ubuntu"
+          EXCLUDE: "/node_modules/"
+          SOURCE: "build/"
+          TARGET: ${{ env.REMOTE_DIR }}
+          SCRIPT_BEFORE: |
+            sudo rm -rf ${{ env.REMOTE_DIR }}
+            sudo mkdir -p ${{ env.REMOTE_DIR }}
+            sudo chown ubuntu:ubuntu ${{ env.REMOTE_DIR }}
+          SCRIPT_AFTER: |
+            sudo chmod o+x /home/ubuntu
+            sudo chmod o+x ${{ env.REMOTE_DIR }}
+            sudo chown -R www-data:www-data ${{ env.REMOTE_DIR }}
+            sudo service nginx restart
+            echo -e "\033[0;32m${{ env.public_dns}}\033[0m"
+            echo "Deployed successfully!"
+            

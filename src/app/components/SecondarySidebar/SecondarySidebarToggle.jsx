@@ -1,4 +1,4 @@
-import { Fab, Icon, IconButton } from '@mui/material';
+import { Icon, IconButton } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
 import useSettings from 'app/hooks/useSettings';
 import clsx from 'clsx';
@@ -34,11 +34,7 @@ const SecondarySidebarToggle = () => {
         </IconButton>
       )}
 
-      {!settings.secondarySidebar.open && (
-        <Fab color="primary" aria-label="expand" onClick={toggle}>
-          <Icon sx={{ color: textColor }}>settings</Icon>
-        </Fab>
-      )}
+      
     </Toggle>
   );
 };

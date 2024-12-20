@@ -1,12 +1,12 @@
 import { LoadingButton } from '@mui/lab';
-import { Card, Checkbox, Grid, TextField } from '@mui/material';
-import { Box, styled, useTheme } from '@mui/system';
-import { Paragraph } from 'app/components/Typography';
+import { Card, Grid, TextField } from '@mui/material';
+import { Box, styled } from '@mui/system';
 import useAuth from 'app/hooks/useAuth';
 import { Formik } from 'formik';
 import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
+import { Alert } from '@mui/material';
 
 const FlexBox = styled(Box)(() => ({ display: 'flex', alignItems: 'center' }));
 
@@ -20,7 +20,7 @@ const ContentBox = styled(Box)(() => ({
 }));
 
 const JWTRoot = styled(JustifyBox)(() => ({
-  background: '#1A2038',
+  background: 'radial-gradient(circle, rgba(166,166,172,1) 0%, rgba(0,0,6,0.8239670868347339) 35%, rgba(1,22,27,1) 100%);',
   minHeight: '100% !important',
   '& .card': {
     maxWidth: 800,
@@ -34,8 +34,8 @@ const JWTRoot = styled(JustifyBox)(() => ({
 
 // inital login credentials
 const initialValues = {
-  email: 'jason@ui-lib.com',
-  password: 'dummyPass',
+  email: '',
+  password: '',
   remember: true,
 };
 
@@ -44,13 +44,15 @@ const validationSchema = Yup.object().shape({
   password: Yup.string()
     .min(6, 'Password must be 6 character length')
     .required('Password is required!'),
-  email: Yup.string().email('Invalid Email address').required('Email is required!'),
+  email: Yup.string().email('Correo invalido').required('Email es requerido'),
+
 });
 
 const JwtLogin = () => {
-  const theme = useTheme();
+
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState(false);
 
   const { login } = useAuth();
 
@@ -61,6 +63,7 @@ const JwtLogin = () => {
       navigate('/');
     } catch (e) {
       setLoading(false);
+      setLoginError(true);
     }
   };
 
@@ -70,7 +73,7 @@ const JwtLogin = () => {
         <Grid container>
           <Grid item sm={6} xs={12}>
             <JustifyBox p={4} height="100%" sx={{ minWidth: 320 }}>
-              <img src="/assets/images/illustrations/dreamer.svg" width="100%" alt="" />
+              <img src="/assets/images/illustrations/oryon.svg" width="100%" alt="" />
             </JustifyBox>
           </Grid>
 
@@ -112,28 +115,6 @@ const JwtLogin = () => {
                       error={Boolean(errors.password && touched.password)}
                       sx={{ mb: 1.5 }}
                     />
-
-                    <FlexBox justifyContent="space-between">
-                      <FlexBox gap={1}>
-                        <Checkbox
-                          size="small"
-                          name="remember"
-                          onChange={handleChange}
-                          checked={values.remember}
-                          sx={{ padding: 0 }}
-                        />
-
-                        <Paragraph>Remember Me</Paragraph>
-                      </FlexBox>
-
-                      <NavLink
-                        to="/session/forgot-password"
-                        style={{ color: theme.palette.primary.main }}
-                      >
-                        Forgot password?
-                      </NavLink>
-                    </FlexBox>
-
                     <LoadingButton
                       type="submit"
                       color="primary"
@@ -143,20 +124,16 @@ const JwtLogin = () => {
                     >
                       Login
                     </LoadingButton>
-
-                    <Paragraph>
-                      Don't have an account?
-                      <NavLink
-                        to="/session/signup"
-                        style={{ color: theme.palette.primary.main, marginLeft: 5 }}
-                      >
-                        Register
-                      </NavLink>
-                    </Paragraph>
                   </form>
                 )}
               </Formik>
             </ContentBox>
+          </Grid>
+          <Grid item sm={12} xs={12}>
+            {loginError && (
+              <Alert severity="error">Usuario o contraseña incorrecta</Alert>
+            )
+            }
           </Grid>
         </Grid>
       </Card>
