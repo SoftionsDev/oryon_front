@@ -7,11 +7,11 @@ import {
     AlertTitle,
     Icon,
 } from "@mui/material";
-import { Span } from 'app/components/Typography';
-import { createFunction, getFunction } from 'app/utils/rest_connector'
+import { Span } from '@/app/components/Typography';
+import { createFunction, getFunction } from '@/app/utils/rest_connector'
 import { handleGetInfo } from "../../utils/utils"
 import { API_URL } from "../../../constants"
-import CollapsableTable from "app/components/CollapsableTable";
+import CollapsableTable from "@/app/components/CollapsableTable";
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -27,7 +27,7 @@ const Container = styled("div")(({ theme }) => ({
     },
 }));
 
-const SERVICE = process.env.REACT_APP_COMMISSIONS_SERVICE || 'commissions'
+const SERVICE = import.meta.env.VITE_COMMISSIONS_SERVICE || 'commissions'
 
 
 function ListRules() {
@@ -42,7 +42,7 @@ function ListRules() {
             return {
                 sale: item.sale.id,
                 amount: Number(item.amount).toLocaleString(),
-                rule: item.percentage?.name,
+                rule: item.rule.percentage?.name,
                 userName: `${item.user.first_name} ${item.user.last_name}`,
                 userCode: item.user.code,
                 product: item.product.name,
@@ -50,7 +50,7 @@ function ListRules() {
                 city: item.store.city.name,
                 store: item.store.name,
                 base: Number(item.sale.price).toLocaleString(),
-                percentage: `${item.percentage?.percentage} %`,
+                percentage: `${item.rule.formula?.percentage} %`,
                 paymentDate: item.payment_date,
                 send: item.send ? 'Si' : 'No',
                 sendDate: item.send_date

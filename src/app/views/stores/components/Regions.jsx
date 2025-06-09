@@ -16,7 +16,7 @@ import {
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import PaginatedTable from "app/components/PaginatedTable";
+import PaginatedTable from "@/app/components/PaginatedTable";
 import { getFunction, createFunction, deleteFunction, updateFunction } from "../../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../../utils/utils"
 import { API_URL, ROLES } from "../../../../constants"
@@ -60,8 +60,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 
-const SERVICE = process.env.REACT_APP_REGIONS_SERVICE || 'regions'
-const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
+const SERVICE = import.meta.env.VITE_REGIONS_SERVICE || 'regions'
+const USERS_SERVICE = import.meta.env.VITE_USERS_SERVICE || 'users'
 
 
 function Regions() {

@@ -1,4 +1,4 @@
-import Loadable from 'app/components/Loadable';
+import Loadable from '@/app/components/Loadable';
 import { lazy } from 'react';
 
 const Analytics = Loadable(lazy(() => import('./Analytics')));

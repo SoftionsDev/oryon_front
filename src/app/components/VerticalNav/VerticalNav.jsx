@@ -1,5 +1,5 @@
 import { Box, ButtonBase, Icon, styled } from '@mui/material';
-import useSettings from 'app/hooks/useSettings';
+import useSettings from '@/app/hooks/useSettings';
 import React, { Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Paragraph, Span } from '../Typography';

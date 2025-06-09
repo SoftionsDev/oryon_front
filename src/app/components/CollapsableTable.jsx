@@ -15,7 +15,7 @@ import {
     Grid,
     TextField
 } from '@mui/material';
-import { SimpleCard } from "app/components";
+import { SimpleCard } from "@/app/components";
 import { tableCellClasses } from '@mui/material/TableCell'
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search"
@@ -153,14 +153,13 @@ const CollapsableTable = ({ props }) => {
                     sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
-                        alignItems: 'center'
                     }}>
                     <Grid item xs={12} md={6} lg={4}>
                         <Typography variant='h5'>
                             {props.title || 'Datos'}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={4}>
+                    <Grid container xs={12} md={6} lg={4} justifyContent="flex-end">
                         <TextField
                             label="Buscar..."
                             value={filterText}
@@ -180,6 +179,7 @@ const CollapsableTable = ({ props }) => {
                                     )
                                 }
                             }
+                            sx={{ marginTop: '20px' }}
                         />
                     </Grid>
                 </Grid>

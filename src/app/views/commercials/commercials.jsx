@@ -16,7 +16,7 @@ import {
     InputLabel,
     IconButton
 } from "@mui/material";
-import PaginatedTable from "app/components/PaginatedTable";
+import PaginatedTable from "@/app/components/PaginatedTable";
 import CloseIcon from '@mui/icons-material/Close';
 import { getFunction, deleteFunction, createFunction, updateFunction } from "../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../utils/utils"
@@ -72,9 +72,9 @@ const StyledButton = styled(Button)(({ theme }) => ({
     margin: theme.spacing(1),
 }));
 
-const SERVICE = process.env.REACT_APP_COMERCIALS_SERVICE || 'comercials'
-const USER_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
-const COMMISSION_SERVICE = process.env.REACT_APP_USER_COMMISSIONS_SERVICE || 'commissions'
+const SERVICE = import.meta.env.VITE_COMERCIALS_SERVICE || 'comercials'
+const USER_SERVICE = import.meta.env.VITE_USERS_SERVICE || 'users'
+const COMMISSION_SERVICE = import.meta.env.VITE_USER_COMMISSIONS_SERVICE || 'commissions'
 
 
 function Commercials() {
@@ -112,7 +112,7 @@ function Commercials() {
                 code: item.user.code,
                 name: `${item.user.first_name} ${item.user.last_name}`,
                 email: item.user.email,
-                manager: item.manager,
+                manager: item.manager.email,
                 goal_type: (() => Object.keys(GOALS_TYPES).find(key => GOALS_TYPES[key] === item.goal_type))(),
                 goal: Number(item.goal).toLocaleString(),
             }

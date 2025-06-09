@@ -16,7 +16,7 @@ import {
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search"
-import { SimpleCard } from "app/components";
+import { SimpleCard } from "@/app/components";
 
 
 const StyledTable = styled(Table)(() => ({
@@ -132,7 +132,6 @@ const PaginatedTable = ({ props }) => {
                     sx={{
                         display: "flex",
                         justifyContent: "space-between",
-                        alignItems: "center"
                     }}
                 >
                     <Grid item xs={12} md={6} lg={4}>
@@ -140,26 +139,25 @@ const PaginatedTable = ({ props }) => {
                             {props.title || 'Datos'}
                         </Typography>
                     </Grid>
-                    <Grid item xs={12} md={6} lg={4} alignSelf={'end'}>
+                    <Grid container xs={12} md={6} lg={4} justifyContent="flex-end">
                         <TextField
                             label="Buscar..."
                             value={filterText}
                             variant='outlined'
                             onChange={(e) => setFilterText(e.target.value)}
-                            InputProps={
-                                {
-                                    endAdornment: (
-                                        <IconButton onClick={() => {
-                                            if (filterText) {
-                                                setFilterText("")
-                                            }
-                                            return
-                                        }}>
-                                            {filterText ? <ClearIcon /> : <SearchIcon />}
-                                        </IconButton>
-                                    )
-                                }
-                            }
+                            InputProps={{
+                                endAdornment: (
+                                    <IconButton onClick={() => {
+                                        if (filterText) {
+                                            setFilterText("")
+                                        }
+                                        return
+                                    }}>
+                                        {filterText ? <ClearIcon /> : <SearchIcon />}
+                                    </IconButton>
+                                )
+                            }}
+                            sx={{ marginTop: "20px" }}
                         />
                     </Grid>
                 </Grid>

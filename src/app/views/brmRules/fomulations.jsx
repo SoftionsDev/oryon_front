@@ -10,8 +10,8 @@ import {
 } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import PaginatedTable from "app/components/PaginatedTable";
-import { getFunction, deleteFunction } from 'app/utils/rest_connector'
+import PaginatedTable from "@/app/components/PaginatedTable";
+import { getFunction, deleteFunction } from '@/app/utils/rest_connector'
 import { handleGetInfo, handleDelete } from "../../utils/utils"
 import { API_URL } from "../../../constants"
 import CreateFormulas from '../../components/FormulaCreator';
@@ -43,8 +43,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
     borderRadius: '5px',
 }));
 
-const SERVICE = process.env.REACT_APP_FORMULA_SERVICE || 'rules'
-const RULES_SERVICES = process.env.REACT_APP_RULES_SERVICE || 'rules'
+const SERVICE = import.meta.env.VITE_FORMULA_SERVICE || 'rules'
+const RULES_SERVICES = import.meta.env.VITE_RULES_SERVICE || 'rules'
 
 
 function ListFormulas() {

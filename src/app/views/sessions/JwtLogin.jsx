@@ -1,7 +1,7 @@
 import { LoadingButton } from '@mui/lab';
 import { Card, Grid, TextField } from '@mui/material';
 import { Box, styled } from '@mui/system';
-import useAuth from 'app/hooks/useAuth';
+import useAuth from '@/app/hooks/useAuth';
 import { Formik } from 'formik';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';

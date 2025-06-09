@@ -1,11 +1,11 @@
-import React, { createContext, useEffect, useReducer } from 'react'
-import jwtDecode from 'jwt-decode'
-import axios from 'axios.js'
-import { Loading } from 'app/components'
-import { API_URL } from '../../constants'
+import React, { createContext, useEffect, useReducer } from 'react';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios';
+import { Loading } from '@/app/components';
+import { API_URL } from '@/constants';
 
 
-const LOGIN_SERVICE = process.env.REACT_APP_LOGIN_SERVICE ? `${API_URL}${process.env.REACT_APP_LOGIN_SERVICE}` : '/api/auth/login'
+const LOGIN_SERVICE = import.meta.env.VITE_LOGIN_SERVICE ? `${API_URL}${import.meta.env.VITE_LOGIN_SERVICE}` : '/api/auth/login'
 
 
 const initialState = {
@@ -103,7 +103,7 @@ export const AuthProvider = ({ children }) => {
         })
         const { access } = response.data
         const user = decodeToken(access)
-        
+
         setSession(access)
         dispatch({
             type: 'LOGIN',

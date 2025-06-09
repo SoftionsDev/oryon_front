@@ -1,6 +1,6 @@
 import { Icon, IconButton } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
-import useSettings from 'app/hooks/useSettings';
+import useSettings from '@/app/hooks/useSettings';
 import clsx from 'clsx';
 
 const Toggle = styled('div')(() => ({
@@ -34,7 +34,7 @@ const SecondarySidebarToggle = () => {
         </IconButton>
       )}
 
-      
+
     </Toggle>
   );
 };

@@ -1,5 +1,5 @@
 import { CssBaseline, ThemeProvider } from '@mui/material';
-import useSettings from 'app/hooks/useSettings';
+import useSettings from '@/app/hooks/useSettings';
 
 const Theme = ({ children }) => {
   const { settings } = useSettings();

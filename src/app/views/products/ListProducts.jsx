@@ -10,7 +10,7 @@ import {
   TextField,
   Modal
 } from '@mui/material';
-import PaginatedTable from 'app/components/PaginatedTable';
+import PaginatedTable from '@/app/components/PaginatedTable';
 import { getFunction, deleteFunction, createFunction } from '../../utils/rest_connector';
 import { handleGetInfo, handleDelete } from '../../utils/utils';
 import { API_URL } from '../../../constants';
@@ -65,7 +65,7 @@ const initialValues = {
   archiveUrl: '',
 };
 
-const SERVICE = process.env.REACT_APP_PRODUCTS_SERVICE || 'products';
+const SERVICE = import.meta.env.VITE_PRODUCTS_SERVICE || 'products';
 
 function Products() {
   const [products, setProducts] = useState([]);
