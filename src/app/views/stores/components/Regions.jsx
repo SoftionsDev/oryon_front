@@ -20,7 +20,6 @@ import PaginatedTable from "@/app/components/PaginatedTable";
 import { getFunction, createFunction, deleteFunction, updateFunction } from "../../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../../utils/utils"
 import { API_URL, ROLES } from "../../../../constants"
-import { set } from "lodash";
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -177,6 +176,11 @@ function Regions() {
         { label: "Manager", accessor: "manager" }
     ]
 
+    const filters = [
+        { label: "Código", column: "code" },
+        { label: "Nombre", column: "name" },
+    ]
+
     return (
         <Container>
             {hasError &&
@@ -281,6 +285,7 @@ function Regions() {
                         title: 'Regiones',
                         columnNames: columnNames,
                         items: regions,
+                        filters: filters,
                         actions: [
                             {
                                 icon: "edit",

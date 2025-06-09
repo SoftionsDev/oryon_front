@@ -106,7 +106,6 @@ function Users() {
     }
 
     useEffect(() => {
-        console.log(auth)
         setError(false)
         setRefresh(false)
         handleGetInfo(
@@ -117,7 +116,6 @@ function Users() {
 
     const handleChange = (event) => {
         event.preventDefault()
-        console.log(user)
         setUser({ ...user, [event.target.name]: event.target.value });
     }
 
@@ -174,6 +172,12 @@ function Users() {
         { label: "Cargo", accessor: 'position' },
         { label: "Fecha de Creación", accessor: 'date' },
         { label: "Rol", accessor: 'roleName' }
+    ]
+
+    const filters = [
+        { label: "Código", column: 'code' },
+        { label: "Cargo", column: 'position' },
+        { label: "Rol", column: 'roleName' }
     ]
 
     return (
@@ -343,6 +347,7 @@ function Users() {
                         title: 'Usuarios Activos',
                         columnNames: columnNames,
                         items: users,
+                        filters: filters,
                         actions: [
                             {
                                 icon: "edit",

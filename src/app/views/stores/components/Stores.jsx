@@ -204,6 +204,13 @@ function Stores() {
         { label: "Ciudad", accessor: "city" },
         { label: "Manager", accessor: "manager" }
     ]
+
+    const filters = [
+        { label: "Código", column: "code" },
+        { label: "Nombre", column: "name" },
+        { label: "Manager", column: "manager" }
+    ]
+
     return (
         <Container>
             {hasError &&
@@ -324,6 +331,7 @@ function Stores() {
                         title: 'Tiendas',
                         columnNames,
                         items: stores,
+                        filters: filters,
                         actions: [
                             {
                                 icon: "edit",

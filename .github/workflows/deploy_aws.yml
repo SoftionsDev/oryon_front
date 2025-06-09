@@ -8,6 +8,7 @@ env:
 on:
   push:
     branches: [ "dev" ]
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -33,7 +34,7 @@ jobs:
           aws-region: ${{ vars.AWS_REGION }}
       
       - name: Run install
-        uses: borales/actions-yarn@v4
+        uses: borales/actions-yarn@v5.0.0
         with:
           cmd: install
 

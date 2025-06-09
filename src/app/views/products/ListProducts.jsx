@@ -167,6 +167,12 @@ function Products() {
     { label: 'Valor', accessor: 'price' },
   ];
 
+  const filters = [
+    { label: 'Nombre', column: 'name' },
+    { label: 'Marca', column: 'brand' },
+    { label: 'Categoría', column: 'category' },
+  ]
+
   return (
     <Container>
       {hasError && (
@@ -208,6 +214,7 @@ function Products() {
             title: 'Productos',
             columnNames: columnNames,
             items: products,
+            filters: filters,
             actions: [
               {
                 icon: 'delete',

@@ -37,12 +37,12 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
 
 const PaginatedTable = ({ props }) => {
 
-    const { columnNames, items, actions } = props
+    const { columnNames, items, filters, actions } = props
 
     const [showLoading, setShowLoading] = useState(false);
     const [page, setPage] = useState(0);
-    const [filterText, setFilterText] = useState("");
-    const [tableData, setTableData] = useState([]);
+    const [filterText, setFilterText] = useState({});
+    const [tableData, setFilterData] = useState([]);
     const [rowsPerPage, setRowsPerPage] = useState(5)
     const handleChangeRowsPerPage = (event) => {
         setRowsPerPage(+event.target.value);
@@ -52,11 +52,17 @@ const PaginatedTable = ({ props }) => {
         setPage(newPage);
     };
 
-    const handleFilter = () => {
-        const filteredData = items.filter((elem) => {
-            return Object.values(elem).some((value) => String(value).toLowerCase().includes(filterText.toLowerCase()))
-        });
-        setTableData(filteredData);
+    const handlerFilter = () => {
+        if (Object.keys(filterText).length === 0) {
+            setFilterData(items);
+        } else {
+            const filteredData = items.filter((elem) => {
+                return Object.keys(filterText).every((key) => {
+                    return Object.values(elem).some((value) => String(value).toLowerCase().includes(filterText[key].toLowerCase()))
+                });
+            });
+            setFilterData(filteredData);
+        }
     }
 
     useEffect(() => {
@@ -119,9 +125,9 @@ const PaginatedTable = ({ props }) => {
 
     useEffect(() => {
         if (showLoading) {
-            handleFilter();
+            handlerFilter();
         }
-    }, [filterText, showLoading, items]);
+    }, [filterText, showLoading]);
 
     return (
         <SimpleCard>

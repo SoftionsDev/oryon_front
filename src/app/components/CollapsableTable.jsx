@@ -13,7 +13,7 @@ import {
     styled,
     Icon,
     Grid,
-    TextField
+    TextField,
 } from '@mui/material';
 import { SimpleCard } from "@/app/components";
 import { tableCellClasses } from '@mui/material/TableCell'
@@ -50,10 +50,10 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 
 
 const CollapsableTable = ({ props }) => {
-    const { columnNames, secondaryColumns, items, actions } = props
+    const { columnNames, secondaryColumns, items, filters, actions } = props
     const [openStates, setOpenStates] = useState({});
     const [tableData, setFilterData] = useState([]);
-    const [filterText, setFilterText] = useState("");
+    const [filterText, setFilterText] = useState({});
     const [showLoading, setShowLoading] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5)
@@ -73,10 +73,16 @@ const CollapsableTable = ({ props }) => {
     };
 
     const handlerFilter = () => {
-        const filteredData = items.filter((elem) => {
-            return Object.values(elem).some((value) => String(value).toLowerCase().includes(filterText.toLowerCase()))
-        });
-        setFilterData(filteredData);
+        if (Object.keys(filterText).length === 0) {
+            setFilterData(items);
+        } else {
+            const filteredData = items.filter((elem) => {
+                for (const key in filterText) {
+                    return Object.values(elem).some((value) => String(value).toLowerCase().includes(filterText[key].toLowerCase()))
+                }
+            });
+            setFilterData(filteredData);
+        }
     }
 
 
@@ -167,16 +173,32 @@ const CollapsableTable = ({ props }) => {
                             onChange={(e) => setFilterText(e.target.value)}
                             InputProps={
                                 {
-                                    endAdornment: (
-                                        <IconButton onClick={() => {
-                                            if (filterText) {
-                                                setFilterText("")
-                                            }
-                                            return
-                                        }}>
-                                            {filterText ? <ClearIcon /> : <SearchIcon />}
-                                        </IconButton>
-                                    )
+                                    filters.map((filter, index) => (
+                                        <Grid item xs={2} container direction="column">
+                                            <Typography variant='buttom' sx={{ fontWeight: 'bold' }}>{filter.label}</Typography>
+                                            <TextField
+                                                label="Buscar..."
+                                                name={filter.column}
+                                                value={filterText[filter.column] || ''}
+                                                variant='outlined'
+                                                onChange={(e) => setFilterText(prevState => ({ ...prevState, [e.target.name]: e.target.value }))}
+                                                InputProps={
+                                                    {
+                                                        endAdornment: (
+                                                            <IconButton onClick={() => {
+                                                                if (filterText[filter.column]) {
+                                                                    setFilterText(prevState => ({ ...prevState, [filter.column]: "" }))
+                                                                }
+                                                                return
+                                                            }}>
+                                                                {filterText[filter.column] ? <ClearIcon /> : <SearchIcon />}
+                                                            </IconButton>
+                                                        )
+                                                    }
+                                                }
+                                            />
+                                        </Grid>
+                                    ))
                                 }
                             }
                             sx={{ marginTop: '20px' }}
@@ -263,7 +285,7 @@ const CollapsableTable = ({ props }) => {
                     backIconButtonProps={{ "aria-label": "Previous Page" }}
                 />
             </Box>
-        </SimpleCard>
+        </SimpleCard >
     );
 };
 
