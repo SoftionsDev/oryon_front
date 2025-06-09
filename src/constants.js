@@ -1,4 +1,4 @@
-export const API_URL = "http://ec2-3-136-25-237.us-east-2.compute.amazonaws.com"
+export const API_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001'
 
 export const ROLES = {
     Admin: 1,

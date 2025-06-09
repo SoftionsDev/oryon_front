@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import MenuItem from '@mui/material/MenuItem';
-import { SimpleCard } from 'app/components';
+import { SimpleCard } from '@/app/components';
 import { Button, Icon, styled, Alert, AlertTitle } from '@mui/material';
-import { Span } from 'app/components/Typography';
+import { Span } from '@/app/components/Typography';
 import { ValidatorForm } from 'react-material-ui-form-validator';
 import Select from '@mui/material/Select';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
-import { createFunction, updateFunction } from 'app/utils/rest_connector';
+import { createFunction, updateFunction } from '@/app/utils/rest_connector';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 

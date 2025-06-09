@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { MatxProgressBar, SimpleCard } from 'app/components';
-import { Small } from 'app/components/Typography';
+import { Small } from '@/app/components/Typography';
 
 const Campaigns = () => {
   return (

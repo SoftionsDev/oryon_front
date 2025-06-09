@@ -1,6 +1,6 @@
 import { Menu, ThemeProvider } from '@mui/material';
 import { Box, styled } from '@mui/system';
-import useSettings from 'app/hooks/useSettings';
+import useSettings from '@/app/hooks/useSettings';
 import React, { Fragment } from 'react';
 
 const MenuButton = styled(Box)(({ theme }) => ({

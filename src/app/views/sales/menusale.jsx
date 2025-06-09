@@ -19,7 +19,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import PaginatedTable from 'app/components/PaginatedTable';
+import PaginatedTable from '@/app/components/PaginatedTable';
 import { ValidatorForm } from "react-material-ui-form-validator";
 import { getFunction, deleteFunction, createFunction } from '../../utils/rest_connector';
 import { handleGetInfo, handleDelete } from '../../utils/utils';
@@ -72,10 +72,10 @@ const initialValues = {
   archiveUrl: '',
 };
 
-const SERVICE = process.env.REACT_APP_SALES_SERVICE || 'sales';
-const PRODUCTS_SERVICE = process.env.REACT_APP_PRODUCTS_SERVICE || 'products';
-const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users';
-const STORE_SERVICE = process.env.REACT_APP_STORES_SERVICE || 'stores';
+const SERVICE = import.meta.env.VITE_SALES_SERVICE || 'sales';
+const PRODUCTS_SERVICE = import.meta.env.VITE_PRODUCTS_SERVICE || 'products';
+const USERS_SERVICE = import.meta.env.VITE_USERS_SERVICE || 'users';
+const STORE_SERVICE = import.meta.env.VITE_STORES_SERVICE || 'stores';
 
 function Sales() {
   const [sales, setSales] = useState([]);

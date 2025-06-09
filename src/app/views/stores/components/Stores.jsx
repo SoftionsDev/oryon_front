@@ -16,12 +16,12 @@ import {
 } from "@mui/material";
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import PaginatedTable from 'app/components/PaginatedTable';
-import { Span } from "app/components/Typography";
+import PaginatedTable from '@/app/components/PaginatedTable';
+import { Span } from "@/app/components/Typography";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import { getFunction, deleteFunction, createFunction, updateFunction } from "../../../utils/rest_connector"
 import { API_URL, ROLES } from "../../../../constants"
-import { handleDelete, handleGetInfo } from 'app/utils/utils';
+import { handleDelete, handleGetInfo } from '@/app/utils/utils';
 
 const Container = styled("div")(({ theme }) => ({
     margin: "30px",
@@ -61,9 +61,9 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 
-const SERVICE = process.env.REACT_APP_STORES_SERVICE || 'stores'
-const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
-const CITIES_SERVICE = process.env.REACT_APP_CITIES_SERVICE || 'cities'
+const SERVICE = import.meta.env.VITE_STORES_SERVICE || 'stores'
+const USERS_SERVICE = import.meta.env.VITE_USERS_SERVICE || 'users'
+const CITIES_SERVICE = import.meta.env.VITE_CITIES_SERVICE || 'cities'
 
 function Stores() {
 

@@ -7,11 +7,11 @@ import {
     AlertTitle,
     Icon,
 } from "@mui/material";
-import { Span } from 'app/components/Typography';
-import { createFunction, getFunction } from 'app/utils/rest_connector'
+import { Span } from '@/app/components/Typography';
+import { createFunction, getFunction } from '@/app/utils/rest_connector'
 import { handleGetInfo } from "../../utils/utils"
 import { API_URL } from "../../../constants"
-import CollapsableTable from "app/components/CollapsableTable";
+import CollapsableTable from "@/app/components/CollapsableTable";
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -27,7 +27,7 @@ const Container = styled("div")(({ theme }) => ({
     },
 }));
 
-const SERVICE = process.env.REACT_APP_COMMISSIONS_SERVICE || 'commissions'
+const SERVICE = import.meta.env.VITE_COMMISSIONS_SERVICE || 'commissions'
 
 
 function ListRules() {

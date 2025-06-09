@@ -1,7 +1,7 @@
 import { AppBar, ThemeProvider, Toolbar } from '@mui/material';
 import { styled, useTheme } from '@mui/system';
-import useSettings from 'app/hooks/useSettings';
-import { topBarHeight } from 'app/utils/constant';
+import useSettings from '@/app/hooks/useSettings';
+import { topBarHeight } from '@/app/utils/constant';
 import { Paragraph, Span } from './Typography';
 
 const AppFooter = styled(Toolbar)(() => ({

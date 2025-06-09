@@ -1,8 +1,8 @@
 import { ThemeProvider, useMediaQuery } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
-import { OryonSuspense } from 'app/components';
-import useSettings from 'app/hooks/useSettings';
-import { sidenavCompactWidth, sideNavWidth } from 'app/utils/constant';
+import { OryonSuspense } from '@/app/components';
+import useSettings from '@/app/hooks/useSettings';
+import { sidenavCompactWidth, sideNavWidth } from '@/app/utils/constant';
 import React, { useEffect, useRef } from 'react';
 import Scrollbar from 'react-perfect-scrollbar';
 import { Outlet } from 'react-router-dom';

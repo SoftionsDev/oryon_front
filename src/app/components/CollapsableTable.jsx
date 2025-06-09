@@ -15,7 +15,7 @@ import {
     Grid,
     TextField,
 } from '@mui/material';
-import { SimpleCard } from "app/components";
+import { SimpleCard } from "@/app/components";
 import { tableCellClasses } from '@mui/material/TableCell'
 import ClearIcon from "@mui/icons-material/Clear";
 import SearchIcon from "@mui/icons-material/Search"
@@ -153,18 +153,25 @@ const CollapsableTable = ({ props }) => {
     return (
         <SimpleCard>
             <Box width='100%' overflow="auto">
-                <Grid container spacing={2} sx={{ marginBottom: '30px' }}>
-                    <Grid item xs={12}>
-                        <Typography variant='h4'>
+                <Grid
+                    container
+                    spacing={2}
+                    sx={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                    }}>
+                    <Grid item xs={12} md={6} lg={4}>
+                        <Typography variant='h5'>
                             {props.title || 'Datos'}
                         </Typography>
                     </Grid>
-                    {filters.length > 0 &&
-                        <Grid item xs={12}>
-                            <Typography variant='h5' sx={{ paddingBottom: '10px' }}>
-                                Filtros
-                            </Typography>
-                            <Grid container item spacing={3}>
+                    <Grid container xs={12} md={6} lg={4} justifyContent="flex-end">
+                        <TextField
+                            label="Buscar..."
+                            value={filterText}
+                            variant='outlined'
+                            onChange={(e) => setFilterText(e.target.value)}
+                            InputProps={
                                 {
                                     filters.map((filter, index) => (
                                         <Grid item xs={2} container direction="column">
@@ -193,9 +200,10 @@ const CollapsableTable = ({ props }) => {
                                         </Grid>
                                     ))
                                 }
-                            </Grid>
-                        </Grid>
-                    }
+                            }
+                            sx={{ marginTop: '20px' }}
+                        />
+                    </Grid>
                 </Grid>
                 <StyledTable>
                     <TableHead>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, styled, Alert, AlertTitle, Grid, Modal, Box } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { getFunction, deleteFunction } from 'app/utils/rest_connector';
+import { getFunction, deleteFunction } from '@/app/utils/rest_connector';
 import { handleGetInfo, handleDelete } from "../../utils/utils"
 import { API_URL } from "../../../constants"
 import PaginatedTable from '../../components/PaginatedTable';
@@ -37,8 +37,8 @@ const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 
-const SERVICE = process.env.REACT_APP_RULES_SERVICE || 'rules'
-const SERVICE_FIELDS = process.env.REACT_APP_FIELDS_SERFVICE || 'fields'
+const SERVICE = import.meta.env.VITE_RULES_SERVICE || 'rules'
+const SERVICE_FIELDS = import.meta.env.VITE_FIELDS_SERFVICE || 'fields'
 
 const CreateRules = () => {
   const [fields, setFields] = useState([])

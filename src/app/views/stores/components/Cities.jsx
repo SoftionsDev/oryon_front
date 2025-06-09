@@ -17,14 +17,14 @@ import {
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
-import PaginatedTable from "app/components/PaginatedTable";
+import PaginatedTable from "@/app/components/PaginatedTable";
 import { getFunction, deleteFunction, createFunction, updateFunction } from "../../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../../utils/utils"
 import { API_URL, ROLES } from "../../../../constants"
 
-const SERVICE = process.env.REACT_APP_CITIES_SERVICE || 'cities'
-const USERS_SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
-const REGIONS_SERVICE = process.env.REACT_APP_REGIONS_SERVICE || 'regions'
+const SERVICE = import.meta.env.VITE_CITIES_SERVICE || 'cities'
+const USERS_SERVICE = import.meta.env.VITE_USERS_SERVICE || 'users'
+const REGIONS_SERVICE = import.meta.env.VITE_REGIONS_SERVICE || 'regions'
 
 const Container = styled("div")(({ theme }) => ({
     margin: "30px",

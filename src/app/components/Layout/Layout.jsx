@@ -1,5 +1,5 @@
-import { OryonSuspense } from 'app/components';
-import useSettings from 'app/hooks/useSettings';
+import { OryonSuspense } from '@/app/components';
+import useSettings from '@/app/hooks/useSettings';
 import { Layouts } from './index';
 
 const Layout = (props) => {

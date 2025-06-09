@@ -1,8 +1,8 @@
 import { styled } from '@mui/system';
-import { VerticalNav } from 'app/components';
-import useAuth from 'app/hooks/useAuth';
-import useSettings from 'app/hooks/useSettings';
-import { navigations, navigationsCollaborator, navigationsManager } from 'app/navigations';
+import { VerticalNav } from '@/app/components';
+import useAuth from '@/app/hooks/useAuth';
+import useSettings from '@/app/hooks/useSettings';
+import { navigations, navigationsCollaborator, navigationsManager } from '@/app/navigations';
 import { Fragment } from 'react';
 import Scrollbar from 'react-perfect-scrollbar';
 import { ROLES } from '../../constants';

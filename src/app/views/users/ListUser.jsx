@@ -17,14 +17,14 @@ import {
     Icon,
 } from "@mui/material";
 import * as Yup from 'yup';
-import { Span } from 'app/components/Typography';
+import { Span } from '@/app/components/Typography';
 import CloseIcon from '@mui/icons-material/Close';
-import PaginatedTable from "app/components/PaginatedTable";
+import PaginatedTable from "@/app/components/PaginatedTable";
 import { getFunction, deleteFunction, createFunction, updateFunction } from "../../utils/rest_connector"
 import { handleGetInfo, handleDelete } from "../../utils/utils"
 import { API_URL, ROLES, POSITIONS } from "../../../constants"
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import useAuth from "app/hooks/useAuth";
+import useAuth from "@/app/hooks/useAuth";
 
 
 const Container = styled("div")(({ theme }) => ({
@@ -66,7 +66,7 @@ const validationSchema = Yup.object().shape({
     email: Yup.string().email('Invalid Email address').required('Email is required!'),
 });
 
-const SERVICE = process.env.REACT_APP_USERS_SERVICE || 'users'
+const SERVICE = import.meta.env.VITE_USERS_SERVICE || 'users'
 
 
 function Users() {

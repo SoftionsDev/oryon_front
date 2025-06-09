@@ -1,4 +1,4 @@
-import { navigations } from 'app/navigations';
+import { navigations } from '@/app/navigations';
 import { SET_USER_NAVIGATION } from '../actions/NavigationAction';
 
 const initialState = [...navigations];

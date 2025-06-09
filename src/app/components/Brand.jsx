@@ -1,6 +1,6 @@
 import { Box, styled } from '@mui/material';
-import OryonLogo from 'app/components/OryonLogo';
-import useSettings from 'app/hooks/useSettings';
+import OryonLogo from '@/app/components/OryonLogo';
+import useSettings from '@/app/hooks/useSettings';
 import { Span } from './Typography';
 
 const BrandRoot = styled(Box)(() => ({

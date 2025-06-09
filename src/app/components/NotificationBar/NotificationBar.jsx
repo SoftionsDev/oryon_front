@@ -1,9 +1,9 @@
 import { Button, Card, Drawer, Icon, IconButton, ThemeProvider } from '@mui/material';
 import { Box, styled, useTheme } from '@mui/system';
-import useNotification from 'app/hooks/useNotification';
-import useSettings from 'app/hooks/useSettings';
-import { sideNavWidth, topBarHeight } from 'app/utils/constant';
-import { getTimeDifference } from 'app/utils/utils.js';
+import useNotification from '@/app/hooks/useNotification';
+import useSettings from '@/app/hooks/useSettings';
+import { sideNavWidth, topBarHeight } from '@/app/utils/constant';
+import { getTimeDifference } from '@/app/utils/utils.js';
 import React, { Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { themeShadows } from '../Theme/themeColors';
