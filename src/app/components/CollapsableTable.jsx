@@ -165,13 +165,12 @@ const CollapsableTable = ({ props }) => {
                             {props.title || 'Datos'}
                         </Typography>
                     </Grid>
-                    <Grid container xs={12} md={6} lg={4} justifyContent="flex-end">
-                        <TextField
-                            label="Buscar..."
-                            value={filterText}
-                            variant='outlined'
-                            onChange={(e) => setFilterText(e.target.value)}
-                            InputProps={
+                    {filters.length > 0 &&
+                        <Grid item xs={12}>
+                            <Typography variant='h6' sx={{ paddingBottom: '10px' }}>
+                                Filtros
+                            </Typography>
+                            <Grid container item spacing={3}>
                                 {
                                     filters.map((filter, index) => (
                                         <Grid item xs={2} container direction="column">
@@ -200,10 +199,9 @@ const CollapsableTable = ({ props }) => {
                                         </Grid>
                                     ))
                                 }
-                            }
-                            sx={{ marginTop: '20px' }}
-                        />
-                    </Grid>
+                            </Grid>
+                        </Grid>
+                    }
                 </Grid>
                 <StyledTable>
                     <TableHead>

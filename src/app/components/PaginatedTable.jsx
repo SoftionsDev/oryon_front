@@ -145,27 +145,43 @@ const PaginatedTable = ({ props }) => {
                             {props.title || 'Datos'}
                         </Typography>
                     </Grid>
-                    <Grid container xs={12} md={6} lg={4} justifyContent="flex-end">
-                        <TextField
-                            label="Buscar..."
-                            value={filterText}
-                            variant='outlined'
-                            onChange={(e) => setFilterText(e.target.value)}
-                            InputProps={{
-                                endAdornment: (
-                                    <IconButton onClick={() => {
-                                        if (filterText) {
-                                            setFilterText("")
-                                        }
-                                        return
-                                    }}>
-                                        {filterText ? <ClearIcon /> : <SearchIcon />}
-                                    </IconButton>
-                                )
-                            }}
-                            sx={{ marginTop: "20px" }}
-                        />
-                    </Grid>
+                    {filters.length > 0 &&
+                        <Grid item xs={12}>
+                            <Typography variant='h6' sx={{ paddingBottom: '10px' }}>
+                                Filtros
+                            </Typography>
+                            <Grid container item spacing={3}>
+                                {
+                                    filters.map((filter, index) => (
+                                        <Grid item xs={2} container direction="column">
+                                            <Typography variant='buttom' sx={{ fontWeight: 'bold' }}>{filter.label}</Typography>
+                                            <TextField
+                                                label="Buscar..."
+                                                name={filter.column}
+                                                value={filterText[filter.column] || ''}
+                                                variant='outlined'
+                                                onChange={(e) => setFilterText(prevState => ({ ...prevState, [e.target.name]: e.target.value }))}
+                                                InputProps={
+                                                    {
+                                                        endAdornment: (
+                                                            <IconButton onClick={() => {
+                                                                if (filterText[filter.column]) {
+                                                                    setFilterText(prevState => ({ ...prevState, [filter.column]: "" }))
+                                                                }
+                                                                return
+                                                            }}>
+                                                                {filterText[filter.column] ? <ClearIcon /> : <SearchIcon />}
+                                                            </IconButton>
+                                                        )
+                                                    }
+                                                }
+                                            />
+                                        </Grid>
+                                    ))
+                                }
+                            </Grid>
+                        </Grid>
+                    }
                 </Grid>
                 <StyledTable>
                     <TableHead>
